@@ -14,13 +14,13 @@ export default function LocationsPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="font-serif text-3xl text-paper">영화 속 명소</h1>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">
-        공식 25편의 촬영지와 화면의 랜드마크입니다.{" "}
+        극장판 8편의 촬영지와 화면의 랜드마크입니다.{" "}
         <Link href="/map" className="text-gold hover:underline">
           세계 지도
         </Link>
         {" · "}
-        <Link href="/hotels" className="text-gold hover:underline">
-          영화 속 호텔
+        <Link href="/trips" className="text-gold hover:underline">
+          촬영지 여행 코스
         </Link>
       </p>
 
@@ -47,13 +47,13 @@ export default function LocationsPage() {
       <section className="mt-12">
         <h2 className="font-serif text-xl text-gold">도시·국가</h2>
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {byCountry.map((group) => {
-            const filmSlugs = [...new Set(group.items.map((place) => place.filmSlug))];
+          {byCountry.map(([country, items]) => {
+            const filmSlugs = [...new Set(items.map((place) => place.filmSlug))];
             return (
-              <article key={group.country} className="rounded-lg border border-line p-4">
-                <h3 className="font-serif text-paper">{group.country}</h3>
+              <article key={country} className="rounded-lg border border-line p-4">
+                <h3 className="font-serif text-paper">{country}</h3>
                 <ul className="mt-2 space-y-1 text-sm text-muted">
-                  {group.items.slice(0, 8).map((place) => (
+                  {items.slice(0, 8).map((place) => (
                     <li key={place.slug}>
                       <Link
                         href={`/films/${place.filmSlug}`}
@@ -65,8 +65,8 @@ export default function LocationsPage() {
                       {place.city}
                     </li>
                   ))}
-                  {group.items.length > 8 ? (
-                    <li className="text-xs">외 {group.items.length - 8}곳</li>
+                  {items.length > 8 ? (
+                    <li className="text-xs">외 {items.length - 8}곳</li>
                   ) : null}
                 </ul>
                 <p className="mt-3 flex flex-wrap gap-2">

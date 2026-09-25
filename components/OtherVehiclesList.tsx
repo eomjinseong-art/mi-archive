@@ -5,7 +5,7 @@ export function OtherVehiclesList({ vehicles }: { vehicles: OtherVehicle[] }) {
   if (vehicles.length === 0) return null;
   return (
     <section className="mt-8">
-      <h2 className="font-serif text-xl text-gold">본드카 외 차량</h2>
+      <h2 className="font-serif text-xl text-gold">그 밖의 차량</h2>
       <ul className="mt-3 space-y-3">
         {vehicles.map((vehicle) => (
           <li

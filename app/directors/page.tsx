@@ -13,8 +13,7 @@ export default function DirectorsPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="font-serif text-3xl text-paper">감독</h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        에온 공식 25편을 연출한 열두 사람. 배우가 바뀌어도 같은 손을 남긴
-        이력이 있습니다.
+        극장판 8편의 감독 다섯 사람. 연출이 두 편 이상인 사람은 맥쿼리뿐입니다.
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {directors.map((director) => (

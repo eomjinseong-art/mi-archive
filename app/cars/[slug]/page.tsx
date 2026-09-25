@@ -6,20 +6,9 @@ import { GossipBoard } from "@/components/GossipBoard";
 import { SisterCta } from "@/components/SisterCta";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
-import { carDetails, getCar, type IconCar } from "@/data/cars";
+import { carDetails, getCar } from "@/data/cars";
 import { carImages } from "@/data/licensedImages";
-
-const sisterCtaByBrand: Record<string, { label: string; path: string }> = {
-  "Aston Martin": { label: "애스턴 마틴 이어보기", path: "/brands/aston-martin" },
-  "Land Rover": { label: "랜드로버 이어보기", path: "/brands/land-rover" },
-  Mini: { label: "미니 이어보기", path: "/brands/mini" },
-  Lotus: { label: "로터스 이어보기", path: "/brands/lotus" },
-  Jaguar: { label: "재규어 이어보기", path: "/brands/jaguar" },
-};
-
-function getSisterCta(car: IconCar) {
-  return sisterCtaByBrand[car.brand] ?? null;
-}
+import { MI_CAR_CTA_LABEL } from "@/lib/site";
 
 export function generateStaticParams() {
   return Object.keys(carDetails).map((slug) => ({ slug }));
@@ -32,7 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const car = getCar(slug);
-  if (!car) return { title: "차량" };
+  if (!car) return { title: "영화 속 차량" };
   return { title: `${car.nameKo} (${car.nameEn})` };
 }
 
@@ -64,7 +53,6 @@ export default async function CarDetailPage({
   const car = getCar(slug);
   const detail = carDetails[slug];
   if (!car || !detail) notFound();
-  const sisterCta = getSisterCta(car);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
@@ -77,12 +65,12 @@ export default async function CarDetailPage({
         compactCredit={false}
       />
       <div className="mt-4 flex flex-wrap gap-2">
-        {car.badges.map((b) => (
+        {car.badges.map((badge) => (
           <span
-            key={b}
+            key={badge}
             className="rounded-full border border-gold/40 px-2 py-0.5 text-[11px] text-gold"
           >
-            {b}
+            {badge}
           </span>
         ))}
       </div>
@@ -90,7 +78,10 @@ export default async function CarDetailPage({
         {car.nameKo} ({car.nameEn})
       </h1>
       <p className="mt-2 text-sm text-muted">
-        {car.brandKo} · {car.era} · {car.filmTitleKo}
+        {car.brandKo} · {car.era} ·{" "}
+        <Link href={`/films/${car.filmSlug}`} className="hover:text-gold">
+          {car.filmTitleKo}
+        </Link>
       </p>
       <p className="mt-4 text-base leading-relaxed text-paper">
         {car.oneLiner}
@@ -99,7 +90,12 @@ export default async function CarDetailPage({
 
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">개요</h2>
-        <Prose paragraphs={detail.overview} footnote={{ index: 0, n: 2 }} />
+        <Prose
+          paragraphs={detail.overview}
+          footnote={
+            detail.footnotes.some((item) => item.n === 2) ? { index: 0, n: 2 } : undefined
+          }
+        />
       </section>
 
       <section className="mt-8">
@@ -121,7 +117,12 @@ export default async function CarDetailPage({
 
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">제작</h2>
-        <Prose paragraphs={detail.production} footnote={{ index: 0, n: 3 }} />
+        <Prose
+          paragraphs={detail.production}
+          footnote={
+            detail.footnotes.some((item) => item.n === 3) ? { index: 0, n: 3 } : undefined
+          }
+        />
       </section>
 
       <section className="mt-8">
@@ -139,28 +140,28 @@ export default async function CarDetailPage({
         <Prose paragraphs={detail.continuity} />
       </section>
 
-      <section className="mt-8">
-        <h2 className="font-serif text-xl text-gold">영상</h2>
-        <div className="mt-3 space-y-6">
-          {detail.videos.map((video) => (
-            <div key={video.id}>
-              <YouTubeEmbed id={video.id} title={video.title} />
-              <p className="mt-2 text-xs text-muted">{video.title}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {sisterCta ? (
-        <div className="mt-8 rounded-lg border border-line bg-card p-4">
-          <p className="text-sm text-muted">
-            실차의 선과 브랜드 이야기를 영국차 큐레이션에서 이어볼 수 있습니다.
-          </p>
-          <div className="mt-4">
-            <SisterCta label={sisterCta.label} path={sisterCta.path} />
+      {detail.videos.length > 0 ? (
+        <section className="mt-8">
+          <h2 className="font-serif text-xl text-gold">영상</h2>
+          <div className="mt-3 space-y-6">
+            {detail.videos.map((video) => (
+              <div key={video.id}>
+                <YouTubeEmbed id={video.id} title={video.title} />
+                <p className="mt-2 text-xs text-muted">{video.title}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
       ) : null}
+
+      <div className="mt-8 rounded-lg border border-line bg-card p-4">
+        <p className="text-sm text-muted">
+          촬영 차량을 판매하지 않습니다. 자동차 용품은 오토픽스에서 봅니다.
+        </p>
+        <div className="mt-4">
+          <SisterCta label={MI_CAR_CTA_LABEL} />
+        </div>
+      </div>
 
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">관련</h2>
@@ -177,7 +178,7 @@ export default async function CarDetailPage({
 
       <p className="mt-6 text-sm">
         <Link href="/cars" className="text-gold">
-          차량 허브
+          영화 속 차량
         </Link>
       </p>
 

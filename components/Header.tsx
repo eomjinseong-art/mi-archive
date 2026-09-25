@@ -5,7 +5,14 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SearchBox } from "@/components/SearchBox";
 import { VisitorCounter } from "@/components/VisitorCounter";
-import { NAV, SITE_NAME, sisterUrl } from "@/lib/site";
+import {
+  AUTOPIX_LABEL,
+  BOND_ARCHIVE_LABEL,
+  NAV,
+  SITE_NAME,
+  autopixUrl,
+  bondArchiveUrl,
+} from "@/lib/site";
 
 export function Header() {
   const pathname = usePathname();
@@ -48,10 +55,16 @@ export function Header() {
           </div>
           <VisitorCounter />
           <a
-            href={sisterUrl("/", { medium: "header", campaign: "sister-site" })}
+            href={autopixUrl("header")}
             className="hidden text-xs text-muted underline decoration-line underline-offset-4 hover:text-gold sm:inline"
           >
-            British Motors
+            {AUTOPIX_LABEL}
+          </a>
+          <a
+            href={bondArchiveUrl("header")}
+            className="hidden text-xs text-muted underline decoration-line underline-offset-4 hover:text-gold sm:inline"
+          >
+            {BOND_ARCHIVE_LABEL}
           </a>
           <button
             type="button"
@@ -84,10 +97,16 @@ export function Header() {
             ))}
           </nav>
           <a
-            href={sisterUrl("/", { medium: "header", campaign: "sister-site" })}
+            href={autopixUrl("header")}
             className="mt-3 inline-block text-sm text-muted underline"
           >
-            British Motors
+            {AUTOPIX_LABEL}
+          </a>
+          <a
+            href={bondArchiveUrl("header")}
+            className="mt-3 ml-4 inline-block text-sm text-muted underline"
+          >
+            {BOND_ARCHIVE_LABEL}
           </a>
         </div>
       )}

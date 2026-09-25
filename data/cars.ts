@@ -1,8 +1,15 @@
 import type { GossipItem, Source } from "./types";
-import { moreCarDetails } from "./carDetailsMore";
+import {
+  BMW_FALLOUT,
+  BMW_GHOST_PARTNER,
+  BMW_GHOST_PREMIERE,
+  BMW_ROGUE,
+  BMW_WELT_FALLOUT,
+  imcdb,
+} from "./sources";
 
-export type CarBadge = "UK" | "본드카" | "가젯";
-export type CarEra = "1960s" | "1970s" | "1980s" | "1990s" | "2000s" | "2010s" | "2020s";
+export type CarBadge = "추격" | "파트너" | "이륜";
+export type CarEra = "1980s" | "1990s" | "2000s" | "2010s" | "2020s";
 
 export type IconCar = {
   slug: string;
@@ -12,6 +19,7 @@ export type IconCar = {
   brandKo: string;
   era: CarEra;
   badges: CarBadge[];
+  filmSlug: string;
   filmTitleKo: string;
   oneLiner: string;
   hasL2: boolean;
@@ -32,597 +40,620 @@ export type CarL2 = {
   footnotes: { n: number; text: string }[];
 };
 
+const tone = {
+  silver: "linear-gradient(165deg,#1c2430 0%,#0B0D10 48%,#c6a75e44 100%)",
+  blue: "linear-gradient(165deg,#10283a 0%,#0B0D10 50%,#3aa0c644 100%)",
+  green: "linear-gradient(165deg,#102018 0%,#0B0D10 50%,#5e8a6a44 100%)",
+  red: "linear-gradient(165deg,#2a1410 0%,#0B0D10 50%,#c65e3233 100%)",
+  gold: "linear-gradient(165deg,#3a3418 0%,#0B0D10 48%,#C6A75E55 100%)",
+};
+
 export const cars: IconCar[] = [
   {
-    slug: "aston-martin-db5",
-    nameKo: "애스턴 마틴 DB5",
-    nameEn: "Aston Martin DB5",
-    brand: "Aston Martin",
-    brandKo: "애스턴 마틴",
-    era: "1960s",
-    badges: ["UK", "본드카", "가젯"],
-    filmTitleKo: "골드핑거 외",
-    oneLiner: "은색 실루엣과 사출 시트. 본드카라는 말의 원점.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#3a3418 0%,#0B0D10 48%,#C6A75E55 100%)",
-  },
-  {
-    slug: "lotus-esprit",
-    nameKo: "로터스 에스프리",
-    nameEn: "Lotus Esprit",
-    brand: "Lotus",
-    brandKo: "로터스",
-    era: "1970s",
-    badges: ["UK", "본드카", "가젯"],
-    filmTitleKo: "나를 사랑한 스파이",
-    oneLiner: "도로에서 바다로 들어가는 잠수함 쿠페.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#10283a 0%,#0B0D10 50%,#3aa0c644 100%)",
-  },
-  {
-    slug: "aston-martin-dbs-2006",
-    nameKo: "애스턴 마틴 DBS",
-    nameEn: "Aston Martin DBS",
-    brand: "Aston Martin",
-    brandKo: "애스턴 마틴",
+    slug: "audi-tt",
+    nameKo: "아우디 TT 로드스터 (8N)",
+    nameEn: "Audi TT Roadster (8N)",
+    brand: "Audi",
+    brandKo: "아우디",
     era: "2000s",
-    badges: ["UK", "본드카"],
-    filmTitleKo: "카지노 로얄",
-    oneLiner: "가젯을 벗긴 채 활주로에서 뒤집힌, 리부트의 첫 애스턴.",
+    badges: ["추격"],
+    filmSlug: "mission-impossible-2",
+    filmTitleKo: "미션 임파서블 2",
+    oneLiner: "양산 전 프로토타입 로드스터. 캐릭터가 모는 추격차로 기록됩니다.",
     hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#1a1208 0%,#0B0D10 48%,#8a6a32aa 100%)",
+    posterTone: tone.silver,
   },
   {
-    slug: "aston-martin-v8-vantage",
-    nameKo: "애스턴 마틴 V8 밴티지",
-    nameEn: "Aston Martin V8 Vantage",
-    brand: "Aston Martin",
-    brandKo: "애스턴 마틴",
+    slug: "triumph-speed-triple",
+    nameKo: "트라이엄프 스피드 트리플",
+    nameEn: "Triumph Speed Triple",
+    brand: "Triumph",
+    brandKo: "트라이엄프",
+    era: "2000s",
+    badges: ["추격", "이륜"],
+    filmSlug: "mission-impossible-2",
+    filmTitleKo: "미션 임파서블 2",
+    oneLiner: "헌트가 결말 추격에서 타는 네이키드. 두카티가 아닙니다.",
+    hasL2: true,
+    posterTone: tone.red,
+  },
+  {
+    slug: "triumph-daytona",
+    nameKo: "트라이엄프 데이토나 955i",
+    nameEn: "Triumph Daytona 955i",
+    brand: "Triumph",
+    brandKo: "트라이엄프",
+    era: "2000s",
+    badges: ["추격", "이륜"],
+    filmSlug: "mission-impossible-2",
+    filmTitleKo: "미션 임파서블 2",
+    oneLiner: "앰브로스 쪽의 풀 페어링 트라이엄프.",
+    hasL2: true,
+    posterTone: tone.gold,
+  },
+  {
+    slug: "lamborghini-gallardo",
+    nameKo: "람보르기니 가야르도",
+    nameEn: "Lamborghini Gallardo",
+    brand: "Lamborghini",
+    brandKo: "람보르기니",
+    era: "2000s",
+    badges: ["추격"],
+    filmSlug: "mission-impossible-3",
+    filmTitleKo: "미션 임파서블 3",
+    oneLiner: "3편에서 캐릭터가 모는 2006년형 가야르도.",
+    hasL2: true,
+    posterTone: tone.gold,
+  },
+  {
+    slug: "bmw-vision-efficientdynamics",
+    nameKo: "BMW 비전 이피션트다이내믹스",
+    nameEn: "BMW Vision EfficientDynamics",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너"],
+    filmSlug: "ghost-protocol",
+    filmTitleKo: "미션 임파서블: 고스트 프로토콜",
+    oneLiner: "이후 i8의 바탕이 된 콘셉트. 헌트가 추격에서 탑니다.",
+    hasL2: true,
+    posterTone: tone.green,
+  },
+  {
+    slug: "bmw-6-series",
+    nameKo: "BMW 6시리즈 컨버터블 (F12)",
+    nameEn: "BMW 6 Series Convertible (F12)",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너"],
+    filmSlug: "ghost-protocol",
+    filmTitleKo: "미션 임파서블: 고스트 프로토콜",
+    oneLiner: "같은 보도자료가 헌트의 추격차로 함께 적는 2011년형 오픈카.",
+    hasL2: true,
+    posterTone: tone.blue,
+  },
+  {
+    slug: "bmw-m3-f80",
+    nameKo: "BMW M3 (F80)",
+    nameEn: "BMW M3 (F80)",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너"],
+    filmSlug: "rogue-nation",
+    filmTitleKo: "미션 임파서블: 로그네이션",
+    oneLiner: "5세대 M3. E92가 아닙니다.",
+    hasL2: true,
+    posterTone: tone.blue,
+  },
+  {
+    slug: "bmw-s1000rr",
+    nameKo: "BMW S 1000 RR",
+    nameEn: "BMW S 1000 RR",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너", "이륜"],
+    filmSlug: "rogue-nation",
+    filmTitleKo: "미션 임파서블: 로그네이션",
+    oneLiner: "예고편에 나온 BMW 모토라드. M3와 같은 파트너십 글에 있습니다.",
+    hasL2: true,
+    posterTone: tone.red,
+  },
+  {
+    slug: "bmw-m5-f90",
+    nameKo: "BMW M5 (F90)",
+    nameEn: "BMW M5 (F90)",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너"],
+    filmSlug: "fallout",
+    filmTitleKo: "미션 임파서블: 폴아웃",
+    oneLiner: "4.4리터 V8, 441kW. 파리의 구형 세단과는 다른 차입니다.",
+    hasL2: true,
+    posterTone: tone.silver,
+  },
+  {
+    slug: "bmw-r-ninet",
+    nameKo: "BMW R nineT 스크램블러",
+    nameEn: "BMW R nineT Scrambler",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2010s",
+    badges: ["추격", "파트너", "이륜"],
+    filmSlug: "fallout",
+    filmTitleKo: "미션 임파서블: 폴아웃",
+    oneLiner: "파리 개선문 주변, 역주행 추격의 바이크.",
+    hasL2: true,
+    posterTone: tone.gold,
+  },
+  {
+    slug: "bmw-5-series-e28",
+    nameKo: "1986 BMW 5시리즈 (E28)",
+    nameEn: "1986 BMW 5 Series (E28)",
+    brand: "BMW",
+    brandKo: "BMW",
     era: "1980s",
-    badges: ["UK", "본드카", "가젯"],
-    filmTitleKo: "리빙 데이라이츠",
-    oneLiner: "스키 활강 뒤로 이어지는 스파이크 타이어의 밴티지.",
+    badges: ["추격", "파트너"],
+    filmSlug: "fallout",
+    filmTitleKo: "미션 임파서블: 폴아웃",
+    oneLiner: "파리 추격의 구형 세단. M5라는 말과 528i라는 말이 같이 있습니다.",
     hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#102018 0%,#0B0D10 50%,#5e8a6a44 100%)",
+    posterTone: tone.blue,
   },
   {
-    slug: "jaguar-xkr",
-    nameKo: "재규어 XKR",
-    nameEn: "Jaguar XKR",
-    brand: "Jaguar",
-    brandKo: "재규어",
-    era: "2000s",
-    badges: ["UK", "본드카", "가젯"],
-    filmTitleKo: "어나더데이",
-    oneLiner: "아이스 팰리스를 가르는 재규어 쪽 본드카.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#102030 0%,#0B0D10 50%,#8ac0d044 100%)",
-  },
-  {
-    slug: "land-rover-defender",
-    nameKo: "랜드로버 디펜더",
-    nameEn: "Land Rover Defender",
-    brand: "Land Rover",
-    brandKo: "랜드로버",
-    era: "2010s",
-    badges: ["UK", "본드카"],
-    filmTitleKo: "스카이폴 · 스펙터",
-    oneLiner: "저택과 진흙. 스타가 아닌 바닥을 맡는 영국 오프로더.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#1a2830 0%,#0B0D10 50%,#6a8a5e44 100%)",
-  },
-  {
-    slug: "aston-martin-db10",
-    nameKo: "애스턴 마틴 DB10",
-    nameEn: "Aston Martin DB10",
-    brand: "Aston Martin",
-    brandKo: "애스턴 마틴",
-    era: "2010s",
-    badges: ["UK", "본드카"],
-    filmTitleKo: "스펙터",
-    oneLiner: "영화를 위해 만들어진 로마 추격의 원-오프.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#181010 0%,#0B0D10 50%,#8a303044 100%)",
-  },
-  {
-    slug: "bmw-z3",
-    nameKo: "BMW Z3",
-    nameEn: "BMW Z3",
-    brand: "BMW",
-    brandKo: "BMW",
-    era: "1990s",
-    badges: ["본드카"],
-    filmTitleKo: "골든아이",
-    oneLiner: "쿠바에서 짧게 스치는 브로스넌 시대의 로드스터.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#3a3010 0%,#0B0D10 50%,#C6A75E33 100%)",
-  },
-  {
-    slug: "bmw-750il",
-    nameKo: "BMW 750iL",
-    nameEn: "BMW 750iL",
-    brand: "BMW",
-    brandKo: "BMW",
-    era: "1990s",
-    badges: ["본드카", "가젯"],
-    filmTitleKo: "네버 다이",
-    oneLiner: "원격 조종과 선루프 로켓. 90년대 가젯의 정점.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#101828 0%,#0B0D10 50%,#4a6ac644 100%)",
-  },
-  {
-    slug: "ford-mustang-bond",
-    nameKo: "포드 머스탱",
-    nameEn: "Ford Mustang",
-    brand: "Ford",
-    brandKo: "포드",
-    era: "1960s",
-    badges: ["본드카"],
-    filmTitleKo: "골드핑거 외",
-    oneLiner: "틸리 마스터슨의 노란 머스탱에서 시작된 미국차 라인.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#4a3b12 0%,#0B0D10 50%,#c65e3244 100%)",
-  },
-  {
-    slug: "mini-bond",
-    nameKo: "미니",
-    nameEn: "Mini",
-    brand: "Mini",
-    brandKo: "미니",
-    era: "1970s",
-    badges: ["UK"],
-    filmTitleKo: "죽느냐 사느냐 외",
-    oneLiner: "미니 모크 등 영국 소형이 본드 화면의 배경을 채운다.",
-    hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#2a2010 0%,#0B0D10 50%,#c6a75e33 100%)",
-  },
-  {
-    slug: "aston-martin-valhalla",
-    nameKo: "애스턴 마틴 발할라",
-    nameEn: "Aston Martin Valhalla",
-    brand: "Aston Martin",
-    brandKo: "애스턴 마틴",
+    slug: "fiat-500",
+    nameKo: "피아트 500 (촬영용)",
+    nameEn: "Fiat 500 (custom)",
+    brand: "Fiat",
+    brandKo: "피아트",
     era: "2020s",
-    badges: ["UK", "본드카"],
-    filmTitleKo: "노 타임 투 다이",
-    oneLiner: "DB5와 한 프레임을 나누는 현대 하이퍼카 프로토타입.",
+    badges: ["추격"],
+    filmSlug: "dead-reckoning",
+    filmTitleKo: "미션 임파서블: 데드 레코닝 PART ONE",
+    oneLiner: "로마 추격용으로 만든 차체. 시판 500과 같지 않습니다.",
     hasL2: true,
-    posterTone:
-      "linear-gradient(165deg,#10241c 0%,#0B0D10 50%,#C6A75E33 100%)",
+    posterTone: tone.red,
+  },
+  {
+    slug: "bmw-g310gs",
+    nameKo: "BMW G 310 GS",
+    nameEn: "BMW G 310 GS",
+    brand: "BMW",
+    brandKo: "BMW",
+    era: "2020s",
+    badges: ["추격", "이륜"],
+    filmSlug: "dead-reckoning",
+    filmTitleKo: "미션 임파서블: 데드 레코닝 PART ONE",
+    oneLiner: "2020년형. 캐릭터 또는 추격에 쓰인 바이크로 기록됩니다.",
+    hasL2: true,
+    posterTone: tone.green,
+  },
+  {
+    slug: "honda-crf250",
+    nameKo: "혼다 CRF 250",
+    nameEn: "Honda CRF 250",
+    brand: "Honda",
+    brandKo: "혼다",
+    era: "2020s",
+    badges: ["추격", "이륜"],
+    filmSlug: "dead-reckoning",
+    filmTitleKo: "미션 임파서블: 데드 레코닝 PART ONE",
+    oneLiner: "절벽 점프의 바이크. 세부모델은 CRF 250까지만 적습니다.",
+    hasL2: true,
+    posterTone: tone.red,
   },
 ];
 
-export const carDetails: Record<string, CarL2> = {
-  "aston-martin-db5": {
-    slug: "aston-martin-db5",
-    overview: [
-      "애스턴 마틴 DB5는 1964년 골드핑거에서 제임스 본드의 업무용 차가 된다. 은색 차체, 와이어 휠, Q 브랜치가 설명하는 가젯 목록이 한 세트로 붙고, 이후 팬과 제작진이 본드카라고 말할 때 가장 먼저 떠올리는 형태가 이 실루엣이다. 영국 그랜드 투어러의 선과 스파이 소품이 겹치는 지점이 이 차다. 시리즈가 차를 요원의 연장으로 쓰기 시작한 원점이기도 하다.",
-      "중요도는 한 편의 소품을 넘어선다. 골드핑거가 남긴 Q 브리핑, 산길 추격, 공장 탈출은 이후 작품이 반복하거나 뒤집는 템플릿이 된다. 차가 없으면 본드가 이동만 하는 것이 아니라, 시리즈의 기억 장치가 빠진다. 스카이폴 창고와 노 타임 투 다이 마테라가 같은 선을 다시 꺼내는 이유도 여기에 가깝다. 유산을 호출할 때 제작진이 고르는 물건이, 은색 DB5다.",
-      "같은 L2의 다른 차, 2006년 애스턴 마틴 DBS와는 역할이 갈린다. DB5가 가젯의 과시와 고전 문법이라면, DBS는 가젯을 거의 벗긴 리부트의 물성이다. 크레이그 시기 안에서 두 대는 경쟁하지 않고 시대를 나눈다. DBS가 ‘지금’을 맡은 뒤에야, DB5는 ‘기억’으로 돌아올 자리가 생긴다. 한 브랜드의 두 쿠페가 리부트와 유산을 각각 짊어지는 구도다.",
-      "화면의 이력은 한 줄이 아니다. 썬더볼 작전의 짧은 이어짐, 골든아이의 몬테카를로, 카지노 로얄의 바하마 포커, 스카이폴의 창고, 스펙터의 복원, 노 타임 투 다이의 석조 골목. 번호판 BMT 216A가 반복되는 편과, 바하마 번호나 이탈리아 번호가 붙는 편이 섞인다. 같은 실루엣이어도 작품마다 차가 하는 일이 다르다. 그 차이를 한자리에 모아 읽는다.",
-      "실차 이야기와 화면 이야기를 붙일 때는 층을 나눈다. 뉴포트 패그널에서 나온 1960년대 쿠페, 파인우드에서 얹힌 특수효과, 홍보용으로 더 만들어진 차, 경매에 오른 차대, 그리고 2010년대 후반의 컨티뉴에이션. 어느 한 대를 ‘그 차’로 고정하면 아카이브가 아니라 수집 신화가 된다. 아래 문장은 작품 화면을 기준으로 두고, 숫자는 출처가 갈리면 범위로만 적는다.",
-    ],
-    timeline: [
-      {
-        year: "1963",
-        text: "애스턴 마틴이 DB5를 프랑크푸르트 모터쇼 등에서 내놓는다. 직렬 6기통과 투어링 슈퍼레제라 차체가 영국 GT의 한 형을 고정한다. 본드 제작진이 이 신형을 빌리는 협상은 그 전후다. 시판과 촬영이 거의 겹친 일정이, 이후 마케팅 문장에도 남는다.",
-      },
-      {
-        year: "1964 · 골드핑거",
-        text: "본드가 Q의 작업실에서 벤틀리 대신 은색 DB5 열쇠를 받는다. 번호판 BMT 216A, 사출 시트, 전면 기관총, 연막과 오일, 회전 번호판이 대중 기억에 붙는다. 스위스 산길과 공장 탈출이 차가 개그이자 전투임을 동시에 보여 준다. 본드카라는 말의 원점이 이 해의 화면에 있다.",
-      },
-      {
-        year: "1964 · 소품",
-        text: "제작 디자이너 켄 애덤과 특수효과의 존 스티어스가 차체에 장치를 심는다. 공식 서술은 공장 완성차를 몇 주 만에 개조한 과정을 남긴다. Q 브랜치는 그 장치를 설명하는 극중 부서이지, 차를 발명한 공장이 아니다. 도로용과 트릭용이 나뉜 점도 이 해의 콜시트에 이미 적혀 있다.",
-      },
-      {
-        year: "1965",
-        text: "썬더볼 작전 도입부에서 같은 계보의 DB5가 이어진다. 제트팩 착륙 뒤의 도주, 후면에서 쏘는 고압 물줄기 같은 짧은 가젯이 덧붙는다. 골드핑거의 풀 세트를 반복하지는 않는다. 아이콘을 한 편 더 연장하는 쪽에 가깝다.",
-      },
-      {
-        year: "1968",
-        text: "애스턴 쪽 기록이 전하는 바에 따르면, 트릭카로 쓰인 차량의 비표준 장비가 벗겨지고 일반차로 재조립된 뒤 팔린다. 이후 가젯을 다시 얹은 차와 원형 주장이 경매 시장에서 갈라진다. 화면의 그 한 대를 오늘 차고에서 찾는 일이 어려워진 분기점이다. 숫자는 출처마다 달리 적히므로 단정하지 않는다.",
-      },
-      {
-        year: "1995",
-        text: "골든아이. 약 30년 만의 귀환이다. 본드가 심리 평가관과 몬테카를로 쪽으로 가는 길에 크세니아의 페라리와 스친다. 사출 시트 대신 샴페인 쿨러 같은 농담이 남는다. 가젯 전투가 아니라, 고전 실루엣을 새 배우 옆에 두는 오마주다.",
-      },
-      {
-        year: "1997",
-        text: "네버 다이에서 본드가 런던으로 돌아오는 길에 DB5를 몬다. 추격의 주역은 BMW 쪽이다. 은색 쿠페는 짧게 스쳐, 시리즈가 아직 그 선을 버리지 않았음을 표시한다. 언리미티드(The World Is Not Enough)에는 삭제된 장면과 엔딩의 열화상 실루엣 정도로만 남는다.",
-      },
-      {
-        year: "2006",
-        text: "카지노 로얄. 본드가 바하마 비치 클럽 포커에서 디미트리오스의 좌핸들 DB5를 딴다. 번호는 바하마 쪽이고, BMT 216A가 아니다. 같은 해 주력 애스턴은 가젯 없는 DBS다. 리부트가 고전 실루엣을 완전히 지우지 않으면서도, ‘지금’의 차는 따로 고른 셈이다.",
-      },
-      {
-        year: "2012",
-        text: "스카이폴. 런던 창고에서 BMT 216A가 다시 나온다. 본드는 M을 태우고 스코틀랜드 저택으로 향하며, 결전에서 전면 기관총을 켠다. 헬기에 차체가 갈리고, 유산은 한 번 부서진다. 해킹 시대에 구식 차가 더 안전하다는 농담이 영화의 논지와 맞물린다.",
-      },
-      {
-        year: "2015",
-        text: "스펙터. Q의 작업실에서 부서진 DB5가 복원 중인 채로 보인다. 엔딩 가까이 본드와 마들렌이 런던을 떠날 때 그 실루엣이 다시 움직인다. 스카이폴의 잔해를 버린 것이 아니라, 다음 이야기의 사적 이동 수단으로 넘긴다. 로마 추격의 주역은 DB10이다.",
-      },
-      {
-        year: "2018–2020",
-        text: "애스턴 마틴 웍스가 EON과 맞춰 DB5 골드핑거 컨티뉴에이션을 발표하고, 뉴포트 패그널에서 한정 대수를 다시 만든다. 공식 발표는 고객용 25대와 작동 가젯, 수천 시간 단위의 제작을 적는다. 영화 촬영차가 아니라 수집·전시용 신작이다. 화면의 원형과 공장의 오마주를 한 대 번호로 합치면 어긋난다.",
-      },
-      {
-        year: "2021",
-        text: "노 타임 투 다이 마테라. 골드핑거 이후 가장 긴 DB5 액션이 석조 골목에 펼쳐진다. 기관총과 연막, 후면 지뢰가 다시 전술이 되고, 본드는 역에 차를 버리고 떠난다. 007.com은 히어로 클래식 두 대와 스턴트 복제 여덟 대를 섞어 찍었다고 적는다. 유산이 향수가 아니라 전투로 돌아오는 해다.",
-      },
-    ],
-    onScreen: [
-      "골드핑거의 Q 브리핑이 문법을 연다. 본드는 벤틀리를 기대하다 은색 쿠페를 받고, 콘솔과 기어봉의 버튼을 설명 듣는다. 알프스 도로에서 추적기를 골드핑거의 롤스로이스에 붙이고, 틸리 마스터슨의 머스탱에는 타이어 슬래셔를 쓴다. 공장 탈출에서는 연막과 오일, 후면 방탄판이 차례로 켜진다. 붙잡힌 뒤의 사출 시트와 전면 기관총은 개그로 시작되어 처형으로 끝난다.",
-      "스위스 산길의 리듬은 차가 풍경을 스치는 관광이 아니다. 좁은 헤어핀과 추격, 공장 정문의 진입이 한 대의 일과가 된다. 회전 번호판은 Q의 방에서 시연되지만, 알프스 본편 도로에서 길게 쓰이지는 않는다. 홍보 포스터가 모든 버튼을 한 컷에 넣는 것과, 실제 컷의 배분은 다르다. 화면의 핵심 세트는 추적, 방어, 사출, 전면 사격이다.",
-      "썬더볼 작전은 짧게 잇는다. 성에서 나온 본드가 제트팩으로 착륙한 자리가 DB5이고, 뒤따르는 차에는 배기구 쪽 물줄기가 향한다. 가젯 목록이 한 편에서 다음 편으로 늘어나는 습관의 초기 예다. 동시에 이 차는 아직 ‘한 요원의 전용 차고’라기보다, 제작이 빌려 쓴 소품의 연속이다. 아이콘이 된 뒤에도 차대는 여러 대다.",
-      "골든아이의 몬테카를로는 전투가 아니라 재소개다. 본드와 카롤린이 탄 쿠페가 크세니아의 페라리와 산길을 나란히 달린다. 부딪힌 자국은 현장에서 때운 것으로 제작 노트가 전한다. 네버 다이의 런던 주행은 더 짧다. 브로스넌 시기 본드카의 주역이 BMW로 옮긴 뒤에도, 은색 실루엣은 가끔 창밖에 남는다.",
-      "카지노 로얄의 바하마는 다른 차다. 본드는 디미트리오스와의 포커에서 좌핸들 DB5를 딴다. 번호판이 바하마 쪽이고, Q의 버튼은 보이지 않는다. 리부트가 고전 쿠페를 트로피처럼 한 판에 올려 두는 장면이다. 같은 영화의 주력은 몬테네그로로 가는 DBS다. 두 애스턴을 한 대처럼 읽으면, 바하마와 활주로가 섞인다.",
-      "스카이폴의 창고는 유산의 재입고다. 본드가 방탄과 기관총이 남은 차를 끌어내고, 사출 버튼 위에 손가락을 올리며 M을 태운다. 스코틀랜드 진입과 저택 결전에서 전면 총열이 다시 나오고, 헬기의 사격이 차체를 갈라 놓는다. 킨케이드의 ‘옛 방식이 최고’라는 문장과 은색 쿠페가 같은 논지를 나눈다. 구식 물건이 해킹되지 않는다는 농담이, 이 시퀀스의 주제다.",
-      "스펙터는 그 잔해를 버리지 않는다. Q의 테이블 옆에 뼈대가 드러난 DB5가 놓이고, 엔딩에서 복원된 차가 런던을 빠져나간다. 로마의 추격은 DB10의 몫이다. 노 타임 투 다이 마테라는 골드핑거 이후 가장 두꺼운 전투다. 골목, 계단, 광장의 360도 사격, 연막, 역에 버리는 작별. 번호판은 이탈리아 쪽으로 바뀌고, 가젯은 미니건과 후면 지뢰로 갱신된다. 향수가 아니라 전술이다.",
-    ],
-    production: [
-      "골드핑거 촬영에 애스턴이 내준 차는 한 대가 아니다. 007.com 차량 페이지는 첫 프로토타입 계열과, 알프스용으로 더해진 도로 주행차를 구분한다. 전자가 트릭카, 후자가 로드카로 콜시트에 적힌다. 도색을 실버 버치로 맞춘 뒤에도 윙 램프와 번호판 하우징 같은 작은 차이가 남는다. 관객이 한 대로 기억하는 화면 뒤에도, 제작은 역할을 나눈 차체를 쓴다.",
-      "가젯은 Q가 발명한 미래 기술이 아니라, 1964년 파인우드의 특수효과다. 켄 애덤이 스케치를 맡고, 존 스티어스 팀이 유압과 화약을 차체에 심는다. 공식 서술은 범퍼 오버라이더와 기관총의 아이디어가 애덤 자신의 주차 짜증에서 나왔다고 적는다. 플레밍 소설의 DB III 개조—강화 범퍼, 추적 라디오, 후미등 위장—는 출발점이지 화면의 목록 전체가 아니다. 영화가 과장한 것은 공장 신화가 아니라 소품 설계다.",
-      "화면에 안 나온 장치도 있다. 삼각형으로 돌아가는 번호판은 Q의 방에서 영국·프랑스·스위스 조합이 시연된다. 캘트로프 살포기는 백롯에서 시험까지 했으나, 도로에 못을 따라 할 위험을 이유로 본편에서 빠졌다는 제작 쪽이 전한다. 홍보 자료가 버튼을 더 많이 열거하는 이유다. 기준은 골드핑거 화면의 핵심 세트다.",
-      "대수와 차대번호는 출처가 갈린다. 촬영용 두 대, 이후 홍보용으로 더 만들어진 차, 가젯을 벗긴 뒤 팔린 차, 경매에 오른 ‘그 한 대’ 주장. 숫자는 2대에서 여러 대로 흔들린다. 애스턴과 007.com의 모델 문장은 마케팅을 겸하므로, 교차 확인 없이 한 대 번호를 고정하지 않는다. 복원 시장에서 충돌하는 이야기의 뿌리도 이 분열이다.",
-      "노 타임 투 다이 마테라는 숫자가 비교적 분명하다. 007.com 제작 노트는 마감이 같은 클래식 히어로 두 대—이 중 한 대가 EON 소유—와, 애스턴 Q 어드밴스드 오퍼레이션이 만든 스턴트 복제 여덟 대를 적는다. 복제 중 두 대가 연막·지뢰·기관총용, 두 대가 지붕 포드 운전용, 나머지가 추격용이라는 배분이다. 골드핑거의 ‘몇 대’와 달리, 이 구간은 공식 페이지가 역할을 나눠 설명한다. 그래도 파괴된 복제와 남은 히어로를 한 대씩 짝짓는 목록은 바깥에서 갈린다.",
-      "2018년 애스턴이 발표한 골드핑거 컨티뉴에이션은 촬영 소품의 후손이 아니라 공장의 새 한정이다. 공식 뉴스는 고객용 25대, EON·브랜드·자선 경매분, 뉴포트 패그널 웍스의 수천 시간 제작, 크리스 코볼드 팀의 작동 가젯을 적는다. 한 대에 화면의 모든 장치를 넣어야 해서, 영화처럼 차마다 가젯을 나눠 심는 편법이 통하지 않았다는 설명이 따라붙는다. 수집용 신작과 1964년 트릭카를 같은 차대로 읽으면 층이 무너진다.",
-    ],
-    gossip: [
-      {
-        label: "확인됨",
-        text: "골드핑거가 DB5를 본드카 아이콘으로 만든 작품이라는 점은 007.com, 애스턴 공식 서술, 작품 화면이 일치한다. 벤틀리 대신 은색 쿠페를 받는 Q 브리핑이 그 출발점이다.",
-      },
-      {
-        label: "제작진 인터뷰",
-        text: "사출 시트는 특수효과 팀이 만든 실제 기구로 설명되는 증언이 여러 다큐멘터리와 007.com 가젯 정리에 반복된다. 기어봉 버튼이 그 스위치로 기억된다.",
-      },
-      {
-        label: "팬 설",
-        text: "번호판 BMT 216A를 행운의 코드나 숨은 약어처럼 읽는 해석이 있다. 후속작이 같은 번호를 오마주하는 것은 맞지만, 숫자 자체에 제작진이 심은 뜻은 확인되지 않는다.",
-      },
-      {
-        label: "미확인",
-        text: "1964년 트릭카·로드카 이후 홍보용으로 더 만들어진 대수, 그리고 특정 경매 물건이 그 한 대인지는 출처마다 갈린다. 차대번호 한 줄로 원형을 닫지 않는다.",
-      },
-      {
-        label: "확인됨",
-        text: "노 타임 투 다이 마테라 촬영에 클래식 히어로 두 대와 스턴트 복제 여덟 대를 썼다는 숫자는 007.com 제작 노트가 적는다. 가젯카와 포드카의 배분도 같은 페이지에 있다.",
-      },
-      {
-        label: "제작진 인터뷰",
-        text: "크리스 코볼드는 마테라를 골드핑거 이후 본격 시퀀스로 되살리고 싶었다고 007.com에 말한다. 대니얼 크레이그가 DB5를 거대한 캐릭터로 부른 인용도 같은 계열의 제작 노트에 남는다.",
-      },
-      {
-        label: "팬 설",
-        text: "스카이폴 창고의 차가 골드핑거의 그 차대라는 연속성 해석이 있다. 크레이그 시기 화면이 같은 실루엣과 BMT 216A를 호출하는 것은 맞다. 차대번호까지 1964년에 잇는 공식 서술은 없다.",
-      },
-      {
-        label: "미확인",
-        text: "스펙터에서 복원되는 뼈대가 스카이폴에서 헬기에 갈린 바로 그 차체인지, 별도 히어로인지는 공개 목록이 닫혀 있지 않다. 서사상의 같은 차와 소품 부서의 같은 차대를 구분해서 읽는다.",
-      },
-    ],
-    continuity: [
-      "크레이그 시기는 두 애스턴으로 시간을 가른다. 카지노 로얄의 DBS가 가젯을 벗긴 ‘지금’을 맡고, DB5는 바하마에서 한 판의 트로피로만 스친 뒤 스카이폴 창고에서 유산으로 돌아온다. 리부트가 먼저 상처를 만들고, 50주년이 기억을 재입고하는 순서다. DBS 페이지와 나란히 보면 그 분업이 더 선명하다.",
-      "스펙터의 복원과 노 타임 투 다이의 마테라는 유산에 가젯을 다시 얹는다. 리부트가 거부했던 버튼을, 시리즈가 마지막에 전술로 되돌린다. 같은 배우의 얼굴 위에서 2006년의 전복과 2021년의 미니건이 공존한다. 본드가 누구냐와 별개로, 은색 DB5는 시리즈가 자신을 기억하는 장치다.",
-      "브로스넌 시기의 짧은 귀환—골든아이, 네버 다이—은 전투보다 표시에 가깝다. 코너리 시기가 아이콘을 만들었고, 공백 뒤에 실루엣만 남겼다가, 크레이그 후반이 다시 싸운다. 연속성은 한 차대의 일대기가 아니라, 제작이 같은 선을 다시 꺼내는 습관이다. 영국차 큐레이션으로 건너가면 1960년대 GT와 2000년대 플래그십의 결이 더 잘 보인다.",
-    ],
-    videos: [
-      {
-        id: "FREBR6FH1rg",
-        title: "노 타임 투 다이 공식 예고편 — 마테라 DB5 추격이 포함된 007 채널 트레일러",
-      },
-      {
-        id: "vgr2syY_OU4",
-        title: "스카이폴 공식 예고편 — 창고·스코틀랜드 DB5 귀환이 포함된 007 채널 트레일러",
-      },
-    ],
-    related: [
-      { href: "/films/goldfinger", label: "골드핑거 — 아이콘이 된 편" },
-      { href: "/films/skyfall", label: "스카이폴 — 창고의 귀환" },
-      { href: "/films/no-time-to-die", label: "노 타임 투 다이 — 마테라 추격" },
-      { href: "/films/casino-royale-2006", label: "카지노 로얄 — 바하마의 다른 DB5" },
-      { href: "/cars/aston-martin-dbs-2006", label: "자매 L2 · 애스턴 마틴 DBS (2006)" },
-    ],
-    sources: [
-      {
-        label: "007.com — Aston Martin DB5",
-        href: "https://www.007.com/the-vehicles/aston-martin-db5/",
-      },
-      {
-        label: "007.com — Under the bonnet of the DB5 in Matera",
-        href: "https://www.007.com/under-the-bonnet/",
-      },
-      {
-        label: "007.com — 007’s Car Gadgets",
-        href: "https://www.007.com/007s-car-gadgets/",
-      },
-      {
-        label: "007.com — Goldfinger",
-        href: "https://www.007.com/the-films/goldfinger/",
-      },
-      {
-        label: "007.com — Skyfall",
-        href: "https://www.007.com/the-films/skyfall/",
-      },
-      {
-        label: "007.com — No Time to Die",
-        href: "https://www.007.com/the-films/no-time-to-die/",
-      },
-      {
-        label: "Aston Martin — James Bond",
-        href: "https://www.astonmartin.com/en/our-world/news/2018/2/28/james-bond",
-      },
-      {
-        label: "Aston Martin — Goldfinger Continuation 발표 (2018)",
-        href: "https://www.astonmartin.com/en/our-world/news/2018/8/20/aston-martin-recreates-iconic-james-bond-goldfinger-db5",
-      },
-      {
-        label: "Aston Martin — Continuation 제작 재개 (2020)",
-        href: "https://www.astonmartin.com/en/our-world/news/2020/5/28/aston-martin-db5-production-resumes-after-55-years-as-build-work-begins-on-db5-goldfinger-continuation-cars-at-aston-martin-works",
-      },
-      {
-        label: "IMDb — Goldfinger (1964)",
-        href: "https://www.imdb.com/title/tt0058150/",
-      },
-      {
-        label: "Wikipedia — Aston Martin DB5",
-        href: "https://en.wikipedia.org/wiki/Aston_Martin_DB5",
-      },
-      {
-        label: "Roger Ebert — Great Movie: Goldfinger (1964)",
-        href: "https://www.rogerebert.com/reviews/great-movie-goldfinger-1964",
-      },
-      {
-        label: "BFI — Dr. No / Bond 50주년 맥락",
-        href: "https://www.bfi.org.uk/features/happy-50th-anniversary-mr-bond",
-      },
-    ],
-    footnotes: [
-      {
-        n: 1,
-        text: "가젯 목록(기관총, 연막, 오일, 번호판, 사출 시트 등)은 작품과 홍보 자료에서 조금씩 다르게 열거된다. 핵심 세트는 골드핑거 화면을 기준으로 한다.",
-      },
-      {
-        n: 2,
-        text: "골드핑거 촬영차의 역할 구분(트릭카·로드카)과 프로토타입 계보 서술은 007.com 차량 페이지를 따른다. 차대번호 한 줄을 원형으로 닫지는 않는다.",
-      },
-      {
-        n: 3,
-        text: "마테라 히어로 두 대·스턴트 복제 여덟 대, 가젯카·포드카 배분은 007.com 「Under the bonnet」 제작 노트를 따른다.",
-      },
-      {
-        n: 4,
-        text: "컨티뉴에이션 고객용 25대와 뉴포트 패그널 제작은 애스턴 공식 뉴스(2018 발표, 2020 제작)의 숫자다. 영화 촬영 소품과 별층이다.",
-      },
-      {
-        n: 5,
-        text: "카지노 로얄 바하마의 DB5는 좌핸들·바하마 번호로 007.com이 적는다. 같은 편 주력 애스턴은 DBS다. 두 대를 한 이력으로 합치지 않는다.",
-      },
-      {
-        n: 6,
-        text: "공식 예고편 임베드는 007 채널의 No Time To Die Final International Trailer(FREBR6FH1rg)와 Skyfall International Trailer(vgr2syY_OU4)다. 둘 다 차체가 화면에 들어온다.",
-      },
-      {
-        n: 7,
-        text: "애스턴·007.com 모델 문장은 마케팅을 겸할 수 있다. 경매 원형 주장과 홍보 대수는 교차 확인 없이 단정하지 않는다.",
-      },
-    ],
-  },
-  "aston-martin-dbs-2006": {
-    slug: "aston-martin-dbs-2006",
-    overview: [
-      "2006년 카지노 로얄의 애스턴 마틴 DBS는 대니얼 크레이그 본드의 첫 주역 애스턴이다. DB5가 버튼과 사출의 과시라면, DBS는 그 버튼을 거의 제거하고 차체와 속도만 남긴다. 리부트가 요원을 다시 만든다는 선언을 자동차로 옮긴 선택이다. 시판 플래그십이 극장보다 늦게 나온 점도, 차가 먼저 서사를 맡고 상품이 뒤따른 순서를 보여 준다.",
-      "중요도는 한 번의 전복에만 있지 않다. Q 브리핑이 거의 없는 영화에서, 운전과 충돌이 캐릭터를 설명한다. 본드는 가젯으로 상황을 닫지 못하고, 사람을 피하다 차를 잃는다. 그 손실이 리부트의 물성이다. 이후 스카이폴이 은색 DB5를 창고에서 꺼낼 수 있는 이유도, 이 편이 먼저 ‘지금’의 차를 따로 정했기 때문이다.",
-      "같은 L2의 DB5와는 시대가 갈린다. DB5는 1964년의 문법과 2010년대의 유산이고, DBS는 2006–2008년의 상처다. 둘 다 애스턴이지만, 한 대는 기억을 호출하고 한 대는 형성을 찍는다. 바하마에서 포커로 넘어오는 고전 쿠페와, 몬테네그로 임무의 DBS를 한 이력으로 읽으면 리부트의 설계가 흐려진다. 자매 페이지와 같이 보는 편이 정확하다.",
-      "화면의 이력은 짧고 굵다. 카지노 로얄의 유럽 구간, 밀브룩에서 찍힌 활주로 전복, 퀀텀 오브 솔러스 도입부의 상처 난 추격. 스카이폴 이후 주력 자리는 다시 DB5와 DB10, 그리고 다른 세대의 애스턴으로 옮긴다. 2006년 DBS는 ‘크레이그 애스턴’의 전부가 아니라, 리부트 첫 두 편의 차다. 노 타임 투 다이의 DBS 슈퍼레제라는 이름만 닮은 다른 모델이다.",
-      "실차와 화면을 붙일 때도 층을 나눈다. 촬영 당시 프로토타입에 가까운 차체, 기록용으로 인용되는 일곱 번의 회전, 매체마다 다른 파손 대수, 퀀텀에서 새로 투입된 도색. 공식 사이트가 세계 기록을 말할 때와, 현장 가십이 몇 대를 부쉈는지 말할 때는 결이 다르다. 아래 문장은 작품 화면을 앞에 두고, 숫자는 범위와 라벨로만 적는다.",
-      "한국 관객에게 이 차는 크레이그 기용 논쟁과 같이 도착한 물건이다. 머리색과 체격이 먼저 화제가 되었고, 은색 쿠페의 전복은 그 논쟁을 화면의 물성으로 옮겼다. 씨네21 등 개봉 전후 기사가 남긴 것은 ‘변한 듯 그대로인 본드’라는 인상이다. 붙잡을 것은 인상보다, 가젯을 지운 채 차를 희생한 선택이다.",
-    ],
-    timeline: [
-      {
-        year: "2006 · 발표",
-        text: "애스턴이 신형 플래그십 DBS를 본드 영화와 묶어 알린다. 카지노 로얄 개봉이 시판보다 앞선다. 공식 모델 페이지는 영화에 먼저 오른 뒤 2007년 페블비치 등에서 생산 모델을 드러냈다고 적는다. 차가 쇼룸보다 화면을 먼저 밟은 일정이다.",
-      },
-      {
-        year: "2006 · 카지노 로얄",
-        text: "크레이그 본드의 주력 애스턴으로 유럽 구간에 등장한다. 바하마에서 본드가 먼저 얻는 쿠페는 포커의 고전 DB5다. DBS는 몬테네그로 임무의 무게를 받으며 화면에 오른다. 가젯 대신 글러브박스의 예비 권총과 의료 키트 정도가 남는다.",
-      },
-      {
-        year: "2006 · 밀브룩",
-        text: "활주로 전복은 밀브룩 프로빙 그라운드에서 실차로 찍힌다. 007.com은 스턴트 드라이버 애덤 컬리가 캐넌 롤 일곱 회로 기네스 기록을 세웠다고 적는다. 애스턴 공식 문장도 같은 회전 수를 반복한다. 현장 보도는 하루에 여러 대를 뒤집었다는 숫자를 따로 흘린다.",
-      },
-      {
-        year: "2007–2008",
-        text: "시판 DBS가 플래그십으로 나오고, 카지노 로얄 실버 같은 도색 이름이 옵션 이야기로 남는다. 영화가 프로토타입을 먼저 보여 준 뒤, 도로용 모델이 그 실루엣을 따라간다. 상품과 소품의 순서가 뒤집힌 경우다. 인지 효과는 마케팅이 나중에 회수한다.",
-      },
-      {
-        year: "2008",
-        text: "퀀텀 오브 솔러스 도입부. 본드가 미스터 화이트를 싣고 가르다 호 쪽에서 추격을 받는다. 차체는 이미 맞았고, 도색은 더 어두운 퀀텀 실버로 읽히는 경우가 많다. 전작 활주로의 같은 차처럼 보이지만, 제작 배치는 새 차체를 쓴다. 서사의 상처와 소품의 이력이 한 줄이 아니다.",
-      },
-      {
-        year: "2008 · 파손",
-        text: "도입부 추격 끝에 DBS는 다시 거의 쓰지 못할 정도로 갈린다. 촬영 중 호수로 들어간 차 이야기도 현장 보도에 남는다. 살아남은 히어로와 부서진 스턴트를 한 대 번호로 대응시키는 목록은 출처가 갈린다. 화면이 말하는 것은 차가 요원을 대신해 버티지 못한다는 점이다.",
-      },
-      {
-        year: "2008 · 공개",
-        text: "퀀텀 개봉과 함께 어두운 은색 쿠페가 포스터와 예고편에 다시 오른다. 전작이 테이블과 고문을 길게 찍었다면, 속편은 추격의 호흡으로 상처를 연장한다. DBS는 그 호흡의 첫 문장이다. 차 이후의 이야기는 보트가 되고, 비행이 되고, 걸음이 된다.",
-      },
-      {
-        year: "2012–2015",
-        text: "스카이폴이 고전 DB5를 창고에서 꺼내고, 스펙터는 DB10에 로마를 맡긴다. 2006년 DBS는 더 이상 주력 자리가 아니다. 리부트의 차가 유산과 원-오프에 자리를 내주는 전환이다. 크레이그 후반의 애스턴 이야기는 아니라 DB5 쪽으로 옮긴다.",
-      },
-      {
-        year: "2021",
-        text: "노 타임 투 다이에 DBS라는 이름이 다시 보이지만, 슈퍼레제라는 다른 세대다. 2006년 리부트 쿠페와 한 차대처럼 읽으면 안 된다. 마테라의 전투는 은색 DB5의 몫이다. DBS는 카지노 로얄과 퀀텀의 그 한 쌍에서 닫힌다.",
-      },
-    ],
-    onScreen: [
-      "바하마 구간을 DBS 인수로 기억하는 경우가 많다. 화면을 다시 보면, 섬에서 본드가 포커로 얻는 쿠페는 고전 DB5다. 포드 몬데오로 움직이다가 디미트리오스의 은색 1960년대 차를 테이블에서 가져온다. 리부트가 유산을 한 판에 올려 두는 제스처다. 주력 DBS는 그 다음, 유럽 임무의 무게와 함께 등장한다.",
-      "몬테네그로로 가는 도로에서 DBS는 가젯 없이 달린다. 글러브박스에 예비 권총과 의료 키트가 있다는 정도는 작품과 공식 소개가 남긴다. Q가 버튼을 설명하는 장면은 거의 없다. 차가 요원을 대신하지 않는다는 선언이, 없는 가젯의 형태로 찍힌다. 리부트의 본드는 운전으로 말하고, 충돌로 대가를 치른다.",
-      "가장 많이 인용되는 컷은 활주로다. 베스퍼가 길에 묶여 있고, 본드는 치기보다 피한다. 차는 캐넌의 도움을 받아 여러 바퀴를 구르고, 차체는 뒤집힌 채 멈춘다. 에어백과 깨진 유리가 리부트의 물성이다. 사출 시트로 탈출하는 골드핑거의 본드와, 여기서 차를 희생하는 본드는 같은 번호의 다른 사람처럼 보인다.",
-      "전복의 리듬은 추격의 승리로 읽히지 않는다. 르 시프르의 유인에 걸려 차를 잃는 장면이다. 밀브룩의 직선 도로가 몬테네그로 공항으로 보이도록 찍혔다는 점이, 지리가 아니라 설계임을 상기시킨다. 관객이 기억하는 것은 회전 수가 아니라, 사람이 차보다 앞에 놓인 선택이다. 그 선택이 이후 고문의 방으로 이어진다.",
-      "퀀텀 오브 솔러스는 엔딩의 몇 분 뒤를 도입부로 붙인다. 본드가 미스터 화이트를 트렁크에 싣고 가르다·시에나 쪽으로 달리며, 알파로메오에 차체를 맞는다. 이미 깨진 유리와 긁힌 도색이 전작의 상처를 시각으로 이어 준다. 서사로는 같은 임무의 연속이다. 소품으로는 더 어두운 새 차체를 쓰는 쪽에 가깝다.",
-      "추격이 끝나면 DBS는 다시 거의 남지 않는다. 본드는 걸어서 다음 공간으로 들어간다. 차가 이야기를 닫아 주지 않는 패턴이 두 편째 반복된다. 스카이폴이 창고에서 DB5를 꺼내는 장면은, 이 패턴을 뒤집는 의식이다. 가젯 없는 쿠페가 먼저 부서져 있어야, 구식 쿠페의 기관총이 더 크게 들린다.",
-      "마이애미 공항의 연료 트럭과 크레인 추격은 이 차의 장면이 아니다. 그 구간 본드의 이동은 다른 차와 발로 처리된다. DBS를 카지노 로얄 전체의 액션 차로 기억하면, 바하마·마이애미·몬테네그로가 한 차고로 뭉개진다. 시퀀스를 나누는 이유는 그 뭉개짐을 피하기 위해서다. 이 쿠페가 하는 일은 유럽의 도로와, 사람을 피하다 구르는 활주로다.",
-      "베스퍼가 조수석에 앉는 짧은 주행도 가젯 없이 찍힌다. 대화는 심사와 구애 사이이고, 차는 그 대화를 실어 나를 뿐이다. 전복 이후에야 차체가 대사보다 커진다. 리부트가 사랑을 먼저 태우고, 그다음 차와 사람을 함께 부수는 순서다. DB5 페이지의 사출 시트와 나란히 두면, 같은 브랜드가 사람을 내보내는 방식이 반대로 보인다.",
-    ],
-    production: [
-      "카지노 로얄의 DBS는 시판 전 차체에 가깝다. 위키와 애스턴 공식 문장은 영화가 생산 개시보다 앞섰고, DB9 계열 시험차에 가까운 프로토타입이 쓰였다고 적는다. 쇼룸의 플래그십을 그대로 빌린 이야기가 아니다. 화면의 선이 먼저 고정되고, 2007년 모델이 그 선을 따라간다. Q 브랜치 신화 대신, 일정과 제품 계획이 겹친 제작이다.",
-      "활주로 전복은 실차 스턴트다. 007.com은 애덤 컬리가 밀브룩에서 일곱 회의 캐넌 롤을 기록했다고 쓰고, 본인은 두세 회면 만족할 생각이었다는 취지로 회고한다. 애스턴 공식 페이지도 세계 기록의 일곱 회전을 반복한다. 낮은 무게중심 때문에 램프와 에어 캐넌이 필요했다는 설명이 기술 측에 남는다. 숫자가 신화가 된 장면이지만, 공식 쪽이 적는 회전 수는 일곱으로 모아진다.",
-      "몇 대가 완전히 파손되었는지는 갈린다. 개봉 전 현장 보도는 하루에 세 대를 뒤집었다는 숫자를 흘린다. 홍보 투어에 남은 차, 전시된 잔해, 프로토타입 차대번호는 매체마다 목록이 다르다. 파손 대수를 범위로만 두고, 한 대 번호를 히어로로 고정하지 않는다. 확인되는 것은 실차가 구르며 부서졌다는 점이다.",
-      "가젯 설계는 의도적으로 얇다. 글러브박스의 권총과 제세동기 키트 정도가 공식 소개에 반복된다. 기관총 커버나 사출 시트는 없다. 특수효과의 일은 버튼을 숨기는 쪽이 아니라, 차체가 실제로 회전하고 멈추게 만드는 쪽이다. Q 브랜치를 이 차에 겹씌우면, 리부트가 지운 문법을 다시 만들어 넣게 된다.",
-      "퀀텀 투입분은 전작 잔해를 고쳐 쓴 한 대로 보기 어렵다. 도색이 더 어둡고, 생산 모델 쪽에 가깝다는 정리가 여러 자료에 있다. 히어로와 스턴트의 정확한 대수는 팬 목록과 현장 가십이 갈린다. 호수에 빠진 차 이야기도 같은 층이다. 남길 것은 차대 명부가 아니라, 두 편이 차의 상처를 서사 장치로 썼다는 점이다.",
-      "스펙 숫자는 시판 페이지가 더 자세하다. 공식 과거 모델항은 5.9리터급 V12, 카본 세라믹 브레이크, 시판 개시 2007년을 적는다. 촬영차가 그 수치를 그대로 가졌는지는 프로토타입 단계라 단정하지 않는다. 필요한 것은 마력표가 아니라, 영화가 플래그십을 버튼 상자가 아니라 차체로 썼다는 점이다. 영국차 쪽으로 이어보면 그 어깨 넓은 선이 1960년대 GT와 어떻게 다른지가 더 잘 보인다.",
-    ],
-    gossip: [
-      {
-        label: "확인됨",
-        text: "카지노 로얄에서 크레이그 본드의 주력 애스턴이 DBS라는 점은 작품과 007.com 시놉시스, 애스턴 공식 모델 서술이 일치한다. 시판보다 영화가 앞선 일정도 공식 페이지가 적는다.",
-      },
-      {
-        label: "제작진 인터뷰",
-        text: "애덤 컬리는 007.com에서 두세 회전이면 충분하다고 생각했는데 차가 더 돌았다고 회고한다. 실차 캐넌 롤이라는 점은 메이킹과 공식 클립 소개가 반복한다.",
-      },
-      {
-        label: "팬 설",
-        text: "전복을 완벽한 세 바퀴로 기억하는 숫자 신화가 있다. 공식 쪽이 적는 기록은 일곱 회의 캐넌 롤이다. 화면의 인상과 스턴트 리포트를 섞지 않는 편이 안전하다.",
-      },
-      {
-        label: "미확인",
-        text: "밀브룩에서 완전히 파손된 대수—세 대라는 현장 보도, 더 적거나 더 많다는 회고—는 공개 자료가 닫혀 있지 않다. 범위로만 적는다.",
-      },
-      {
-        label: "확인됨",
-        text: "퀀텀 오브 솔러스 도입부가 카지노 로얄 엔딩의 직후를 이으며 DBS를 다시 쓴다는 점은 작품 연속과 공식 소개가 일치한다. 미스터 화이트를 싣고 달리는 설정이 그 연결이다.",
-      },
-      {
-        label: "제작진 인터뷰",
-        text: "애스턴 공식 문장은 DBS가 카지노 로얄에서 먼저 공개된 뒤 퀀텀 도입부에 다시 올랐다고 적는다. 세계 기록 문장과 함께, 브랜드가 이 차를 리부트 파트너로 회수하는 서술이다.",
-      },
-      {
-        label: "팬 설",
-        text: "본드가 DB5 대신 DBS를 고른 것은 유산을 거절한 캐릭터 선택이라는 읽기가 있다. 제작 맥락은 신형 플래그십 일정과 리부트 톤에 더 가깝다. 극중 본드가 차고에서 두 대를 저울질하는 장면은 없다.",
-      },
-      {
-        label: "미확인",
-        text: "퀀텀의 어두운 차체가 전작 활주로 차를 수선한 것인지, 새 히어로인지는 차대 단위로 공식 목록이 열려 있지 않다. 서사의 같은 차와 소품의 같은 차대를 구분한다.",
-      },
-    ],
-    continuity: [
-      "DBS는 가젯 없는 본드의 차다. 그 선택이 있었기 때문에 스카이폴의 DB5 귀환이 더 크게 들린다. 같은 브랜드 안에서 리부트와 유산이 역할을 나눈다. 바하마의 고전 쿠페는 트로피이고, 몬테네그로의 DBS는 형성이며, 창고의 DB5는 기억이다. 한 줄로 합치면 설계가 보이지 않는다.",
-      "퀀텀이 상처를 시각으로 이어 준 뒤, 크레이그 후반은 2006년 쿠페를 주력에서 내린다. 스펙터의 DB10, 노 타임 투 다이의 다른 세대 애스턴, 그리고 다시 켜진 DB5 가젯. 리부트의 첫 차는 첫 두 편에 머문다. 자매 L2인 DB5 페이지가 그 이후를 맡는다.",
-      "영국차 큐레이션으로 건너가면 대비가 더 분명하다. 1960년대 GT의 얇은 선과, 2000년대 V12 플래그십의 넓은 어깨. 시리즈는 둘 다 본드카라고 부르지만, 하는 일은 반대에 가깝다. 한 대는 버튼을 보여주고, 한 대는 버튼을 지워 사람을 남긴다.",
-      "연속성을 인물로 옮기면, 주디 덴치의 M이 두 차를 가로지른다. 신참에게 DBS를 내준 기관이, 나중에 창고의 DB5를 허용하는 얼굴이기도 하다. 차는 바뀌고 국장은 남았다가, 스카이폴에서 국장이 먼저 사라진다. 리부트 자동차의 수명이 국장의 수명보다 짧다는 점도, 크레이그 시기를 읽을 때 같이 두면 좋다.",
-    ],
-    videos: [
-      {
-        id: "GV_18deeAXk",
-        title: "카지노 로얄 공식 예고편 — 007 채널 First Full Trailer",
-      },
-    ],
-    related: [
-      { href: "/films/casino-royale-2006", label: "카지노 로얄 — 리부트의 차" },
-      { href: "/films/quantum-of-solace", label: "퀀텀 오브 솔러스 — 상처의 도입부" },
-      { href: "/films/skyfall", label: "스카이폴 — DB5가 유산을 가져가는 편" },
-      { href: "/cars/aston-martin-db5", label: "자매 L2 · 애스턴 마틴 DB5" },
-    ],
-    sources: [
-      {
-        label: "007.com — Casino Royale",
-        href: "https://www.007.com/the-films/casino-royale/",
-      },
-      {
-        label: "007.com — Record Breaking Aston Car Flip",
-        href: "https://www.007.com/casino-royale/",
-      },
-      {
-        label: "Aston Martin — DBS & DBS Volante (2007–2012)",
-        href: "https://www.astonmartin.com/en/models/past-models/dbs-dbs-volante",
-      },
-      {
-        label: "Aston Martin — James Bond",
-        href: "https://www.astonmartin.com/en/our-world/news/2018/2/28/james-bond",
-      },
-      {
-        label: "IMDb — Casino Royale (2006)",
-        href: "https://www.imdb.com/title/tt0381061/",
-      },
-      {
-        label: "IMDb — Quantum of Solace (2008)",
-        href: "https://www.imdb.com/title/tt0830515/",
-      },
-      {
-        label: "Wikipedia — Aston Martin DBS (2007)",
-        href: "https://en.wikipedia.org/wiki/Aston_Martin_DBS_(2007)",
-      },
-      {
-        label: "Wikipedia — Aston Martin DBS V12",
-        href: "https://en.wikipedia.org/wiki/Aston_Martin_DBS_V12",
-      },
-      {
-        label: "Empire — Casino Royale Review",
-        href: "https://www.empireonline.com/movies/reviews/casino-royale-review/",
-      },
-      {
-        label: "Roger Ebert — Casino Royale (2007)",
-        href: "https://www.rogerebert.com/reviews/casino-royale-2007",
-      },
-      {
-        label: "씨네21 — 변한 듯 그대로인 제임스 본드",
-        href: "https://cine21.com/news/view/?mag_id=43520",
-      },
-    ],
-    footnotes: [
-      {
-        n: 1,
-        text: "소설 원작의 본드 차량과 2006년 영화의 DBS는 다르다. 영화 선택을 기준으로 서술한다.",
-      },
-      {
-        n: 2,
-        text: "바하마에서 포커로 넘어오는 차는 고전 DB5다. DBS는 몬테네그로 임무 구간의 주력이다. 두 인수를 한 장면으로 합치지 않는다.",
-      },
-      {
-        n: 3,
-        text: "일곱 회 캐넌 롤과 애덤 컬리, 밀브룩 촬영은 007.com 클립 소개와 애스턴 공식 모델 서술이 공통으로 적는다.",
-      },
-      {
-        n: 4,
-        text: "하루에 세 대를 파손했다는 숫자는 개봉 전 현장 보도 층이다. 공식 명단이 닫혀 있지 않아 미확인으로 둔다.",
-      },
-      {
-        n: 5,
-        text: "퀀텀 도색을 퀀텀 실버로 부르는 정리는 옵션·팬 자료에 흔하다. 전작 차체를 수선했는지까지는 단정하지 않는다.",
-      },
-      {
-        n: 6,
-        text: "노 타임 투 다이의 DBS 슈퍼레제라는 2006년 DBS와 다른 세대다. 카지노 로얄·퀀텀의 쿠페만 다룬다.",
-      },
-      {
-        n: 7,
-        text: "공식 예고편 임베드는 007 채널의 Casino Royale First Full Trailer(GV_18deeAXk)다. 팬 클립은 넣지 않는다.",
-      },
-    ],
-  },
-  ...moreCarDetails,
-};
-
 export function getCar(slug: string) {
-  return cars.find((c) => c.slug === slug);
+  return cars.find((car) => car.slug === slug);
 }
 
-export function getCarDetail(slug: string) {
-  return carDetails[slug];
-}
+const photoNote =
+  "이 페이지의 사진은 같은 계열의 시판·전시 차량입니다. 촬영에 쓴 그 차가 아니고, 영화 스틸이 아닙니다.";
+
+export const carDetails: Record<string, CarL2> = {
+  "audi-tt": {
+    slug: "audi-tt",
+    overview: [
+      "IMCDb는 미션 임파서블 2의 아우디를 1999년 TT 로드스터 1.8 T 콰트로, 양산 전 프로토타입(Typ 8N)으로 적고, 캐릭터가 타거나 추격에 쓴 차로 분류합니다.",
+      "같은 항목의 인용은 핸드빌트 프로토타입 네 대와 추가 차체가 촬영에 들어갔다고 전합니다. 아우디 A8은 이 목록에 올리지 않습니다.",
+      photoNote,
+    ],
+    timeline: [
+      { year: "1998–1999", text: "촬영 당시 TT 로드스터는 아직 공개 전 차였다는 설명이 항목 인용에 있습니다." },
+      { year: "2000", text: "미국 개봉 5월 24일." },
+    ],
+    onScreen: ["세비야 쪽 추격에서 로드스터가 보입니다. 어느 샷이 프로토타입이고 어느 샷이 스턴트 차체인지는 나누어 읽습니다."],
+    production: ["IMCDb가 전하는 아우디월드 인용은 네 대의 프로토타입과 네 개의 추가 차체, 현장 기술 지원을 적습니다."],
+    gossip: [
+      { label: "확인됨", text: "기종과 역할(캐릭터/추격)은 IMCDb 항목입니다." },
+      { label: "미확인", text: "A8을 이 편의 주인공 차로 적는 말은 여기서 채택하지 않습니다." },
+    ],
+    continuity: ["2편의 이륜 추격은 트라이엄프 두 대입니다. TT와 바이크를 한 대로 합치지 않습니다."],
+    videos: [{ id: "hSPtsCQq52k", title: "미션 임파서블 2 공식 예고편" }],
+    related: [
+      { href: "/films/mission-impossible-2", label: "미션 임파서블 2" },
+      { href: "/cars/triumph-speed-triple", label: "스피드 트리플" },
+    ],
+    sources: [imcdb("v001836", "1999 Audi TT Roadster pre-production")],
+    footnotes: [
+      { n: 1, text: "Typ 8N 프로토타입과 캐릭터/추격 분류는 IMCDb v001836입니다." },
+      { n: 2, text: "네 대의 프로토타입 문장은 그 항목이 인용한 아우디월드 글입니다. 사진을 촬영 차량으로 읽지 않습니다." },
+      { n: 3, text: "추가 차체와 기술 지원도 같은 인용입니다." },
+    ],
+  },
+  "triumph-speed-triple": {
+    slug: "triumph-speed-triple",
+    overview: [
+      "IMCDb는 헌트 쪽 바이크를 2000년 트라이엄프 스피드 트리플 955i로 적고, 캐릭터 또는 추격에 쓰였다고 분류합니다.",
+      "바이크 전문 글은 검은 휠과 레터링이 2000년 955i보다 앞선 스피드 트리플에 가깝다고 봅니다. 기종은 스피드 트리플로 두고, 연식은 그 차이를 같이 적습니다. 두카티가 아닙니다.",
+      "사진의 2011년 스피드 트리플 1050은 같은 이름 계열의 이후 모델입니다.",
+    ],
+    timeline: [
+      { year: "2000", text: "결말의 오토바이 추격. IMCDb 항목 제목은 955i입니다." },
+    ],
+    onScreen: ["헌트가 타고, 앰브로스는 데이토나 955i입니다. 두 대를 한 기종으로 적지 않습니다."],
+    production: ["오프로드 타이어가 흙길 샷에 쓰였다는 설명이 바이크 글에 있습니다. 타이어 규격은 적지 않습니다."],
+    gossip: [
+      { label: "확인됨", text: "IMCDb 분류는 2000년 스피드 트리플 955i, 캐릭터/추격입니다." },
+      { label: "팬 설", text: "휠과 스크립트로 1999년 이전 스피드 트리플을 가리키는 글이 있습니다. 어느 쪽을 촬영 원본으로 단정하지 않습니다." },
+    ],
+    continuity: ["데드 레코닝의 CRF 250, G 310 GS와 이 바이크는 다른 편입니다."],
+    videos: [{ id: "hSPtsCQq52k", title: "미션 임파서블 2 공식 예고편" }],
+    related: [
+      { href: "/films/mission-impossible-2", label: "미션 임파서블 2" },
+      { href: "/cars/triumph-daytona", label: "데이토나 955i" },
+      { href: "/directors/john-woo", label: "존 우" },
+    ],
+    sources: [imcdb("v006407", "2000 Triumph Speed Triple 955i")],
+    footnotes: [
+      { n: 1, text: "955i와 역할 분류는 IMCDb v006407입니다." },
+      { n: 2, text: "연식 이견은 바이크 식별 글의 층입니다. 두카티로 바꾸지 않습니다." },
+      { n: 3, text: "사진 설명에 2011년 1050임을 적습니다." },
+    ],
+  },
+  "triumph-daytona": {
+    slug: "triumph-daytona",
+    overview: [
+      "IMCDb는 앰브로스 쪽을 트라이엄프 데이토나 955i로 적고, 캐릭터 또는 추격에 쓰였다고 분류합니다. 항목 댓글은 연식을 1999년으로 맞추자고 적습니다.",
+      "사진은 1999년형 데이토나 955i입니다. 촬영에 쓴 그 바이크는 아닙니다.",
+    ],
+    timeline: [{ year: "2000", text: "2편 결말 추격. 헌트의 스피드 트리플과 짝입니다." }],
+    onScreen: ["풀 페어링입니다. 네이키드인 스피드 트리플과 실루엣이 다릅니다."],
+    production: ["오프로드 타이어가 보인다는 댓글이 IMCDb에 있습니다. 스턴트 대수를 세지는 않습니다."],
+    gossip: [{ label: "확인됨", text: "기종과 역할은 IMCDb입니다. 1999년 연식은 그 항목의 수정 요청입니다." }],
+    continuity: ["스피드 트리플 페이지와 같이 읽습니다."],
+    videos: [{ id: "hSPtsCQq52k", title: "미션 임파서블 2 공식 예고편" }],
+    related: [
+      { href: "/films/mission-impossible-2", label: "미션 임파서블 2" },
+      { href: "/cars/triumph-speed-triple", label: "스피드 트리플" },
+      { href: "/villains/sean-ambrose", label: "숀 앰브로스" },
+    ],
+    sources: [imcdb("v006408", "Triumph Daytona 955i")],
+    footnotes: [
+      { n: 1, text: "데이토나 955i와 캐릭터/추격 분류는 IMCDb v006408입니다." },
+      { n: 2, text: "1999년 연식 요청은 같은 항목의 댓글입니다." },
+      { n: 3, text: "오프로드 타이어 언급도 같은 항목의 댓글입니다. 규격은 적지 않습니다." },
+    ],
+  },
+  "lamborghini-gallardo": {
+    slug: "lamborghini-gallardo",
+    overview: [
+      "IMCDb는 미션 임파서블 3에 2006년 람보르기니 가야르도를 캐릭터 차량으로 적습니다. 타임코드는 약 00:44:16입니다.",
+      "파괴 샷에 쓰인 껍질은 엔진이 없었다는 말이 같은 항목 댓글에 있습니다. 그걸 시판 가야르도의 제원으로 옮기지 않습니다.",
+      photoNote,
+    ],
+    timeline: [{ year: "2006", text: "3편 미국 개봉 5월 5일. 항목이 적는 가야르도도 2006년형입니다." }],
+    onScreen: ["바티칸 앞뒤의 이동에 슈퍼카가 보입니다. 토끼의 발 설정과 이 차를 연결하지 않습니다."],
+    production: ["댓글은 젠 레이 역의 매기 큐가 촬영 중 접촉 사고를 말했다고 전합니다. 인터뷰 원문 없이 확인됨으로 올리지 않습니다."],
+    gossip: [
+      { label: "확인됨", text: "2006년 가야르도, 캐릭터 차량, 약 00:44:16은 IMCDb입니다." },
+      { label: "미확인", text: "엔진 없는 파괴용 껍질과 접촉 사고는 항목 댓글입니다." },
+    ],
+    continuity: ["이 편의 가면 제작은 가젯 칸에 있습니다. 가야르도에 가젯 목록을 만들지 않습니다."],
+    videos: [{ id: "4oVva0muTE8", title: "미션 임파서블 3 공식 예고편" }],
+    related: [
+      { href: "/films/mission-impossible-3", label: "미션 임파서블 3" },
+      { href: "/directors/jj-abrams", label: "J. J. 에이브럼스" },
+    ],
+    sources: [imcdb("v032093", "2006 Lamborghini Gallardo")],
+    footnotes: [
+      { n: 1, text: "연식, 역할, 타임코드는 IMCDb v032093입니다." },
+      { n: 2, text: "엔진 없는 껍질은 댓글이므로 개요에서 분리합니다." },
+      { n: 3, text: "매기 큐 일화는 확인된 인터뷰로 인용하지 않습니다." },
+    ],
+  },
+  "bmw-vision-efficientdynamics": {
+    slug: "bmw-vision-efficientdynamics",
+    overview: [
+      "BMW 미국 프리미어 보도자료는 비전 이피션트다이내믹스(이후 i8의 콘셉트)와 6시리즈 컨버터블을 헌트가 타고, 주요 액션에 나온다고 적습니다. 파트너십 발표도 그 콘셉트를 헌트의 차로 지목합니다.",
+      "IMCDb는 이 차를 캐릭터/추격으로 분류합니다. 고스트 프로토콜의 M5 E60이나 M3는 확인하지 못해 넣지 않습니다.",
+      "사진은 양산 i8의 측면입니다. 2009년 콘셉트 차체가 아닙니다. 공용에서 콘셉트 전면 사진을 확인하지 못했습니다.",
+    ],
+    timeline: [
+      { year: "2009", text: "비전 이피션트다이내믹스가 콘셉트로 공개됩니다. 영화 개봉은 그 다음입니다." },
+      { year: "2011", text: "고스트 프로토콜. BMW가 자동차 파트너입니다." },
+    ],
+    onScreen: ["BMW 벨트 프리미어 글은 뭄바이 교통을 콘셉트 카가 통과한다고 적습니다. 모래 폭풍의 모든 샷을 이 차로 단정하지 않습니다."],
+    production: ["레드카펫에 선 i8 콘셉트와, 영화에 들어간 비전 이피션트다이내믹스를 보도자료가 구분합니다. 양산 i8은 2014년 전후입니다."],
+    gossip: [
+      { label: "확인됨", text: "헌트가 탄다는 문장은 BMW 보도자료 두 건입니다." },
+      { label: "미확인", text: "M5 E60, M3, 주인공급 3시리즈는 이 편 허브에 없습니다." },
+    ],
+    continuity: ["로그네이션의 M3는 5세대 F80입니다. 이 콘셉트의 후속 양산 i8과 그 M3를 한 차로 부르지 않습니다."],
+    videos: [{ id: "m31C9DofmSo", title: "고스트 프로토콜 공식 예고편" }],
+    related: [
+      { href: "/films/ghost-protocol", label: "고스트 프로토콜" },
+      { href: "/cars/bmw-6-series", label: "6시리즈 컨버터블" },
+    ],
+    sources: [
+      BMW_GHOST_PREMIERE,
+      BMW_GHOST_PARTNER,
+      imcdb("v411854", "BMW Vision EfficientDynamics"),
+    ],
+    footnotes: [
+      { n: 1, text: "헌트와 주요 액션은 2011년 12월 19일 미국 프리미어 보도자료입니다. 파트너 발표는 콘셉트 카를 따로 적습니다." },
+      { n: 2, text: "IMCDb v411854가 캐릭터/추격으로 분류합니다. 사진은 양산 i8입니다." },
+      { n: 3, text: "양산 i8의 판매 시점은 보도자료가 2014년으로 적는 범위 안에서만 말합니다." },
+    ],
+  },
+  "bmw-6-series": {
+    slug: "bmw-6-series",
+    overview: [
+      "같은 미국 프리미어 보도자료가 비전 이피션트다이내믹스와 함께 BMW 6시리즈 컨버터블을 헌트의 추격차로 적습니다.",
+      "IMCDb는 2011년 6시리즈 컨버터블 F12를 캐릭터/추격으로 분류합니다.",
+      "사진은 중국에서 찍은 F12 컨버터블입니다. 촬영 차량이 아닙니다.",
+    ],
+    timeline: [{ year: "2011", text: "F12 컨버터블이 판매 중이던 해에 영화가 개봉합니다." }],
+    onScreen: ["오픈카입니다. 콘셉트 쿠페와 실루엣을 섞지 않습니다."],
+    production: ["BMW는 이 편과 로그네이션, 폴아웃의 자동차 파트너였다고 이후 보도자료가 회고합니다. 6시리즈에 가젯 버튼을 만들지 않습니다."],
+    gossip: [{ label: "확인됨", text: "보도자료의 차명과 IMCDb의 F12 분류가 맞습니다." }],
+    continuity: ["배경으로만 잡힌 E90 3시리즈와 E39 5시리즈는 허브에 올리지 않습니다."],
+    videos: [{ id: "m31C9DofmSo", title: "고스트 프로토콜 공식 예고편" }],
+    related: [
+      { href: "/films/ghost-protocol", label: "고스트 프로토콜" },
+      { href: "/cars/bmw-vision-efficientdynamics", label: "비전 이피션트다이내믹스" },
+    ],
+    sources: [BMW_GHOST_PREMIERE, BMW_FALLOUT, imcdb("v411852", "2011 BMW 6 Series Convertible F12")],
+    footnotes: [
+      { n: 1, text: "6시리즈 컨버터블을 헌트의 차로 적은 글은 BMW 미국 프리미어 보도자료입니다." },
+      { n: 2, text: "F12와 역할은 IMCDb v411852입니다." },
+      { n: 3, text: "2011년부터의 파트너십 회고는 폴아웃 BMW 보도자료입니다." },
+    ],
+  },
+  "bmw-m3-f80": {
+    slug: "bmw-m3-f80",
+    overview: [
+      "2015년 3월 BMW 보도자료는 로그네이션의 전 세계 자동차 파트너가 BMW이고, 예고편의 정밀 주행에 신형 M3가 쓰인다고 적습니다. 그 문장은 이 차를 5세대 M3라고 부릅니다. 2014–2018년 5세대 세단의 코드는 F80입니다. E92가 아닙니다.",
+      "IMCDb도 이 촬영 차를 M3 F80으로 적습니다.",
+      "사진은 Alexandre Prévot가 찍은 F80입니다. 브뤼셀 모터쇼의 이후 세대 M3 사진과는 다릅니다.",
+    ],
+    timeline: [
+      { year: "2014", text: "5세대 M3(F80) 판매." },
+      { year: "2015", text: "3월 24일 파트너십 보도. 미국 개봉은 7월 31일." },
+    ],
+    onScreen: ["추격의 세단으로 제시됩니다. 보도자료가 가젯 버튼 목록을 주지 않으므로 만들지 않습니다."],
+    production: ["같은 글은 BMW ConnectedDrive를 팀이 사용했다고 적습니다. 기능과 화면 샷을 1:1로 맞추지는 않습니다. 고스트 프로토콜에 이은 두 번째 협업이라고도 합니다."],
+    gossip: [
+      { label: "확인됨", text: "5세대 M3라는 말은 BMW 보도자료에 있습니다." },
+      { label: "미확인", text: "E92로 적는 말은 세대가 다릅니다." },
+    ],
+    continuity: ["폴아웃의 신형 세단은 M5 F90입니다. 이 M3를 그 편으로 넘기지 않습니다."],
+    videos: [{ id: "gOW_azQbOjw", title: "로그네이션 공식 예고편" }],
+    related: [
+      { href: "/films/rogue-nation", label: "로그네이션" },
+      { href: "/cars/bmw-s1000rr", label: "S 1000 RR" },
+    ],
+    sources: [BMW_ROGUE, imcdb("v798794", "BMW M3 F80")],
+    footnotes: [
+      { n: 1, text: "5세대 M3와 예고편 주행은 2015년 3월 24일 BMW 보도자료입니다." },
+      { n: 2, text: "F80 표기는 IMCDb v798794와, 그 세대의 차체 코드입니다." },
+      { n: 3, text: "ConnectedDrive 문장은 같은 보도자료입니다." },
+    ],
+  },
+  "bmw-s1000rr": {
+    slug: "bmw-s1000rr",
+    overview: [
+      "같은 로그네이션 보도자료는 예고편에 BMW 모토라드 S 1000 RR이 나온다고 적습니다.",
+      "IMCDb는 이 바이크를 캐릭터 또는 추격으로 분류합니다. 모로코 촬영이 작품에 있지만, 보도자료가 이 바이크의 촬영 도시를 적지는 않습니다.",
+      "사진은 뮌헨 BMW 박물관의 S 1000 RR입니다. 촬영 바이크가 아닙니다.",
+    ],
+    timeline: [{ year: "2015", text: "M3와 같은 날의 파트너십 발표에 바이크가 함께 있습니다." }],
+    onScreen: ["슈퍼스포츠 실루엣입니다. 2편의 트라이엄프와 다른 편입니다."],
+    production: ["BMW 모토라드가 자동차 파트너십 안에 포함됩니다. 대수를 보도자료가 적지 않습니다."],
+    gossip: [{ label: "확인됨", text: "기종명은 BMW 보도자료와 IMCDb가 같습니다." }],
+    continuity: ["폴아웃의 이륜은 R nineT 스크램블러입니다."],
+    videos: [{ id: "gOW_azQbOjw", title: "로그네이션 공식 예고편" }],
+    related: [
+      { href: "/films/rogue-nation", label: "로그네이션" },
+      { href: "/cars/bmw-m3-f80", label: "M3 F80" },
+    ],
+    sources: [BMW_ROGUE, imcdb("v798792", "BMW S 1000 RR")],
+    footnotes: [
+      { n: 1, text: "예고편의 S 1000 RR은 2015년 BMW·BMW 모토라드 보도자료입니다." },
+      { n: 2, text: "역할 분류는 IMCDb v798792입니다. 촬영 도시는 보도자료에 없습니다." },
+      { n: 3, text: "촬영 대수는 그 보도자료에 없습니다." },
+    ],
+  },
+  "bmw-m5-f90": {
+    slug: "bmw-m5-f90",
+    overview: [
+      "BMW 보도자료는 폴아웃의 신형 M5를 헌트와 함께 나오는 추격 차로 적습니다. 제원은 4.4리터 V8 비트보, 441kW/600마력, M xDrive입니다. 이 세대가 F90입니다.",
+      "IMCDb의 2018년 M5 F90 항목은 짧은 등장으로 분류하고, 댓글은 람슈타인 쪽의 원격 조종 차를 말합니다. 파리의 구형 세단 추격과 이 항목을 한 장면으로 합치지 않습니다.",
+      "E34는 이 편에 없습니다. 사진은 2018년 M5의 시판 차입니다.",
+    ],
+    timeline: [
+      { year: "2017", text: "F90 M5 공개. 영화 개봉은 2018년입니다." },
+      { year: "2018", text: "7월 27일 전후 개봉. BMW 벨트 전시에 싱가포르 그레이 M5가 놓입니다." },
+    ],
+    onScreen: ["신형 세단의 추격과, 1986년 E28의 파리 추격은 다른 차입니다."],
+    production: ["보도자료는 M 퍼포먼스 파츠로 검은 키드니와 카본 미러 캡을 적습니다. 원격 조종은 IMCDb 댓글의 층이므로 보도자료의 제원과 섞지 않습니다."],
+    gossip: [
+      { label: "확인됨", text: "출력과 M xDrive, 헌트와의 연결은 BMW 파트너십 보도자료입니다." },
+      { label: "확인됨", text: "IMCDb v001180568의 역할 태그는 짧은 등장입니다." },
+    ],
+    continuity: ["로그네이션 M3 F80의 후속이 이 차라는 식으로 이어 붙이지 않습니다."],
+    videos: [{ id: "wb49-oV0F78", title: "폴아웃 공식 예고편" }],
+    related: [
+      { href: "/films/fallout", label: "폴아웃" },
+      { href: "/cars/bmw-5-series-e28", label: "1986년 5시리즈" },
+      { href: "/cars/bmw-r-ninet", label: "R nineT 스크램블러" },
+    ],
+    sources: [BMW_FALLOUT, BMW_WELT_FALLOUT, imcdb("v001180568", "2018 BMW M5 F90")],
+    footnotes: [
+      { n: 1, text: "441kW/600마력과 M xDrive는 BMW 폴아웃 파트너십 보도자료입니다." },
+      { n: 2, text: "짧은 등장 태그는 IMCDb v001180568입니다. 파리 추격은 E28 페이지에서 다룹니다." },
+      { n: 3, text: "싱가포르 그레이 전시 차는 BMW 벨트 글입니다." },
+    ],
+  },
+  "bmw-r-ninet": {
+    slug: "bmw-r-ninet",
+    overview: [
+      "BMW 파트너십 보도자료는 R nineT 스크램블러가 파리의 빠른 추격에 나온다고 적습니다. BMW 벨트 글은 헌트가 개선문 주변을 역주행한다고 적습니다.",
+      "IMCDb 작품 목록에도 2017년 R nineT 스크램블러가 있습니다.",
+      "사진은 일반 R nineT입니다. 스크램블러 사양과 펜더, 배기가 다를 수 있습니다. 촬영 바이크가 아닙니다.",
+    ],
+    timeline: [{ year: "2018", text: "폴아웃. 벨트 전시에 영화에 쓴 스크램블러가 놓였다고 그 글이 적습니다." }],
+    onScreen: ["파리 도심의 이륜 추격입니다. HALO 점프와 다른 시퀀스입니다."],
+    production: ["전시 설명은 촬영에 쓴 스크램블러와, 같은 해 계열의 E28 전시 차를 구분합니다."],
+    gossip: [{ label: "확인됨", text: "개선문 역주행은 BMW 벨트 보도자료의 문장입니다." }],
+    continuity: ["로그네이션의 S 1000 RR과 기종이 다릅니다."],
+    videos: [{ id: "wb49-oV0F78", title: "폴아웃 공식 예고편" }],
+    related: [
+      { href: "/films/fallout", label: "폴아웃" },
+      { href: "/cars/bmw-m5-f90", label: "M5 F90" },
+      { href: "/locations", label: "파리" },
+    ],
+    sources: [BMW_FALLOUT, BMW_WELT_FALLOUT, imcdb("m4912910", "Fallout vehicle list")],
+    footnotes: [
+      { n: 1, text: "파리 추격은 파트너십 보도자료, 개선문 역주행은 BMW 벨트 글입니다." },
+      { n: 2, text: "2017년 스크램블러 표기는 IMCDb 작품 목록 m4912910입니다." },
+      { n: 3, text: "사진이 스크램블러가 아님을 캡션에 적습니다." },
+    ],
+  },
+  "bmw-5-series-e28": {
+    slug: "bmw-5-series-e28",
+    overview: [
+      "파트너십 보도자료는 1986년 BMW 5시리즈 세단이 격한 장면에 크게 나온다고 적습니다. 차체 코드나 M5라는 단어는 그 문장에 없습니다.",
+      "BMW 벨트 글은 1986년 M5 E28이 파리를 달리고, 시속 90마일을 넘기며 드리프트하고 계단을 뛰어넘는다고 적습니다. 전시 설명은 같은 1986년 계열의 M5 E28을 브론즈 베이지로 보여 준다고 합니다.",
+      "IMCDb 작품 목록의 표기는 1986년 BMW 528i [E28]입니다. E34가 아닙니다. 이 페이지는 세 문장을 한 등급으로 합치지 않습니다.",
+      "사진은 미네르바 블루의 M5 E28입니다. 영화의 528i일 수도, M5일 수도 있는 그 차와 색이 같다고 말하지 않습니다.",
+    ],
+    timeline: [
+      { year: "1986", text: "E28 5시리즈의 해. M5 E28도 이 세대입니다." },
+      { year: "2018", text: "폴아웃의 파리 추격에 구형 세단이 나옵니다." },
+    ],
+    onScreen: ["파리의 구형 세단 추격입니다. 신형 M5 F90의 장면과 분리합니다."],
+    production: ["벨트 글의 드리프트·점프 문장은 M5 E28이라고 부른 그 차에 붙어 있습니다. 528i 표기와 동시에 읽습니다."],
+    gossip: [
+      { label: "확인됨", text: "‘1986 BMW 5 Series Sedan’은 파트너십 보도자료입니다." },
+      { label: "확인됨", text: "‘BMW M5 E28 from 1986’과 파리 추격은 BMW 벨트 글입니다." },
+      { label: "확인됨", text: "IMCDb 목록은 1986 BMW 528i [E28]입니다." },
+    ],
+    continuity: ["고스트 프로토콜의 배경 E39와 이 차를 한 5시리즈 역사로 잇지 않습니다."],
+    videos: [{ id: "wb49-oV0F78", title: "폴아웃 공식 예고편" }],
+    related: [
+      { href: "/films/fallout", label: "폴아웃" },
+      { href: "/cars/bmw-m5-f90", label: "M5 F90" },
+    ],
+    sources: [BMW_FALLOUT, BMW_WELT_FALLOUT, imcdb("m4912910", "Fallout vehicle list")],
+    footnotes: [
+      { n: 1, text: "세단이라는 단어는 파트너십 보도자료, M5 E28과 파리의 속도 문장은 BMW 벨트 글, 528i는 IMCDb m4912910입니다." },
+      { n: 2, text: "E34로 적지 않는 이유는 인용한 세 자료가 모두 E28 또는 1986년 5시리즈이기 때문입니다." },
+      { n: 3, text: "사진의 색은 미네르바 블루이고, 전시 차 설명의 브론즈 베이지와 다릅니다." },
+    ],
+  },
+  "fiat-500": {
+    slug: "fiat-500",
+    overview: [
+      "IMCDb는 데드 레코닝의 소형차를 ‘Fiat 500 Custom Made for Movie’로 적고, 캐릭터 또는 추격에 쓰였다고 분류합니다. 로마 도심 추격의 그 차입니다.",
+      "항목과 설명은 시판 500의 껍질에 가까운 촬영용 차라고 전합니다. 출력과 전동 여부를 이 아카이브가 측정하지 않습니다.",
+      "사진은 2007년형 시판 500입니다. 추격용 차체가 아닙니다. 배경으로만 나온 2016년 500 라운지는 허브에 넣지 않습니다.",
+    ],
+    timeline: [{ year: "2023", text: "데드 레코닝. 로마, 베네치아, 열차가 장소 축입니다." }],
+    onScreen: ["좁은 골목의 소형차 추격입니다. 절벽의 CRF 250과 다른 시퀀스입니다."],
+    production: ["커스텀이라는 표기를 시판 피아트 500의 제원표로 바꾸지 않습니다."],
+    gossip: [
+      { label: "확인됨", text: "촬영용 커스텀 500, 캐릭터/추격은 IMCDb v001654323입니다." },
+      { label: "미확인", text: "전동 파워트레인 같은 세부는 이차 보도에 맡겨 두고 여기 숫자로 적지 않습니다." },
+    ],
+    continuity: ["1996년 편과 파이널 레코닝에는 이렇게 확인된 주인공 차가 없습니다."],
+    videos: [{ id: "avz06PDqDbM", title: "데드 레코닝 공식 예고편" }],
+    related: [
+      { href: "/films/dead-reckoning", label: "데드 레코닝" },
+      { href: "/cars/honda-crf250", label: "CRF 250" },
+      { href: "/cars/bmw-g310gs", label: "G 310 GS" },
+    ],
+    sources: [imcdb("v001654323", "Fiat 500 custom-made for the movie")],
+    footnotes: [
+      { n: 1, text: "커스텀 표기와 역할은 IMCDb v001654323입니다." },
+      { n: 2, text: "시판 500 사진을 촬영 차로 읽지 않습니다." },
+      { n: 3, text: "커스텀 표기를 시판 제원으로 바꾸지 않습니다." },
+    ],
+  },
+  "bmw-g310gs": {
+    slug: "bmw-g310gs",
+    overview: [
+      "IMCDb는 데드 레코닝에 2020년 BMW G 310 GS를 캐릭터 또는 추격 바이크로 적습니다.",
+      "경찰 소속인지, 팀이 탄 바이크인지는 그 항목이 문장으로 닫지 않습니다. 소속을 만들지 않습니다.",
+      "사진은 2023년에 찍은 G 310 GS입니다. 촬영 바이크가 아닙니다.",
+    ],
+    timeline: [{ year: "2023", text: "데드 레코닝. CRF 250과는 다른 기종입니다." }],
+    onScreen: ["어드벤처 실루엣입니다. 절벽 점프의 오프로드 바이크와 구분합니다."],
+    production: ["BMW가 이 편의 전 세계 자동차 파트너라고 적은 보도자료를 여기서 인용하지 않습니다. 기종 식별은 IMCDb입니다."],
+    gossip: [{ label: "확인됨", text: "2020년 G 310 GS와 역할 태그는 IMCDb v001811749입니다." }],
+    continuity: ["폴아웃까지의 BMW 파트너십 문장을 이 바이크의 계약으로 연장하지 않습니다."],
+    videos: [{ id: "avz06PDqDbM", title: "데드 레코닝 공식 예고편" }],
+    related: [
+      { href: "/films/dead-reckoning", label: "데드 레코닝" },
+      { href: "/cars/fiat-500", label: "피아트 500" },
+      { href: "/cars/honda-crf250", label: "CRF 250" },
+    ],
+    sources: [imcdb("v001811749", "2020 BMW G 310 GS")],
+    footnotes: [
+      { n: 1, text: "기종과 역할은 IMCDb v001811749입니다. 소속 기관은 적지 않습니다." },
+      { n: 2, text: "사진은 2023년에 찍은 시판 G 310 GS입니다." },
+      { n: 3, text: "이 바이크를 폴아웃까지의 BMW 파트너십 계약으로 적지 않습니다." },
+    ],
+  },
+  "honda-crf250": {
+    slug: "honda-crf250",
+    overview: [
+      "IMCDb는 데드 레코닝의 절벽 바이크를 혼다 CRF 250으로 적습니다. CRF250L인지, 모토크로스 CRF250R인지는 그 표기가 닫지 않습니다.",
+      "위키백과 제작 단락은 열차와 오토바이 점프를 노르웨이에서 찍었다고 적고, 기종명은 적지 않습니다. 기종은 IMCDb, 장소의 큰 줄기는 위키백과로 나눕니다.",
+      "사진은 CRF250L 듀얼스포츠입니다. 촬영 바이크가 아닐 수 있습니다. 피터슨 박물관의 촬영 소품 사진은 쓰지 않습니다.",
+    ],
+    timeline: [
+      { year: "2020", text: "노르웨이 촬영. 영국 스턴트 장치에 불이 났고 부상은 없었다고 위키백과는 적습니다. 그 불과 이 기종을 한 사고로 합치지 않습니다." },
+      { year: "2023", text: "데드 레코닝 개봉." },
+    ],
+    onScreen: ["열차에서 벗어나는 점프입니다. 로마의 피아트 500과 다른 나라의 장면입니다."],
+    production: ["점프 거리의 미터 숫자는 위키백과 제작 단락이 주지 않으면 만들지 않습니다."],
+    gossip: [
+      { label: "확인됨", text: "CRF 250 표기는 IMCDb v001830913입니다." },
+      { label: "미확인", text: "L형인지 R형인지는 비워 둡니다." },
+    ],
+    continuity: ["2편의 트라이엄프 추격과 이 점프를 한 오토바이 역사로 쓰지 않습니다."],
+    videos: [{ id: "avz06PDqDbM", title: "데드 레코닝 공식 예고편" }],
+    related: [
+      { href: "/films/dead-reckoning", label: "데드 레코닝" },
+      { href: "/records", label: "스턴트 기록" },
+      { href: "/trips/norway", label: "노르웨이" },
+    ],
+    sources: [
+      imcdb("v001830913", "Honda CRF 250"),
+      {
+        label: "Wikipedia — Dead Reckoning Part One",
+        href: "https://en.wikipedia.org/wiki/Mission:_Impossible_%E2%80%93_Dead_Reckoning_Part_One",
+      },
+    ],
+    footnotes: [
+      { n: 1, text: "CRF 250은 IMCDb v001830913입니다. 노르웨이 촬영은 위키백과 제작 단락이고, 그 단락은 기종명이 없습니다." },
+      { n: 2, text: "사진이 CRF250L임을 캡션에 적습니다." },
+      { n: 3, text: "점프 거리의 숫자는 그 제작 단락에 없습니다." },
+    ],
+  },
+};

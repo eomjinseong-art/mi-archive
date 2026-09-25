@@ -2,7 +2,7 @@ import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { SITE_NAME, SITE_SUB, SITE_TAGLINE } from "@/lib/site";
+import { SITE_NAME, SITE_SUB, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const sans = Noto_Sans_KR({
@@ -18,11 +18,26 @@ const serif = Noto_Serif_KR({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: `「${SITE_NAME}」`,
     template: `%s · ${SITE_NAME}`,
   },
   description: `${SITE_TAGLINE}. ${SITE_SUB}`,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `「${SITE_NAME}」`,
+    description: `${SITE_TAGLINE}. ${SITE_SUB}`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `「${SITE_NAME}」`,
+    description: `${SITE_TAGLINE}. ${SITE_SUB}`,
+  },
+  alternates: { canonical: SITE_URL },
 };
 
 export default function RootLayout({

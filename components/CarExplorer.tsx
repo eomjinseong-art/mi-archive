@@ -6,19 +6,18 @@ import { CreditedMedia } from "@/components/CreditedMedia";
 import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { PosterCard } from "@/components/PosterCard";
 import { cars, type CarEra } from "@/data/cars";
-import { films, displayFilmTitle, getFilm } from "@/data/films";
+import { displayFilmTitle, films, getFilm } from "@/data/films";
 import {
   atmospherePlaceholder,
   carImages,
   otherVehicleImage,
 } from "@/data/licensedImages";
 import { allOtherVehicles } from "@/data/otherVehicles";
-import { unofficialFilms } from "@/data/unofficialFilms";
 import { otherVehicleLookQuery } from "@/lib/googleImages";
 
 const hubTabs = [
-  { id: "bond", label: "본드카" },
-  { id: "other", label: "본드카 외 차량" },
+  { id: "main", label: "주요 차량" },
+  { id: "other", label: "그 밖의 차량" },
 ] as const;
 
 const sortTabs = [
@@ -32,17 +31,13 @@ type SortId = (typeof sortTabs)[number]["id"];
 
 function filmLabel(slug: string) {
   const official = getFilm(slug);
-  if (official) return displayFilmTitle(official);
-  const unofficial = unofficialFilms.find((film) => film.slug === slug);
-  if (unofficial) return `${displayFilmTitle(unofficial)} · 비공식`;
-  return slug;
+  return official ? displayFilmTitle(official) : slug;
 }
 
 function filmHref(slug: string) {
   const official = getFilm(slug);
   if (official) return official.hasDetail ? `/films/${official.slug}` : "/films";
-  const unofficial = unofficialFilms.find((film) => film.slug === slug);
-  return unofficial ? `/films/${unofficial.slug}` : "/films";
+  return "/films";
 }
 
 function CarGrid({ items }: { items: typeof cars }) {
@@ -64,7 +59,7 @@ function CarGrid({ items }: { items: typeof cars }) {
 }
 
 export function CarExplorer() {
-  const [hub, setHub] = useState<HubId>("bond");
+  const [hub, setHub] = useState<HubId>("main");
   const [sort, setSort] = useState<SortId>("icon");
 
   const byBrand = useMemo(() => {
@@ -78,17 +73,9 @@ export function CarExplorer() {
   }, []);
 
   const byEra = useMemo(() => {
-    const order: CarEra[] = [
-      "1960s",
-      "1970s",
-      "1980s",
-      "1990s",
-      "2000s",
-      "2010s",
-      "2020s",
-    ];
+    const order: CarEra[] = ["1980s", "1990s", "2000s", "2010s", "2020s"];
     return order
-      .map((era) => [era, cars.filter((c) => c.era === era)] as const)
+      .map((era) => [era, cars.filter((car) => car.era === era)] as const)
       .filter(([, list]) => list.length > 0);
   }, []);
 
@@ -99,9 +86,8 @@ export function CarExplorer() {
       list.push(vehicle);
       map.set(vehicle.filmSlug, list);
     }
-    const officialOrder = films.map((film) => film.slug);
-    const unofficialOrder = unofficialFilms.map((film) => film.slug);
-    return [...officialOrder, ...unofficialOrder]
+    return films
+      .map((film) => film.slug)
       .filter((slug) => map.has(slug))
       .map((slug) => [slug, map.get(slug) ?? []] as const);
   }, []);
@@ -109,35 +95,35 @@ export function CarExplorer() {
   return (
     <div>
       <div className="flex gap-2 overflow-x-auto pb-4">
-        {hubTabs.map((t) => (
+        {hubTabs.map((tab) => (
           <button
-            key={t.id}
+            key={tab.id}
             type="button"
-            onClick={() => setHub(t.id)}
+            onClick={() => setHub(tab.id)}
             className={`rounded-full px-4 py-1.5 text-sm whitespace-nowrap ${
-              hub === t.id ? "bg-gold text-bg" : "border border-line text-muted"
+              hub === tab.id ? "bg-gold text-bg" : "border border-line text-muted"
             }`}
           >
-            {t.label}
+            {tab.label}
           </button>
         ))}
       </div>
 
-      {hub === "bond" ? (
+      {hub === "main" ? (
         <>
           <div className="flex gap-2 overflow-x-auto pb-4">
-            {sortTabs.map((t) => (
+            {sortTabs.map((tab) => (
               <button
-                key={t.id}
+                key={tab.id}
                 type="button"
-                onClick={() => setSort(t.id)}
+                onClick={() => setSort(tab.id)}
                 className={`rounded-full px-4 py-1.5 text-sm whitespace-nowrap ${
-                  sort === t.id
+                  sort === tab.id
                     ? "border border-gold bg-gold/10 text-gold"
                     : "border border-line text-muted"
                 }`}
               >
-                {t.label}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -169,57 +155,57 @@ export function CarExplorer() {
       ) : (
         <div className="space-y-10">
           <p className="text-sm leading-6 text-muted">
-            본드카 외 차량을 작품 순으로 모았습니다.
+            상세 페이지로 올리지 않은 차량을 작품 순으로 모았습니다. 배경으로만
+            스친 차는 빼 두었습니다.
           </p>
-          {othersByFilm.map(([slug, list]) => (
-            <section key={slug}>
-              <div className="mb-4 flex items-end justify-between gap-3">
-                <h2 className="font-serif text-xl text-gold">{filmLabel(slug)}</h2>
-                <Link href={filmHref(slug)} className="text-xs text-muted hover:text-gold">
-                  영화 페이지
-                </Link>
-              </div>
-              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {list.map((vehicle) => {
-                  const licensed = otherVehicleImage(vehicle);
-                  const image = licensed ?? atmospherePlaceholder;
-                  const official = getFilm(slug);
-                  const unofficial = unofficialFilms.find((film) => film.slug === slug);
-                  return (
-                    <li
-                      key={`${slug}-${vehicle.nameEn}`}
-                      className="rounded-lg border border-line bg-card p-3"
-                    >
-                      <CreditedMedia
-                        image={image}
-                        tone="linear-gradient(165deg,#1a1a14 0%,#0B0D10 50%,#C6A75E22 100%)"
-                        alt={
-                          licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`
-                        }
-                        aspectClass="aspect-video"
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                      />
-                      <p className="mt-2 font-serif text-sm text-paper">
-                        {vehicle.nameKo} ({vehicle.nameEn})
-                      </p>
-                      <p className="mt-2 text-xs leading-5 text-muted">{vehicle.note}</p>
-                      {!licensed ? (
-                        <ImageSearchLink
-                          query={otherVehicleLookQuery({
-                            nameKo: vehicle.nameKo,
-                            nameEn: vehicle.nameEn,
-                            filmTitleKo: official?.titleKo ?? unofficial?.titleKo,
-                            filmTitleEn: official?.titleEn ?? unofficial?.titleEn,
-                          })}
-                          label="구글에서 이미지 보기"
+          {othersByFilm.map(([slug, list]) => {
+            const official = getFilm(slug);
+            return (
+              <section key={slug}>
+                <div className="mb-4 flex items-end justify-between gap-3">
+                  <h2 className="font-serif text-xl text-gold">{filmLabel(slug)}</h2>
+                  <Link href={filmHref(slug)} className="text-xs text-muted hover:text-gold">
+                    영화 페이지
+                  </Link>
+                </div>
+                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {list.map((vehicle) => {
+                    const licensed = otherVehicleImage(vehicle);
+                    const image = licensed ?? atmospherePlaceholder;
+                    return (
+                      <li
+                        key={`${slug}-${vehicle.nameEn}`}
+                        className="rounded-lg border border-line bg-card p-3"
+                      >
+                        <CreditedMedia
+                          image={image}
+                          tone="linear-gradient(165deg,#1a1a14 0%,#0B0D10 50%,#C6A75E22 100%)"
+                          alt={licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`}
+                          aspectClass="aspect-video"
+                          sizes="(max-width: 640px) 100vw, 50vw"
                         />
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
+                        <p className="mt-2 font-serif text-sm text-paper">
+                          {vehicle.nameKo} ({vehicle.nameEn})
+                        </p>
+                        <p className="mt-2 text-xs leading-5 text-muted">{vehicle.note}</p>
+                        {!licensed ? (
+                          <ImageSearchLink
+                            query={otherVehicleLookQuery({
+                              nameKo: vehicle.nameKo,
+                              nameEn: vehicle.nameEn,
+                              filmTitleKo: official?.titleKo,
+                              filmTitleEn: official?.titleEn,
+                            })}
+                            label="구글에서 이미지 보기"
+                          />
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            );
+          })}
         </div>
       )}
     </div>

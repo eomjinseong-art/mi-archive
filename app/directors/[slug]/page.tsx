@@ -48,17 +48,9 @@ export default async function DirectorDetailPage({
       <h1 className="mt-4 font-serif text-3xl text-paper sm:text-4xl">
         {director.nameKo} ({director.nameEn})
       </h1>
-      <NationalityLine
-        ko={director.nationalityKo}
-        en={director.nationalityEn}
-        footnote={
-          slug === "marc-forster" || slug === "roger-spottiswoode"
-            ? 3
-            : undefined
-        }
-      />
+      <NationalityLine ko={director.nationalityKo} en={director.nationalityEn} />
       <p className="mt-1 text-xs text-muted">
-        {director.years} · 공식 {director.filmCount}편
+        {director.years} · 극장판 {director.filmCount}편
       </p>
       <p className="mt-4 text-base leading-relaxed text-paper">
         {director.oneLiner}

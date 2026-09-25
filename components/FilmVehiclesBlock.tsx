@@ -18,17 +18,15 @@ import { otherVehicleLookQuery } from "@/lib/googleImages";
 export function FilmVehiclesBlock({
   cars,
   extras,
-  showSisterCta = true,
   filmTitleKo,
   filmTitleEn,
 }: {
   cars?: CarL1;
   extras: OtherVehicle[];
-  showSisterCta?: boolean;
   filmTitleKo?: string;
   filmTitleEn?: string;
 }) {
-  const bondCars =
+  const featured =
     cars?.carSlugs
       .map((slug) => {
         const car = getCar(slug);
@@ -38,9 +36,9 @@ export function FilmVehiclesBlock({
       .filter((row): row is { car: NonNullable<ReturnType<typeof getCar>>; slug: string } =>
         Boolean(row),
       ) ?? [];
-  const bondSlugs = new Set(bondCars.map((row) => row.slug));
+  const featuredSlugs = new Set(featured.map((row) => row.slug));
   const extraRows = extras.filter(
-    (vehicle) => !vehicle.carSlug || !bondSlugs.has(vehicle.carSlug),
+    (vehicle) => !vehicle.carSlug || !featuredSlugs.has(vehicle.carSlug),
   );
 
   if (!cars && extraRows.length === 0) return null;
@@ -49,23 +47,23 @@ export function FilmVehiclesBlock({
     <section className="mt-8">
       <h2 className="font-serif text-xl text-gold">이 영화의 차량</h2>
       <p className="mt-2 text-xs text-muted">
-        본드카와 그 밖의 차입니다.
+        문서가 있는 추격 차량과, 그 밖의 차입니다. 사진은 같은 모델의 공용 사진입니다.
       </p>
 
       {cars ? (
         <div className="mt-4 rounded-lg border border-line bg-card p-4">
-          <p className="text-[11px] uppercase tracking-wide text-gold">본드카</p>
+          <p className="text-[11px] uppercase tracking-wide text-gold">주요 차량</p>
           <h3 className="mt-1 font-serif text-lg text-paper">{cars.title}</h3>
           <p className="mt-3 text-sm leading-7 text-paper">
             {cars.body}
-            <Fn n={2} />
+            {cars.footnoteN ? <Fn n={cars.footnoteN} /> : null}
           </p>
         </div>
       ) : null}
 
-      {bondCars.length > 0 ? (
+      {featured.length > 0 ? (
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {bondCars.map(({ car, slug }) => (
+          {featured.map(({ car, slug }) => (
             <article key={slug} className="rounded-lg border border-line p-3">
               <CreditedMedia
                 image={portraitOrAtmosphere(carImages[slug])}
@@ -95,7 +93,7 @@ export function FilmVehiclesBlock({
 
       {extraRows.length > 0 ? (
         <div className="mt-6">
-          <h3 className="font-serif text-lg text-gold">본드카 외 차량</h3>
+          <h3 className="font-serif text-lg text-gold">그 밖의 차량</h3>
           <ul className="mt-3 space-y-3">
             {extraRows.map((vehicle) => {
               const linked = vehicle.carSlug ? getCar(vehicle.carSlug) : undefined;
@@ -113,22 +111,16 @@ export function FilmVehiclesBlock({
                         linked?.posterTone ??
                         "linear-gradient(165deg,#1a1a14 0%,#0B0D10 50%,#C6A75E22 100%)"
                       }
-                      alt={
-                        licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`
-                      }
+                      alt={licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`}
                       aspectClass="aspect-video"
                       sizes="(max-width: 640px) 100vw, 11rem"
-                      href={
-                        linked?.hasL2 ? `/cars/${vehicle.carSlug}` : undefined
-                      }
+                      href={linked?.hasL2 ? `/cars/${vehicle.carSlug}` : undefined}
                     />
                     <div>
                       <p className="text-sm text-paper">
                         {vehicle.nameKo} ({vehicle.nameEn})
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-muted">
-                        {vehicle.note}
-                      </p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{vehicle.note}</p>
                       <p className="mt-2 text-xs text-gold">{vehicle.popularity}</p>
                       {!licensed ? (
                         <ImageSearchLink
@@ -182,7 +174,7 @@ export function FilmVehiclesBlock({
         </div>
       ) : null}
 
-      {showSisterCta && cars ? (
+      {cars ? (
         <div className="mt-5">
           <SisterCta label={cars.ctaLabel} path={cars.ctaPath} />
         </div>

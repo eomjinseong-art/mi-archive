@@ -20,7 +20,7 @@ export function SearchBox() {
         id={id}
         type="search"
         value={q}
-        placeholder="영화 · 원작 · 본드걸 · 명소 · 이슈"
+        placeholder="영화 · 차량 · 요원 · 악당 · 가젯"
         onChange={(e) => {
           setQ(e.target.value);
           setOpen(true);
