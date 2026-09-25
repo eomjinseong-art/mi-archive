@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { googleMapsSearchUrl } from "@/lib/googleImages";
 import type { Landmark } from "@/data/landmarks";
-import type { BondHotel } from "@/data/hotels";
+import type { Trip } from "@/data/trips";
 import type { Source } from "@/data/types";
 
 function SourceLinks({ sources }: { sources: Source[] }) {
@@ -55,29 +55,26 @@ export function LandmarkList({ items }: { items: Landmark[] }) {
   );
 }
 
-export function HotelList({ items }: { items: BondHotel[] }) {
+export function TripList({ items }: { items: Trip[] }) {
   if (items.length === 0) return null;
   return (
     <ul className="mt-3 space-y-3">
-      {items.map((hotel) => (
-        <li key={hotel.slug} className="rounded-lg border border-line p-4">
+      {items.map((trip) => (
+        <li key={trip.slug} className="rounded-lg border border-line p-4">
           <p className="font-serif text-paper">
-            {hotel.nameKo} ({hotel.nameEn})
+            {trip.nameKo} ({trip.nameEn})
           </p>
-          {hotel.screenNameKo ? (
-            <p className="mt-1 text-xs text-muted">화면 이름 · {hotel.screenNameKo}</p>
-          ) : null}
           <p className="mt-1 text-xs text-gold">
-            {hotel.city} · {hotel.country}
+            {trip.city} · {trip.country}
           </p>
-          <p className="mt-2 text-sm leading-6 text-muted">{hotel.sceneNote}</p>
-          <p className="mt-2 text-sm leading-6 text-paper">{hotel.fameNote}</p>
+          <p className="mt-2 text-sm leading-6 text-muted">{trip.sceneNote}</p>
+          <p className="mt-2 text-sm leading-6 text-paper">{trip.fameNote}</p>
           <div className="mt-2 flex flex-wrap gap-3">
-            <Link href={`/hotels#${hotel.slug}`} className="text-xs text-gold hover:underline">
-              호텔 허브
+            <Link href={`/trips#${trip.slug}`} className="text-xs text-gold hover:underline">
+              여행 코스
             </Link>
             <a
-              href={googleMapsSearchUrl(hotel.mapsQuery)}
+              href={googleMapsSearchUrl(trip.mapsQuery)}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-gold hover:underline"
@@ -85,7 +82,7 @@ export function HotelList({ items }: { items: BondHotel[] }) {
               지도에서 찾기
             </a>
           </div>
-          <SourceLinks sources={hotel.sources} />
+          <SourceLinks sources={trip.sources} />
         </li>
       ))}
     </ul>

@@ -11,8 +11,7 @@ export default function IssuesPage() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="font-serif text-3xl text-paper">이슈</h1>
       <p className="mt-2 text-sm leading-7 text-muted">
-        배우 교체, 본드걸 다시 읽기, 가젯과 현실, 크레이그 이후, 공식 25와 비공식
-        2.
+        텔레비전 펠프스와 영화의 배신, 크루즈의 스턴트, 맥쿼리 연속성, 가면, 명목 흥행.
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4">
         {issues.map((issue) => (

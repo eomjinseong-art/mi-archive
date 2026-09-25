@@ -1,90 +1,66 @@
-import { bondGirls } from "@/data/bondGirls";
-import { bonds } from "@/data/bonds";
-import { cars } from "@/data/cars";
+import { agents } from "@/data/agents";
 import { directors } from "@/data/directors";
-import { fleming } from "@/data/fleming";
-import { films } from "@/data/films";
-import { displayFilmTitle } from "@/data/films";
-import { hotels } from "@/data/hotels";
+import { displayFilmTitle, films } from "@/data/films";
+import { gadgets } from "@/data/gadgets";
 import { issues } from "@/data/issues";
 import { landmarks } from "@/data/landmarks";
-import { unofficialFilms } from "@/data/unofficialFilms";
+import { origin } from "@/data/origin";
+import { trips } from "@/data/trips";
 import type { SearchHit } from "@/data/types";
+import { villains } from "@/data/villains";
+import { women } from "@/data/women";
 
 export function buildSearchIndex(): SearchHit[] {
   const filmHits: SearchHit[] = films.map((film) => ({
     kind: "영화",
-    href: film.hasDetail ? `/films/${film.slug}` : "/films",
-    title: displayFilmTitle(film),
-    hint: `${film.year} · ${film.actorKo}`,
-    keywords: film.akaKo ?? "",
-  }));
-
-  const carHits: SearchHit[] = cars.map((car) => ({
-    kind: "차량",
-    href: car.hasL2 ? `/cars/${car.slug}` : "/cars",
-    title: `${car.nameKo} (${car.nameEn})`,
-    hint: `${car.brandKo} · ${car.filmTitleKo}`,
-  }));
-
-  const bondHits: SearchHit[] = bonds.map((bond) => ({
-    kind: "인물",
-    href: bond.hasDetail ? `/bonds/${bond.slug}` : "/bonds",
-    title: `${bond.nameKo} (${bond.nameEn})`,
-    hint: `본드 · ${bond.years}`,
-  }));
-
-  const girlHits: SearchHit[] = bondGirls.map((girl) => ({
-    kind: "인물",
-    href: girl.hasDetail ? `/bond-girls/${girl.slug}` : "/bond-girls",
-    title: `${girl.nameKo} (${girl.nameEn})`,
-    hint: `${girl.filmTitleKo} · ${girl.actressKo}`,
-    keywords: [
-      girl.actressEn,
-      girl.actressKo,
-      girl.nameEn,
-      girl.nameKo,
-      "본드걸",
-      girl.roleKind ?? "",
-      girl.slug === "severine"
-        ? "말로히 말로에 마를로 Séverine Severine Marlohe 이차"
-        : "",
-    ].join(" "),
-  }));
-
-  const unofficialHits: SearchHit[] = unofficialFilms.map((film) => ({
-    kind: "영화",
     href: `/films/${film.slug}`,
     title: displayFilmTitle(film),
-    hint: `${film.year} · 비공식 · ${film.actorKo}`,
-    keywords: `${film.statusKo} ${film.akaKo ?? ""} Never Say Never Casino Royale 1967`,
+    hint: `${film.year} · ${film.directorKo}`,
+    keywords: `${film.titleEn} ${film.actorKo} ${film.actorEn}`,
   }));
 
-  const flemingHit: SearchHit = {
-    kind: "원작",
-    href: "/ian-fleming",
-    title: `${fleming.nameKo} (${fleming.nameEn})`,
-    hint: `원작 · ${fleming.years}`,
-    keywords: `이안 플레밍 Ian Fleming 소설 카지노 로얄 골든아이 ${fleming.oneLiner}`,
-  };
+  const gadgetHits: SearchHit[] = gadgets.map((item) => ({
+    kind: "가젯",
+    href: item.hasL2 ? `/gadgets/${item.slug}` : "/gadgets",
+    title: `${item.nameKo} (${item.nameEn})`,
+    hint: `${item.brandKo} · ${item.filmTitleKo}`,
+    keywords: item.badges.join(" "),
+  }));
 
-  const directorHits: SearchHit[] = directors.map((director) => {
-    const filmTitles = director.filmSlugs
-      .map((slug) => films.find((film) => film.slug === slug))
-      .filter((film): film is (typeof films)[number] => Boolean(film))
-      .map((film) => `${film.titleKo} ${film.titleEn}`)
-      .join(" ");
-    return {
-      kind: "감독" as const,
-      href: `/directors/${director.slug}`,
-      title: `${director.nameKo} (${director.nameEn})`,
-      hint: `${director.years} · ${director.filmCount}편`,
-      keywords: `${director.oneLiner} ${filmTitles}`,
-    };
-  });
+  const agentHits: SearchHit[] = agents.map((person) => ({
+    kind: "인물",
+    href: `/agents/${person.slug}`,
+    title: `${person.nameKo} (${person.nameEn})`,
+    hint: `${person.affiliation} · ${person.performerKo}`,
+    keywords: `${person.performerEn} 요원 IMF`,
+  }));
+
+  const womanHits: SearchHit[] = women.map((person) => ({
+    kind: "인물",
+    href: `/women/${person.slug}`,
+    title: `${person.nameKo} (${person.nameEn})`,
+    hint: `${person.roleKind} · ${person.performerKo}`,
+    keywords: `${person.performerEn} 여성`,
+  }));
+
+  const villainHits: SearchHit[] = villains.map((person) => ({
+    kind: "악당",
+    href: `/villains/${person.slug}`,
+    title: `${person.nameKo} (${person.nameEn})`,
+    hint: `${person.roleKind} · ${person.performerKo}`,
+    keywords: `${person.performerEn} 악당 엔티티`,
+  }));
+
+  const directorHits: SearchHit[] = directors.map((director) => ({
+    kind: "감독",
+    href: `/directors/${director.slug}`,
+    title: `${director.nameKo} (${director.nameEn})`,
+    hint: `${director.years} · ${director.filmCount}편`,
+    keywords: director.oneLiner,
+  }));
 
   const issueHits: SearchHit[] = issues.map((issue) => ({
-    kind: "이슈" as const,
+    kind: "이슈",
     href: `/issues/${issue.slug}`,
     title: issue.title,
     hint: issue.teaser,
@@ -92,78 +68,66 @@ export function buildSearchIndex(): SearchHit[] {
   }));
 
   const landmarkHits: SearchHit[] = landmarks.map((place) => ({
-    kind: "명소" as const,
+    kind: "명소",
     href: `/films/${place.filmSlug}`,
     title: `${place.placeKo} (${place.placeEn})`,
     hint: `${place.city} · ${place.country}`,
-    keywords: `${place.mapsQuery} ${place.filmSlug} ${place.whyPopular}`,
+    keywords: place.mapsQuery,
   }));
 
-  const hotelHits: SearchHit[] = hotels.map((hotel) => ({
-    kind: "호텔" as const,
-    href: `/hotels#${hotel.slug}`,
-    title: `${hotel.nameKo} (${hotel.nameEn})`,
-    hint: `${hotel.city} · ${hotel.country}`,
-    keywords: hotel.mapsQuery,
+  const tripHits: SearchHit[] = trips.map((trip) => ({
+    kind: "여행",
+    href: `/trips#${trip.slug}`,
+    title: `${trip.nameKo} (${trip.nameEn})`,
+    hint: `${trip.city} · ${trip.country}`,
+    keywords: trip.mapsQuery,
   }));
-
-  const criticHit: SearchHit = {
-    kind: "평론",
-    href: "/critics/lee-dong-jin",
-    title: "이동진",
-    hint: "국내 평론 · 007",
-    keywords: "Lee Dong-jin 왓챠 씨네21 스카이폴",
-  };
-
-  const mapHit: SearchHit = {
-    kind: "명소",
-    href: "/map",
-    title: "007 세계 지도",
-    hint: "촬영지 핀",
-    keywords: "지도 map OSM 랜드마크 호텔",
-  };
-
-  const recordsHit: SearchHit = {
-    kind: "기록",
-    href: "/records",
-    title: "기록 · 흥행과 관객",
-    hint: "세계 박스오피스 · KOBIS",
-    keywords:
-      "기록 records box office Skyfall 스카이폴 관객 KOBIS 흥행 명목 물가",
-  };
-
-  const craigHit: SearchHit = {
-    kind: "인물",
-    href: "/craig",
-    title: "크레이그 허브",
-    hint: "대니얼 크레이그 · 다섯 편",
-    keywords: "Daniel Craig 크레이그 리부트 카지노 로얄 스카이폴",
-  };
-
-  const videosHit: SearchHit = {
-    kind: "영상",
-    href: "/videos",
-    title: "공식 영상 · @007",
-    hint: "YouTube 공식 채널",
-    keywords: "유튜브 YouTube 007 예고편 비하인드 Shorts 재생목록",
-  };
 
   return [
     ...filmHits,
-    ...unofficialHits,
-    flemingHit,
-    ...carHits,
-    ...bondHits,
-    ...girlHits,
+    ...gadgetHits,
+    ...agentHits,
+    ...womanHits,
+    ...villainHits,
     ...directorHits,
     ...issueHits,
     ...landmarkHits,
-    ...hotelHits,
-    criticHit,
-    mapHit,
-    recordsHit,
-    craigHit,
-    videosHit,
+    ...tripHits,
+    {
+      kind: "원작",
+      href: "/origin",
+      title: `${origin.nameKo} (${origin.nameEn})`,
+      hint: `1966 · 텔레비전`,
+      keywords: "브루스 겔러 Bruce Geller 짐 펠프스 랄로 시프린",
+    },
+    {
+      kind: "기록",
+      href: "/records",
+      title: "스턴트 기록",
+      hint: "부르즈 할리파 · A400M · HALO",
+      keywords: "흥행 박스오피스 복엽기 오토바이",
+    },
+    {
+      kind: "인물",
+      href: "/mcquarrie-era",
+      title: "맥쿼리 시대",
+      hint: "5편–8편",
+      keywords: "Christopher McQuarrie 로그네이션 폴아웃 엔티티",
+    },
+    {
+      kind: "영상",
+      href: "/videos",
+      title: "공식 영상",
+      hint: "YouTube @MissionImpossible",
+      keywords: "예고편 파라마운트",
+    },
+    {
+      kind: "명소",
+      href: "/map",
+      title: "촬영지 지도",
+      hint: "랜드마크 핀",
+      keywords: "지도 map",
+    },
   ];
 }
 
@@ -172,8 +136,7 @@ export function searchArchive(query: string, index = buildSearchIndex()): Search
   if (q.length < 1) return [];
   return index
     .filter((item) => {
-      const blob =
-        `${item.title} ${item.hint} ${item.kind} ${item.keywords ?? ""}`.toLowerCase();
+      const blob = `${item.title} ${item.hint} ${item.kind} ${item.keywords ?? ""}`.toLowerCase();
       return blob.includes(q);
     })
     .slice(0, 12);
