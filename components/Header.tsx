@@ -21,8 +21,13 @@ export function Header() {
             className="inline-block h-7 w-7 rounded-full border border-gold bg-[radial-gradient(circle_at_30%_30%,#C6A75E,transparent_55%),radial-gradient(circle_at_70%_70%,#8a7340,transparent_50%)]"
             aria-hidden
           />
-          <span className="font-serif text-base tracking-wide text-gold sm:text-lg">
-            {SITE_NAME}
+          <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+            <span className="font-serif text-base tracking-wide text-gold sm:text-lg">
+              {SITE_NAME}
+            </span>
+            <span className="rounded-full border border-gold/40 px-1.5 py-0.5 text-[10px] leading-none tracking-wide text-gold">
+              비공식 팬사이트
+            </span>
           </span>
         </Link>
 

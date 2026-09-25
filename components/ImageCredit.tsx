@@ -64,12 +64,36 @@ function CreditLinks({
 export function ImageCredit({
   image,
   compact = false,
+  vehicle = false,
 }: {
   image: LicensedImage;
   compact?: boolean;
+  vehicle?: boolean;
 }) {
   const linkClass =
     "underline decoration-line underline-offset-2 hover:text-gold";
+
+  if (!image.isPlaceholder && vehicle) {
+    return (
+      <figcaption
+        className={
+          compact
+            ? "mt-1.5 break-words text-[10px] leading-4 text-muted"
+            : "mt-2 break-words text-xs leading-5 text-muted"
+        }
+      >
+        사진: {image.author}
+        {" / "}
+        <CreditText href={image.licenseUrl || undefined} linkClass={linkClass}>
+          {image.license}
+        </CreditText>
+        {" / 출처: "}
+        <CreditText href={image.sourceUrl || undefined} linkClass={linkClass}>
+          위키미디어 공용
+        </CreditText>
+      </figcaption>
+    );
+  }
 
   if (image.isPlaceholder) {
     return (

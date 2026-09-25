@@ -11,6 +11,9 @@ export const SITE_URL =
  * Live 007 film archive. bond-archive.vercel.app is a different site
  * (photo scanning) and its /cars paths are not car pages.
  */
+export const FAN_DISCLAIMER =
+  "미션 임파서블 아카이브는 영화를 좋아하는 팬이 만든 비공식 팬사이트입니다. 파라마운트 픽처스 및 영화 제작사와 어떤 관계도 없으며, 영화 제목과 상표는 각 권리자의 것입니다. 차량 사진은 위키미디어 공용의 자유 이용 라이선스 사진이며, 각 사진의 출처와 라이선스를 표시합니다.";
+
 export const BOND_ARCHIVE_URL =
   process.env.NEXT_PUBLIC_BOND_ARCHIVE_URL ??
   "https://bond-archive-two.vercel.app";

@@ -4,13 +4,14 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
+import { JsonLd } from "@/components/JsonLd";
 import { SameBrandBlock } from "@/components/SameBrandBlock";
 import { SisterCta } from "@/components/SisterCta";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { carDetails, cars, getCar } from "@/data/cars";
 import { carImages } from "@/data/licensedImages";
-import { carDocumentTitle, pageSeo } from "@/lib/seo";
+import { absoluteUrl, carDocumentTitle, pageSeo } from "@/lib/seo";
 import { MI_CAR_CTA_LABEL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -34,11 +35,24 @@ export async function generateMetadata({
   }
   const bmwNote =
     car.brand === "BMW" ? " 미션 임파서블 BMW 차량 페이지입니다." : "";
-  return pageSeo({
+  const seo = pageSeo({
     path: `/cars/${car.slug}`,
     title: carDocumentTitle(car),
     description: `${car.filmTitleKo}에 나온 ${car.nameKo}. ${car.oneLiner}${bmwNote}`,
   });
+  const image = carImages[car.slug];
+  if (!image) return seo;
+  const photo = {
+    url: absoluteUrl(image.src),
+    width: image.width,
+    height: image.height,
+    alt: image.alt,
+  };
+  return {
+    ...seo,
+    openGraph: { ...seo.openGraph, images: [photo] },
+    twitter: { ...seo.twitter, images: [photo.url] },
+  };
 }
 
 function Prose({
@@ -70,6 +84,8 @@ export default async function CarDetailPage({
   const detail = carDetails[slug];
   if (!car || !detail) notFound();
 
+  const image = carImages[car.slug];
+  if (!image) notFound();
   const siblings = cars.filter(
     (item) => item.brand === car.brand && item.slug !== car.slug,
   );
@@ -82,13 +98,27 @@ export default async function CarDetailPage({
           { name: car.nameKo, path: `/cars/${car.slug}` },
         ]}
       />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Vehicle",
+          name: car.nameKo,
+          alternateName: car.nameEn,
+          description: car.oneLiner,
+          brand: { "@type": "Brand", name: car.brand },
+          image: absoluteUrl(image.src),
+          url: absoluteUrl(`/cars/${car.slug}`),
+        }}
+      />
       <CreditedMedia
-        image={carImages[car.slug]}
+        image={image}
         tone={car.posterTone}
-        alt={carImages[car.slug]?.alt ?? `${car.nameKo} (${car.nameEn})`}
+        alt={image?.alt ?? `${car.nameKo} (${car.nameEn})`}
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
+        vehicleCredit={Boolean(image)}
+        priority
       />
       <div className="mt-4 flex flex-wrap gap-2">
         {car.badges.map((badge) => (
@@ -193,14 +223,30 @@ export default async function CarDetailPage({
         <section className="mt-8">
           <h2 className="font-serif text-xl text-gold">이 아카이브의 같은 브랜드</h2>
           <ul className="mt-3 space-y-2">
-            {siblings.map((item) => (
-              <li key={item.slug}>
-                <Link href={`/cars/${item.slug}`} className="text-sm text-paper hover:text-gold">
-                  {item.nameKo}
-                </Link>
-                <span className="text-sm text-muted"> · {item.filmTitleKo}</span>
-              </li>
-            ))}
+            {siblings.map((item) => {
+              const siblingImage = carImages[item.slug];
+              return (
+                <li key={item.slug}>
+                  {siblingImage ? (
+                    <CreditedMedia
+                      image={siblingImage}
+                      tone={item.posterTone}
+                      alt={siblingImage.alt}
+                      aspectClass="aspect-video"
+                      sizes="(max-width: 768px) 100vw, 720px"
+                      vehicleCredit
+                      href={`/cars/${item.slug}`}
+                    />
+                  ) : null}
+                  <p className="mt-2">
+                    <Link href={`/cars/${item.slug}`} className="text-sm text-paper hover:text-gold">
+                      {item.nameKo}
+                    </Link>
+                    <span className="text-sm text-muted"> · {item.filmTitleKo}</span>
+                  </p>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}

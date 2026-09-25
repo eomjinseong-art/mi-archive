@@ -3,17 +3,11 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
-import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { PosterCard } from "@/components/PosterCard";
 import { cars, type CarEra } from "@/data/cars";
 import { displayFilmTitle, films, getFilm } from "@/data/films";
-import {
-  atmospherePlaceholder,
-  carImages,
-  otherVehicleImage,
-} from "@/data/licensedImages";
+import { carImages, otherVehicleImage } from "@/data/licensedImages";
 import { allOtherVehicles } from "@/data/otherVehicles";
-import { otherVehicleLookQuery } from "@/lib/googleImages";
 
 const hubTabs = [
   { id: "main", label: "주요 차량" },
@@ -43,17 +37,22 @@ function filmHref(slug: string) {
 function CarGrid({ items }: { items: typeof cars }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((car) => (
-        <PosterCard
-          key={car.slug}
-          title={`${car.nameKo} (${car.nameEn})`}
-          meta={`${car.badges.join(" · ")} · ${car.filmTitleKo}`}
-          tone={car.posterTone}
-          image={carImages[car.slug]}
-          aspect="video"
-          href={car.hasL2 ? `/cars/${car.slug}` : undefined}
-        />
-      ))}
+      {items.map((car) => {
+        const image = carImages[car.slug];
+        if (!image) throw new Error(`차량 사진이 없습니다: ${car.slug}`);
+        return (
+          <PosterCard
+            key={car.slug}
+            title={`${car.nameKo} (${car.nameEn})`}
+            meta={`${car.badges.join(" · ")} · ${car.filmTitleKo}`}
+            tone={car.posterTone}
+            image={image}
+            aspect="video"
+            href={car.hasL2 ? `/cars/${car.slug}` : undefined}
+            vehicleCredit
+          />
+        );
+      })}
     </div>
   );
 }
@@ -109,8 +108,7 @@ export function CarExplorer() {
         ))}
       </div>
 
-      {hub === "main" ? (
-        <>
+      <div className={hub === "main" ? undefined : "hidden"}>
           <div className="flex gap-2 overflow-x-auto pb-4">
             {sortTabs.map((tab) => (
               <button
@@ -151,15 +149,13 @@ export function CarExplorer() {
               ))}
             </div>
           )}
-        </>
-      ) : (
-        <div className="space-y-10">
+      </div>
+      <div className={hub === "other" ? "space-y-10" : "hidden"}>
           <p className="text-sm leading-6 text-muted">
             상세 페이지로 올리지 않은 차량을 작품 순으로 모았습니다. 배경으로만
             스친 차는 빼 두었습니다.
           </p>
           {othersByFilm.map(([slug, list]) => {
-            const official = getFilm(slug);
             return (
               <section key={slug}>
                 <div className="mb-4 flex items-end justify-between gap-3">
@@ -170,8 +166,10 @@ export function CarExplorer() {
                 </div>
                 <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {list.map((vehicle) => {
-                    const licensed = otherVehicleImage(vehicle);
-                    const image = licensed ?? atmospherePlaceholder;
+                    const image = otherVehicleImage(vehicle);
+                    if (!image) {
+                      throw new Error(`차량 사진이 없습니다: ${vehicle.nameEn}`);
+                    }
                     return (
                       <li
                         key={`${slug}-${vehicle.nameEn}`}
@@ -180,25 +178,15 @@ export function CarExplorer() {
                         <CreditedMedia
                           image={image}
                           tone="linear-gradient(165deg,#1a1a14 0%,#0B0D10 50%,#C6A75E22 100%)"
-                          alt={licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`}
+                          alt={image.alt}
                           aspectClass="aspect-video"
                           sizes="(max-width: 640px) 100vw, 50vw"
+                          vehicleCredit
                         />
                         <p className="mt-2 font-serif text-sm text-paper">
                           {vehicle.nameKo} ({vehicle.nameEn})
                         </p>
                         <p className="mt-2 text-xs leading-5 text-muted">{vehicle.note}</p>
-                        {!licensed ? (
-                          <ImageSearchLink
-                            query={otherVehicleLookQuery({
-                              nameKo: vehicle.nameKo,
-                              nameEn: vehicle.nameEn,
-                              filmTitleKo: official?.titleKo,
-                              filmTitleEn: official?.titleEn,
-                            })}
-                            label="구글에서 이미지 보기"
-                          />
-                        ) : null}
                       </li>
                     );
                   })}
@@ -206,8 +194,7 @@ export function CarExplorer() {
               </section>
             );
           })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

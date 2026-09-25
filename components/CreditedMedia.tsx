@@ -12,6 +12,8 @@ export function CreditedMedia({
   compactCredit = true,
   overlay,
   href,
+  vehicleCredit = false,
+  priority = false,
 }: {
   image?: LicensedImage;
   tone: string;
@@ -21,6 +23,8 @@ export function CreditedMedia({
   compactCredit?: boolean;
   overlay?: { title: string; meta?: string };
   href?: string;
+  vehicleCredit?: boolean;
+  priority?: boolean;
 }) {
   const showOverlay = Boolean(overlay) && (!image || image.isPlaceholder);
 
@@ -31,14 +35,18 @@ export function CreditedMedia({
         <Image
           src={image.src}
           alt={alt}
-          fill
-          className="object-cover"
+          width={image.width}
+          height={image.height}
+          className="absolute inset-0 h-full w-full object-cover"
           sizes={sizes}
           style={
             image.objectPosition
               ? { objectPosition: image.objectPosition }
               : undefined
           }
+          {...(priority
+            ? { priority: true as const }
+            : { loading: "lazy" as const })}
         />
       ) : null}
       {showOverlay ? (
@@ -66,7 +74,9 @@ export function CreditedMedia({
       ) : (
         frame
       )}
-      {image ? <ImageCredit image={image} compact={compactCredit} /> : null}
+      {image ? (
+        <ImageCredit image={image} compact={compactCredit} vehicle={vehicleCredit} />
+      ) : null}
     </figure>
   );
 }

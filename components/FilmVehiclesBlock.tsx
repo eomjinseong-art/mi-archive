@@ -1,25 +1,16 @@
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
-import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { SisterCta } from "@/components/SisterCta";
 import { Fn } from "@/components/Sources";
 import { getCar } from "@/data/cars";
 import type { CarL1 } from "@/data/filmDetails";
-import {
-  atmospherePlaceholder,
-  carImages,
-  otherVehicleImage,
-  portraitOrAtmosphere,
-} from "@/data/licensedImages";
+import { carImages, otherVehicleImage } from "@/data/licensedImages";
 import type { OtherVehicle } from "@/data/otherVehicles";
-import { otherVehicleLookQuery } from "@/lib/googleImages";
 
 export function FilmVehiclesBlock({
   cars,
   extras,
-  filmTitleKo,
-  filmTitleEn,
 }: {
   cars?: CarL1;
   extras: OtherVehicle[];
@@ -63,15 +54,19 @@ export function FilmVehiclesBlock({
 
       {featured.length > 0 ? (
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {featured.map(({ car, slug }) => (
+          {featured.map(({ car, slug }) => {
+            const image = carImages[slug];
+            if (!image) throw new Error(`차량 사진이 없습니다: ${slug}`);
+            return (
             <article key={slug} className="rounded-lg border border-line p-3">
               <CreditedMedia
-                image={portraitOrAtmosphere(carImages[slug])}
+                image={image}
                 tone={car.posterTone}
-                alt={carImages[slug]?.alt ?? `${car.nameKo} (${car.nameEn})`}
+                alt={image.alt}
                 aspectClass="aspect-video"
                 sizes="(max-width: 640px) 100vw, 50vw"
                 href={car.hasL2 ? `/cars/${slug}` : undefined}
+                vehicleCredit
               />
               <p className="mt-2 text-[11px] text-gold">{car.badges.join(" · ")}</p>
               {car.hasL2 ? (
@@ -87,7 +82,8 @@ export function FilmVehiclesBlock({
                 </p>
               )}
             </article>
-          ))}
+            );
+          })}
         </div>
       ) : null}
 
@@ -97,8 +93,8 @@ export function FilmVehiclesBlock({
           <ul className="mt-3 space-y-3">
             {extraRows.map((vehicle) => {
               const linked = vehicle.carSlug ? getCar(vehicle.carSlug) : undefined;
-              const licensed = otherVehicleImage(vehicle);
-              const image = licensed ?? atmospherePlaceholder;
+              const image = otherVehicleImage(vehicle);
+              if (!image) throw new Error(`차량 사진이 없습니다: ${vehicle.nameEn}`);
               return (
                 <li
                   key={`${vehicle.nameEn}-${vehicle.nameKo}`}
@@ -111,10 +107,11 @@ export function FilmVehiclesBlock({
                         linked?.posterTone ??
                         "linear-gradient(165deg,#1a1a14 0%,#0B0D10 50%,#C6A75E22 100%)"
                       }
-                      alt={licensed?.alt || `${vehicle.nameKo} (${vehicle.nameEn})`}
+                      alt={image.alt}
                       aspectClass="aspect-video"
                       sizes="(max-width: 640px) 100vw, 11rem"
                       href={linked?.hasL2 ? `/cars/${vehicle.carSlug}` : undefined}
+                      vehicleCredit
                     />
                     <div>
                       <p className="text-sm text-paper">
@@ -122,17 +119,6 @@ export function FilmVehiclesBlock({
                       </p>
                       <p className="mt-2 text-sm leading-6 text-muted">{vehicle.note}</p>
                       <p className="mt-2 text-xs text-gold">{vehicle.popularity}</p>
-                      {!licensed ? (
-                        <ImageSearchLink
-                          query={otherVehicleLookQuery({
-                            nameKo: vehicle.nameKo,
-                            nameEn: vehicle.nameEn,
-                            filmTitleKo,
-                            filmTitleEn,
-                          })}
-                          label="구글에서 이미지 보기"
-                        />
-                      ) : null}
                       <div className="mt-2 flex flex-wrap gap-3">
                         {linked?.hasL2 ? (
                           <Link
