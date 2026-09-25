@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { ArchiveNetworkStrip } from "@/components/ArchiveNetworkStrip";
-import { AUTOPIX_LABEL, SITE_NAME, autopixUrl } from "@/lib/site";
+import { AUTOPIX_LABEL, FAN_DISCLAIMER, autopixUrl } from "@/lib/site";
 
 const OFFICIAL_CHANNEL = "https://www.youtube.com/@MissionImpossible";
 
@@ -12,11 +13,7 @@ export function Footer() {
           비공식 팬 아카이브
         </h2>
         <div className="mt-3 max-w-3xl space-y-3">
-          <p>
-            「{SITE_NAME}」는 비공식 팬 아카이브이며, 파라마운트, 스카이댄스,
-            배우와 사진의 권리자를 포함한 저작권·상표권자와 무관합니다. 상업적
-            공식 사이트가 아닙니다.
-          </p>
+          <p>{FAN_DISCLAIMER}</p>
           <p>
             본문은 바깥 자료를 참고한 재서술입니다. 출처는 각 페이지 하단에
             있습니다. 포스터와 영화 스틸은 쓰지 않습니다.
@@ -24,6 +21,12 @@ export function Footer() {
           <p>권리자의 요청이 있으면 해당 내용을 삭제하거나 고칩니다.</p>
         </div>
         <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+          <Link
+            href="/credits"
+            className="underline decoration-line underline-offset-4 hover:text-gold"
+          >
+            사진 출처
+          </Link>
           <a
             href={OFFICIAL_CHANNEL}
             className="underline decoration-line underline-offset-4 hover:text-gold"

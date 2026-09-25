@@ -10,6 +10,7 @@ export function PosterCard({
   image,
   aspect = "poster",
   overlayOnImage = false,
+  vehicleCredit = false,
 }: {
   title: string;
   meta: string;
@@ -18,6 +19,7 @@ export function PosterCard({
   image?: LicensedImage;
   aspect?: "poster" | "video";
   overlayOnImage?: boolean;
+  vehicleCredit?: boolean;
 }) {
   const aspectClass = aspect === "video" ? "aspect-video" : "aspect-[2/3]";
   const useOverlay = !image || overlayOnImage;
@@ -37,6 +39,7 @@ export function PosterCard({
         aspectClass={aspectClass}
         overlay={useOverlay ? { title, meta } : undefined}
         href={href}
+        vehicleCredit={vehicleCredit}
       />
       {image && !overlayOnImage ? (
         <div className="px-3 pb-3 pt-1">

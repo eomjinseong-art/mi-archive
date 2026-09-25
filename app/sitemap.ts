@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/women",
     "/villains",
     "/cars",
+    "/credits",
     "/gadgets",
     "/scenes",
     "/videos",
