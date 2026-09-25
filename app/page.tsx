@@ -2,7 +2,8 @@ import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { PosterCard } from "@/components/PosterCard";
-import { SisterCta } from "@/components/SisterCta";
+import { ArchiveNetworkSection } from "@/components/ArchiveNetworkSection";
+import { AutopixBanner } from "@/components/AutopixBanner";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { agents } from "@/data/agents";
 import { directors } from "@/data/directors";
@@ -31,7 +32,7 @@ import { SERIES_FRAMING, SERIES_FRAMING_NOTE } from "@/data/series";
 import { villains } from "@/data/villains";
 import { women } from "@/data/women";
 import { personLookQuery } from "@/lib/googleImages";
-import { AUTOPIX_LABEL, BOND_ARCHIVE_LABEL, MI_CAR_CTA_LABEL, SITE_NAME, bondArchiveUrl } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
 
 const homeAgents = agents.filter((person) => person.featuredOnHome);
 const homeWomen = women.filter((person) => person.featuredOnHome);
@@ -78,6 +79,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ArchiveNetworkSection />
 
       <section className="border-b border-line bg-card/40">
         <div className="mx-auto grid max-w-6xl grid-cols-3 gap-px bg-line sm:grid-cols-6">
@@ -482,22 +485,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-12 pt-4">
-        <div className="rounded-xl border border-line bg-card p-5 sm:p-8">
-          <p className="text-[11px] uppercase tracking-wide text-gold">{AUTOPIX_LABEL}</p>
-          <h2 className="mt-2 font-serif text-2xl text-paper">영화 속 차량 다음, 자동차 용품</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-            차량 목록과 각 상세 페이지의 버튼은 {AUTOPIX_LABEL}로 갑니다. 촬영 차량을 판매하지 않습니다.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/cars" className="rounded-full border border-line px-4 py-2 text-sm text-paper hover:border-gold">
-              영화 속 차량
-            </Link>
-            <SisterCta label={MI_CAR_CTA_LABEL} />
-            <a href={bondArchiveUrl("home")} className="rounded-full border border-line px-4 py-2 text-sm text-muted hover:text-gold">
-              {BOND_ARCHIVE_LABEL}
-            </a>
-          </div>
-        </div>
+        <AutopixBanner />
       </section>
     </div>
   );

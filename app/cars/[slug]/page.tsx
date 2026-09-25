@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
+import { SameBrandBlock } from "@/components/SameBrandBlock";
 import { SisterCta } from "@/components/SisterCta";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
@@ -162,6 +163,8 @@ export default async function CarDetailPage({
           <SisterCta label={MI_CAR_CTA_LABEL} />
         </div>
       </div>
+
+      <SameBrandBlock brand={car.brand} brandKo={car.brandKo} />
 
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">관련</h2>
