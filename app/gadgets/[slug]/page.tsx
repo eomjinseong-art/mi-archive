@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { gadgetDetails, getGadget } from "@/data/gadgets";
 import { atmospherePlaceholder, gadgetImages } from "@/data/licensedImages";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return Object.keys(gadgetDetails).map((slug) => ({ slug }));
@@ -19,8 +21,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const gadget = getGadget(slug);
-  if (!gadget) return { title: "가젯" };
-  return { title: `${gadget.nameKo} (${gadget.nameEn})` };
+  if (!gadget) {
+    return pageSeo({
+      path: "/gadgets",
+      title: "미션 임파서블 가젯",
+      description: "요청한 가젯 페이지가 없습니다.",
+      index: false,
+    });
+  }
+  return pageSeo({
+    path: `/gadgets/${gadget.slug}`,
+    title: `가젯 ${gadget.nameKo}`,
+    description: `미션 임파서블 가젯 ${gadget.nameKo} (${gadget.nameEn}). ${gadget.filmTitleKo}. ${gadget.oneLiner}`,
+  });
 }
 
 export default async function GadgetPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -32,6 +45,12 @@ export default async function GadgetPage({ params }: { params: Promise<{ slug: s
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      <Breadcrumbs
+        items={[
+          { name: "가젯", path: "/gadgets" },
+          { name: gadget.nameKo, path: `/gadgets/${gadget.slug}` },
+        ]}
+      />
       <CreditedMedia
         image={image}
         tone={gadget.posterTone}

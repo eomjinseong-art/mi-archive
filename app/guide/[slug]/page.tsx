@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { guides } from "@/data/guides";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return guides.map((g) => ({ slug: g.slug }));
@@ -14,8 +16,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const guide = guides.find((g) => g.slug === slug);
-  if (!guide) return { title: "가이드" };
-  return { title: `가이드 · ${guide.titleKo}` };
+  if (!guide) {
+    return pageSeo({
+      path: "/guide",
+      title: "미션 임파서블 보는 순서",
+      description: "요청한 가이드가 없습니다.",
+      index: false,
+    });
+  }
+  return pageSeo({
+    path: `/guide/${guide.slug}`,
+    title: `보는 순서 · ${guide.titleKo}`,
+    description: `미션 임파서블 보는 순서, ${guide.titleKo}. ${guide.summary}`,
+  });
 }
 
 export default async function GuideDetailPage({
@@ -29,9 +42,12 @@ export default async function GuideDetailPage({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
-      <p className="text-xs text-gold">
-        <Link href="/guide">가이드</Link>
-      </p>
+      <Breadcrumbs
+        items={[
+          { name: "가이드", path: "/guide" },
+          { name: guide.titleKo, path: `/guide/${guide.slug}` },
+        ]}
+      />
       <h1 className="mt-2 font-serif text-3xl text-paper">
         {guide.titleKo} ({guide.titleEn})
       </h1>

@@ -1,18 +1,33 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
 import { PosterCard } from "@/components/PosterCard";
 import { ORIGIN_HREF } from "@/data/origin";
-import { displayFilmTitle, filmsByDirector } from "@/data/films";
+import { displayFilmTitle, films, filmsByDirector } from "@/data/films";
 import { atmospherePlaceholder, filmImages } from "@/data/licensedImages";
 import { SERIES_FRAMING, SERIES_FRAMING_NOTE, SERIES_TOTAL } from "@/data/series";
+import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "영화" };
+export const metadata = pageSeo({
+  path: "/films",
+  title: "미션 임파서블 영화 순서",
+  description:
+    "미션 임파서블 영화 순서. 1996년 1편부터 2025년 파이널 레코닝까지 극장판 8편의 감독, 개봉년, 보는 순서를 정리했습니다.",
+});
 
 export default function FilmsPage() {
   const byDirector = filmsByDirector();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "영화", path: "/films" }]} />
+      <JsonLd
+        data={itemListJsonLd(
+          "미션 임파서블 영화 순서",
+          "/films",
+          films.map((film) => ({ name: film.titleKo, path: `/films/${film.slug}` })),
+        )}
+      />
       <h1 className="font-serif text-3xl text-paper">영화</h1>
       <p className="mt-3 max-w-3xl text-sm leading-7 text-paper">{SERIES_FRAMING}</p>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{SERIES_FRAMING_NOTE}</p>
@@ -24,6 +39,10 @@ export default function FilmsPage() {
         {" · "}
         <Link href="/series" className="text-gold hover:underline">
           시리즈 설명
+        </Link>
+        {" · "}
+        <Link href="/cars" className="text-gold hover:underline">
+          미션 임파서블 차
         </Link>
       </p>
 

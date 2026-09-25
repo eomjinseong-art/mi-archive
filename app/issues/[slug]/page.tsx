@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { GossipBoard } from "@/components/GossipBoard";
 import { Sources } from "@/components/Sources";
 import { getIssue, issues } from "@/data/issues";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return issues.map((issue) => ({ slug: issue.slug }));
@@ -16,8 +18,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const issue = getIssue(slug);
-  if (!issue) return { title: "이슈" };
-  return { title: `이슈 · ${issue.title}` };
+  if (!issue) {
+    return pageSeo({
+      path: "/issues",
+      title: "미션 임파서블 이슈",
+      description: "요청한 이슈 글이 없습니다.",
+      index: false,
+    });
+  }
+  return pageSeo({
+    path: `/issues/${issue.slug}`,
+    title: issue.title,
+    description: issue.teaser,
+  });
 }
 
 export default async function IssueDetailPage({
@@ -31,9 +44,12 @@ export default async function IssueDetailPage({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
-      <p className="text-xs text-gold">
-        <Link href="/issues">이슈</Link>
-      </p>
+      <Breadcrumbs
+        items={[
+          { name: "이슈", path: "/issues" },
+          { name: issue.title, path: `/issues/${issue.slug}` },
+        ]}
+      />
       <span className="mt-3 inline-block rounded-full border border-gold/50 px-2 py-0.5 text-[11px] text-gold">
         {issue.status}
       </span>

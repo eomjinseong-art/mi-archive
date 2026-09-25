@@ -1,15 +1,22 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageSeo } from "@/lib/seo";
 import { displayFilmTitle, getFilm } from "@/data/films";
 import { landmarks } from "@/data/landmarks";
 import { trips } from "@/data/trips";
 import { googleMapsSearchUrl } from "@/lib/googleImages";
 
-export const metadata: Metadata = { title: "여행" };
+export const metadata = pageSeo({
+  path: "/trips",
+  title: "미션 임파서블 촬영지 여행",
+  description:
+    "미션 임파서블 촬영지 여행. 화면에 남은 도시를 걷는 짧은 코스입니다. 스턴트 지점에 올라가는 안내는 아닙니다.",
+});
 
 export default function TripsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "여행", path: "/trips" }]} />
       <p className="text-xs text-gold">
         <Link href="/locations">명소</Link>
         {" · "}

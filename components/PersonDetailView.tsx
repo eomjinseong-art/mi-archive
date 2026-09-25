@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArchiveProse } from "@/components/ArchiveProse";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { ImageSearchLink } from "@/components/ImageSearchLink";
@@ -8,19 +9,23 @@ import type { ArchivePerson } from "@/data/agents";
 import { displayFilmTitle, films } from "@/data/films";
 import { personImage, portraitOrAtmosphere } from "@/data/licensedImages";
 import { personLookQuery } from "@/lib/googleImages";
+import type { Crumb } from "@/lib/seo";
 
 export function PersonDetailView({
   person,
   basePath,
   kindLabel,
+  crumbs,
 }: {
   person: ArchivePerson;
   basePath: string;
   kindLabel: string;
+  crumbs?: Crumb[];
 }) {
   const image = personImage(person.slug);
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      {crumbs ? <Breadcrumbs items={crumbs} /> : null}
       <CreditedMedia
         image={portraitOrAtmosphere(image)}
         tone={person.posterTone}

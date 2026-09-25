@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageSeo } from "@/lib/seo";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import {
   OFFICIAL_CHANNEL,
@@ -9,13 +10,16 @@ import {
   videosIntro,
 } from "@/data/officialVideos";
 
-export const metadata: Metadata = {
-  title: "영상",
-};
+export const metadata = pageSeo({
+  path: "/videos",
+  title: "미션 임파서블 공식 영상",
+  description: videosIntro.lede,
+});
 
 export default function VideosPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "영상", path: "/videos" }]} />
       <h1 className="font-serif text-3xl text-paper">{videosIntro.title}</h1>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">
         {videosIntro.lede}

@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
+import { SameBrandBlock } from "@/components/SameBrandBlock";
 import { SisterCta } from "@/components/SisterCta";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
-import { carDetails, getCar } from "@/data/cars";
+import { carDetails, cars, getCar } from "@/data/cars";
 import { carImages } from "@/data/licensedImages";
+import { carDocumentTitle, pageSeo } from "@/lib/seo";
 import { MI_CAR_CTA_LABEL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -21,8 +24,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const car = getCar(slug);
-  if (!car) return { title: "영화 속 차량" };
-  return { title: `${car.nameKo} (${car.nameEn})` };
+  if (!car) {
+    return pageSeo({
+      path: "/cars",
+      title: "미션 임파서블 차",
+      description: "요청한 차량 페이지가 없습니다.",
+      index: false,
+    });
+  }
+  const bmwNote =
+    car.brand === "BMW" ? " 미션 임파서블 BMW 차량 페이지입니다." : "";
+  return pageSeo({
+    path: `/cars/${car.slug}`,
+    title: carDocumentTitle(car),
+    description: `${car.filmTitleKo}에 나온 ${car.nameKo}. ${car.oneLiner}${bmwNote}`,
+  });
 }
 
 function Prose({
@@ -54,8 +70,18 @@ export default async function CarDetailPage({
   const detail = carDetails[slug];
   if (!car || !detail) notFound();
 
+  const siblings = cars.filter(
+    (item) => item.brand === car.brand && item.slug !== car.slug,
+  );
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      <Breadcrumbs
+        items={[
+          { name: "미션 임파서블 차", path: "/cars" },
+          { name: car.nameKo, path: `/cars/${car.slug}` },
+        ]}
+      />
       <CreditedMedia
         image={carImages[car.slug]}
         tone={car.posterTone}
@@ -162,6 +188,24 @@ export default async function CarDetailPage({
           <SisterCta label={MI_CAR_CTA_LABEL} />
         </div>
       </div>
+
+      {siblings.length > 0 ? (
+        <section className="mt-8">
+          <h2 className="font-serif text-xl text-gold">이 아카이브의 같은 브랜드</h2>
+          <ul className="mt-3 space-y-2">
+            {siblings.map((item) => (
+              <li key={item.slug}>
+                <Link href={`/cars/${item.slug}`} className="text-sm text-paper hover:text-gold">
+                  {item.nameKo}
+                </Link>
+                <span className="text-sm text-muted"> · {item.filmTitleKo}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      <SameBrandBlock brand={car.brand} brandKo={car.brandKo} />
 
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">관련</h2>

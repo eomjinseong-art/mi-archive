@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageSeo } from "@/lib/seo";
 import { Sources } from "@/components/Sources";
 import {
   boxOfficeNote,
@@ -10,7 +11,11 @@ import {
   worldBoxOffice,
 } from "@/data/records";
 
-export const metadata: Metadata = { title: "기록" };
+export const metadata = pageSeo({
+  path: "/records",
+  title: "미션 임파서블 스턴트 기록",
+  description: recordsIntro.lede,
+});
 
 const nominalRank = [...worldBoxOffice].sort((a, b) => b.millions - a.millions);
 
@@ -21,6 +26,7 @@ function formatMillions(n: number) {
 export default function RecordsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "스턴트 기록", path: "/records" }]} />
       <h1 className="font-serif text-3xl text-paper">{recordsIntro.title}</h1>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{recordsIntro.lede}</p>
       <ul className="mt-4 max-w-3xl space-y-2 text-xs leading-6 text-muted">

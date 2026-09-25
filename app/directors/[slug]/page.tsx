@@ -9,6 +9,8 @@ import { directorDetails } from "@/data/directorDetails";
 import { directors } from "@/data/directors";
 import { displayFilmTitle, films } from "@/data/films";
 import { portraitOrAtmosphere } from "@/data/licensedImages";
+import { pageSeo } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export function generateStaticParams() {
   return directors.map((d) => ({ slug: d.slug }));
@@ -21,8 +23,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const director = directors.find((d) => d.slug === slug);
-  if (!director) return { title: "감독" };
-  return { title: `${director.nameKo} (${director.nameEn})` };
+  if (!director) {
+    return pageSeo({
+      path: "/directors",
+      title: "미션 임파서블 감독",
+      description: "요청한 감독 페이지가 없습니다.",
+      index: false,
+    });
+  }
+  return pageSeo({
+    path: `/directors/${director.slug}`,
+    title: `감독 ${director.nameKo}`,
+    description: `미션 임파서블 감독 ${director.nameKo} (${director.nameEn}). 극장판 ${director.filmCount}편. ${director.oneLiner}`,
+  });
 }
 
 export default async function DirectorDetailPage({
@@ -37,6 +50,12 @@ export default async function DirectorDetailPage({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      <Breadcrumbs
+        items={[
+          { name: "감독", path: "/directors" },
+          { name: director.nameKo, path: `/directors/${director.slug}` },
+        ]}
+      />
       <CreditedMedia
         image={portraitOrAtmosphere(director.image)}
         tone={director.posterTone}

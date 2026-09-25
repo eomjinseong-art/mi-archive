@@ -1,17 +1,22 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageSeo } from "@/lib/seo";
 import { LandmarkList } from "@/components/PlaceLists";
 import { films, displayFilmTitle, getFilm } from "@/data/films";
 import { landmarksByCountry, landmarksForFilm } from "@/data/landmarks";
 
-export const metadata: Metadata = {
-  title: "명소",
-};
+export const metadata = pageSeo({
+  path: "/locations",
+  title: "미션 임파서블 촬영지",
+  description:
+    "미션 임파서블 촬영지. 프라하, 두바이, 빈, 파리 등 극장판 8편의 랜드마크와 화면 속 장소를 나라별로 모았습니다.",
+});
 
 export default function LocationsPage() {
   const byCountry = landmarksByCountry();
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "명소", path: "/locations" }]} />
       <h1 className="font-serif text-3xl text-paper">영화 속 명소</h1>
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">
         극장판 8편의 촬영지와 화면의 랜드마크입니다.{" "}

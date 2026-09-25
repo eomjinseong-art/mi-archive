@@ -1,16 +1,21 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { quoteGroups } from "@/data/quotes";
 import { getFilm } from "@/data/films";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "명대사",
-};
+export const metadata = pageSeo({
+  path: "/quotes",
+  title: "미션 임파서블 명대사",
+  description:
+    "미션 임파서블 명대사. 1966년 임무 테이프의 ‘수락하신다면’과 극장판에서 바뀐 수신인, 매체를 인용으로 모았습니다.",
+});
 
 export default function QuotesPage() {
   const itemCount = quoteGroups.reduce((n, group) => n + group.items.length, 0);
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "명대사", path: "/quotes" }]} />
       <h1 className="font-serif text-3xl text-paper">명대사</h1>
       <p className="mt-2 text-sm text-muted">
         1966년 시리즈 위키백과가 적은 임무 테이프 문장입니다. 극장판의 수신인과

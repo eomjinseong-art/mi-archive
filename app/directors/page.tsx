@@ -1,16 +1,32 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
 import { PosterCard } from "@/components/PosterCard";
 import { directors } from "@/data/directors";
 import { portraitOrAtmosphere } from "@/data/licensedImages";
+import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "감독",
-};
+export const metadata = pageSeo({
+  path: "/directors",
+  title: "미션 임파서블 감독",
+  description:
+    "미션 임파서블 감독 다섯 사람. 브라이언 드 팔마, 존 우, J. J. 에이브럼스, 브래드 버드, 크리스토퍼 맥쿼리의 극장판을 나누어 둡니다.",
+});
 
 export default function DirectorsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "감독", path: "/directors" }]} />
+      <JsonLd
+        data={itemListJsonLd(
+          "미션 임파서블 감독",
+          "/directors",
+          directors.map((director) => ({
+            name: director.nameKo,
+            path: `/directors/${director.slug}`,
+          })),
+        )}
+      />
       <h1 className="font-serif text-3xl text-paper">감독</h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
         극장판 8편의 감독 다섯 사람. 연출이 두 편 이상인 사람은 맥쿼리뿐입니다.

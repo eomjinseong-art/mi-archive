@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { FilmGadgetsBlock } from "@/components/FilmGadgetsBlock";
 import { FilmVehiclesBlock } from "@/components/FilmVehiclesBlock";
@@ -19,6 +20,7 @@ import { tripsForFilm } from "@/data/trips";
 import { getVillain } from "@/data/villains";
 import { getWoman } from "@/data/women";
 import { secondaryRelated } from "@/lib/relatedLinks";
+import type { Crumb } from "@/lib/seo";
 
 function castHref(person: CastChip) {
   if (!person.slug || !person.kind) return undefined;
@@ -28,7 +30,13 @@ function castHref(person: CastChip) {
   return undefined;
 }
 
-export function FilmDetailView({ detail }: { detail: FilmDetail }) {
+export function FilmDetailView({
+  detail,
+  crumbs,
+}: {
+  detail: FilmDetail;
+  crumbs?: Crumb[];
+}) {
   const film = getFilm(detail.slug);
   if (!film) return null;
   const director = getDirectorByFilmSlug(film.slug);
@@ -50,6 +58,7 @@ export function FilmDetailView({ detail }: { detail: FilmDetail }) {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      {crumbs ? <Breadcrumbs items={crumbs} /> : null}
       <CreditedMedia
         image={hero}
         tone={film.posterTone}

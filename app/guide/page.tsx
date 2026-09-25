@@ -1,14 +1,27 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
 import { guides } from "@/data/guides";
+import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "가이드",
-};
+export const metadata = pageSeo({
+  path: "/guide",
+  title: "미션 임파서블 보는 순서",
+  description:
+    "미션 임파서블 보는 순서. 처음, 정통, 액션 세 갈래로 극장판 8편 가운데 어디서 시작할지 고릅니다.",
+});
 
 export default function GuidePage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "가이드", path: "/guide" }]} />
+      <JsonLd
+        data={itemListJsonLd(
+          "미션 임파서블 보는 순서",
+          "/guide",
+          guides.map((guide) => ({ name: guide.titleKo, path: `/guide/${guide.slug}` })),
+        )}
+      />
       <h1 className="font-serif text-3xl text-paper">가이드</h1>
       <p className="mt-2 text-sm text-muted">
         세 갈래. 처음 · 정통 · 액션. 각 경로 세 편입니다.
