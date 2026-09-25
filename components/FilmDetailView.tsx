@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { FilmGadgetsBlock } from "@/components/FilmGadgetsBlock";
+import { FilmVehiclesBlock } from "@/components/FilmVehiclesBlock";
 import { FilmPrevNext } from "@/components/FilmPrevNext";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { LandmarkList, TripList } from "@/components/PlaceLists";
@@ -10,6 +11,7 @@ import { getAgent } from "@/data/agents";
 import { getDirectorByFilmSlug } from "@/data/directors";
 import type { CastChip, FilmDetail } from "@/data/filmDetails";
 import { displayFilmTitle, getFilm, officialNeighbors } from "@/data/films";
+import { otherVehiclesForFilm } from "@/data/otherVehicles";
 import { filmIssueSlug, getIssue, liveIssueTeaser } from "@/data/issues";
 import { landmarksForFilm } from "@/data/landmarks";
 import { atmospherePlaceholder, filmImages } from "@/data/licensedImages";
@@ -116,6 +118,13 @@ export function FilmDetailView({ detail }: { detail: FilmDetail }) {
           })}
         </ul>
       </section>
+
+      <FilmVehiclesBlock
+        cars={detail.cars}
+        extras={otherVehiclesForFilm(film.slug)}
+        filmTitleKo={film.titleKo}
+        filmTitleEn={film.titleEn}
+      />
 
       <FilmGadgetsBlock gadgets={detail.gadgets} filmTitleKo={film.titleKo} />
 

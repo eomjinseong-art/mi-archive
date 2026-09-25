@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
-import { SisterCta } from "@/components/SisterCta";
 import { Fn } from "@/components/Sources";
 import { getGadget } from "@/data/gadgets";
 import type { GadgetL1 } from "@/data/filmDetails";
@@ -27,7 +26,7 @@ export function FilmGadgetsBlock({
     <section className="mt-8">
       <h2 className="font-serif text-xl text-gold">이 영화의 가젯</h2>
       <p className="mt-2 text-xs text-muted">
-        {filmTitleKo ? `${filmTitleKo}의 장비와 이동.` : "장비와 이동."} 차량만 자매 사이트로 이어집니다.
+        {filmTitleKo ? `${filmTitleKo}의 장비와 스턴트.` : "장비와 스턴트."} 차량은 영화 속 차량 칸에 있습니다.
       </p>
       <div className="mt-4 rounded-lg border border-line bg-card p-4">
         <p className="text-[11px] uppercase tracking-wide text-gold">{gadgets.density}</p>
@@ -63,11 +62,6 @@ export function FilmGadgetsBlock({
               </Link>
             </article>
           ))}
-        </div>
-      ) : null}
-      {gadgets.ctaLabel ? (
-        <div className="mt-5">
-          <SisterCta label={gadgets.ctaLabel} path={gadgets.ctaPath} />
         </div>
       ) : null}
     </section>

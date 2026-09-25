@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { GossipBoard } from "@/components/GossipBoard";
-import { SisterCta } from "@/components/SisterCta";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { gadgetDetails, getGadget } from "@/data/gadgets";
@@ -127,12 +126,6 @@ export default async function GadgetPage({ params }: { params: Promise<{ slug: s
           </Link>
         ))}
       </div>
-
-      {gadget.vehicleCta ? (
-        <div className="mt-6">
-          <SisterCta label="오토픽스에서 자동차 용품 보기" />
-        </div>
-      ) : null}
 
       <Sources sources={detail.sources} footnotes={detail.footnotes} />
     </article>

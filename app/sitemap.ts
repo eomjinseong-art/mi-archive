@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { agents } from "@/data/agents";
+import { cars } from "@/data/cars";
 import { directors } from "@/data/directors";
 import { films } from "@/data/films";
 import { gadgets } from "@/data/gadgets";
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/mcquarrie-era",
     "/women",
     "/villains",
+    "/cars",
     "/gadgets",
     "/scenes",
     "/videos",
@@ -38,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...agents.map((person) => `/agents/${person.slug}`),
     ...women.map((person) => `/women/${person.slug}`),
     ...villains.map((person) => `/villains/${person.slug}`),
+    ...cars.filter((car) => car.hasL2).map((car) => `/cars/${car.slug}`),
     ...gadgets.filter((item) => item.hasL2).map((item) => `/gadgets/${item.slug}`),
     ...issues.map((issue) => `/issues/${issue.slug}`),
     ...guides.map((guide) => `/guide/${guide.slug}`),

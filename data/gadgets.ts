@@ -1,7 +1,7 @@
 import type { Footnote, GossipItem, Source } from "./types";
-import { BMW_ROGUE, wiki } from "./sources";
+import { wiki } from "./sources";
 
-export type GadgetBadge = "차량" | "장비" | "스턴트";
+export type GadgetBadge = "장비" | "스턴트";
 export type GadgetEra = "1990s" | "2000s" | "2010s" | "2020s" | "시리즈";
 
 export type Gadget = {
@@ -15,7 +15,6 @@ export type Gadget = {
   filmTitleKo: string;
   oneLiner: string;
   hasL2: boolean;
-  vehicleCta: boolean;
   posterTone: string;
 };
 
@@ -45,7 +44,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "시리즈 전체",
     oneLiner: "수락할 임무와, 재생이 끝나면 타 버리는 기록.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#2a2418 0%,#0B0D10 50%,#C6A75E44 100%)",
   },
   {
@@ -59,7 +57,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "시리즈 전체",
     oneLiner: "텔레비전에서 이어진 위장. 3편에서 제작 과정이 보입니다.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#1c2430 0%,#0B0D10 50%,#8a734033 100%)",
   },
   {
@@ -73,7 +70,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "고스트 프로토콜",
     oneLiner: "두바이 회의에서 정보를 띄우는 렌즈.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#14283a 0%,#0B0D10 50%,#3aa0c633 100%)",
   },
   {
@@ -87,50 +83,7 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "고스트 프로토콜",
     oneLiner: "부르즈 할리파 외벽. 화면 밖에서 크루즈는 케이블에 매여 있었습니다.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#3a3418 0%,#0B0D10 48%,#C6A75E55 100%)",
-  },
-  {
-    slug: "bmw-i8",
-    nameKo: "BMW 콘셉트",
-    nameEn: "BMW concept car",
-    brand: "BMW",
-    brandKo: "BMW",
-    era: "2010s",
-    badges: ["차량"],
-    filmTitleKo: "고스트 프로토콜",
-    oneLiner: "BMW가 고스트 프로토콜의 자동차 파트너였다고 이후 보도자료가 회고합니다.",
-    hasL2: true,
-    vehicleCta: true,
-    posterTone: "linear-gradient(165deg,#102018 0%,#0B0D10 50%,#5e8a6a44 100%)",
-  },
-  {
-    slug: "bmw-m3",
-    nameKo: "BMW M3",
-    nameEn: "BMW M3",
-    brand: "BMW",
-    brandKo: "BMW",
-    era: "2010s",
-    badges: ["차량"],
-    filmTitleKo: "로그네이션",
-    oneLiner: "BMW 보도자료가 예고편의 주행 차로 신형 M3를 지목합니다.",
-    hasL2: true,
-    vehicleCta: true,
-    posterTone: "linear-gradient(165deg,#1a2030 0%,#0B0D10 48%,#3aa0c644 100%)",
-  },
-  {
-    slug: "motorcycle",
-    nameKo: "오토바이",
-    nameEn: "Motorcycle",
-    brand: "—",
-    brandKo: "—",
-    era: "시리즈",
-    badges: ["차량", "스턴트"],
-    filmTitleKo: "2 · 데드 레코닝",
-    oneLiner: "2편의 결말 추격과, 데드 레코닝의 노르웨이 점프.",
-    hasL2: true,
-    vehicleCta: true,
-    posterTone: "linear-gradient(165deg,#241810 0%,#0B0D10 50%,#c65e3233 100%)",
   },
   {
     slug: "a400m",
@@ -143,7 +96,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "로그네이션",
     oneLiner: "이륙하는 수송기 바깥. 팀이 소유한 차가 아닙니다.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#101828 0%,#0B0D10 50%,#8a734033 100%)",
   },
   {
@@ -157,7 +109,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "폴아웃",
     oneLiner: "파리 상공의 고고도 저개산 낙하.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#181820 0%,#0B0D10 50%,#c6a75e22 100%)",
   },
   {
@@ -171,7 +122,6 @@ export const gadgets: Gadget[] = [
     filmTitleKo: "데드 레코닝",
     oneLiner: "엔티티를 다루는 열쇠. 둘로 나뉩니다.",
     hasL2: true,
-    vehicleCta: false,
     posterTone: "linear-gradient(165deg,#10241c 0%,#0B0D10 50%,#5e8a6a33 100%)",
   },
 ];
@@ -251,60 +201,6 @@ export const gadgetDetails: Record<string, GadgetDetail> = {
     sources: [wiki("Mission:_Impossible_%E2%80%93_Ghost_Protocol", "Mission: Impossible – Ghost Protocol")],
     footnotes: [{ n: 1, text: "케이블과 ILM은 고스트 프로토콜 위키백과 제작 단락입니다." }],
   },
-  "bmw-i8": {
-    slug: "bmw-i8",
-    overview: [
-      "2015년 BMW 보도자료는 로그네이션이 BMW와의 두 번째 협업이고, 첫 번째가 2011년 고스트 프로토콜이라고 적습니다.",
-      "차종을 그 보도자료가 고스트 프로토콜 단락에서 모델명으로 닫지는 않습니다. 그래서 카드 제목은 콘셉트 차로 넓게 둡니다. 사진으로 특정 연식의 M3를 이 카드에 붙이지 않습니다.",
-    ],
-    timeline: [{ year: "2011", text: "고스트 프로토콜 개봉." }, { year: "2015", text: "BMW가 이전 협업을 회고합니다." }],
-    onScreen: ["모래 폭풍 추격이 이 편의 자동차 장면으로 더 자주 기억됩니다. 어느 컷이 어느 차대인지는 분리합니다."],
-    production: ["파트너십과 화면의 특정 샷을 한 문장으로 합치지 않습니다."],
-    gossip: [{ label: "확인됨", text: "두 번째 협업이라는 회고는 BMW 보도자료에 있습니다." }],
-    continuity: ["다음 차량 카드인 M3는 로그네이션 보도자료가 모델명을 적습니다."],
-    videos: [],
-    related: [{ href: "/gadgets/bmw-m3", label: "로그네이션 M3" }],
-    sources: [BMW_ROGUE],
-    footnotes: [{ n: 1, text: "모델명을 비운 이유는 인용한 BMW 글이 고스트 프로토콜의 차종을 M3처럼 특정하지 않기 때문입니다." }],
-  },
-  "bmw-m3": {
-    slug: "bmw-m3",
-    overview: [
-      "BMW 보도자료는 로그네이션의 전 세계 자동차 파트너가 BMW이고, 공개된 예고편에서 신형 M3가 정밀 주행에 쓰인다고 적습니다.",
-      "이 페이지의 사진은 2024년 브뤼셀 모터쇼의 M3입니다. 촬영 차량이 아닙니다.",
-    ],
-    timeline: [{ year: "2015", text: "7월 31일 미국 개봉. 보도자료는 그 전에 파트너십을 알립니다." }],
-    onScreen: ["추격의 차로 제시됩니다. 가젯 버튼 목록을 보도자료가 적지 않으므로 만들지 않습니다."],
-    production: ["BMW ConnectedDrive를 팀이 사용했다고 같은 글이 적습니다. 기능 목록을 화면 샷과 1:1로 맞추지는 않습니다."],
-    gossip: [{ label: "확인됨", text: "M3라는 모델명은 BMW 보도자료에 있습니다." }],
-    continuity: ["폴아웃은 이 보도자료의 범위를 넘어갑니다. M3를 그 편의 차로 연장하지 않습니다."],
-    videos: [{ id: "gOW_azQbOjw", title: "로그네이션 예고편" }],
-    related: [{ href: "/films/rogue-nation", label: "로그네이션" }],
-    sources: [BMW_ROGUE],
-    footnotes: [{ n: 1, text: "사진 설명에 촬영 차량이 아님을 적습니다." }],
-  },
-  motorcycle: {
-    slug: "motorcycle",
-    overview: [
-      "2편의 결말은 헌트와 앰브로스의 오토바이 추격입니다. 기종은 여기서 단정하지 않습니다.",
-      "데드 레코닝은 노르웨이에서 열차 장면과 오토바이 점프를 찍었습니다. 위키백과는 기종명을 적지 않습니다.",
-    ],
-    timeline: [
-      { year: "2000", text: "미션 임파서블 2." },
-      { year: "2020", text: "노르웨이 촬영. 영국 스턴트 장치에 불이 났고 부상은 없었다고 위키백과는 적습니다." },
-    ],
-    onScreen: ["속도를 가젯 목록으로 바꾸지 않습니다. 스턴트 기록과 함께 읽습니다."],
-    production: ["브랜드 파트너가 확인된 M3와 달리, 오토바이는 장면 단위로만 적습니다."],
-    gossip: [{ label: "미확인", text: "팬 문서의 기종 비정은 이 아카이브가 채택하지 않습니다." }],
-    continuity: ["두 편을 한 대의 이력으로 묶지 않습니다."],
-    videos: [],
-    related: [{ href: "/records", label: "스턴트 기록" }],
-    sources: [
-      wiki("Mission:_Impossible_2", "Mission: Impossible 2"),
-      wiki("Mission:_Impossible_%E2%80%93_Dead_Reckoning_Part_One", "Mission: Impossible – Dead Reckoning Part One"),
-    ],
-    footnotes: [{ n: 1, text: "기종을 비운 것은 인용 문서에 모델명이 없기 때문입니다." }],
-  },
   a400m: {
     slug: "a400m",
     overview: [
@@ -315,7 +211,7 @@ export const gadgetDetails: Record<string, GadgetDetail> = {
     onScreen: ["화물칸의 화물과 기체의 바깥이 한 샷으로 연결됩니다."],
     production: ["크루즈가 대역 없이 수행했다고 위키백과는 적습니다."],
     gossip: [{ label: "확인됨", text: "등록기호와 횟수는 위키백과 제작 단락과 사진 설명에 있습니다." }],
-    continuity: ["가젯 허브에 둔 이유는 장비 목록이 아니라 스턴트 항공기이기 때문입니다. 차량 CTA를 붙이지 않습니다."],
+    continuity: ["가젯 허브에 둔 이유는 장비 목록이 아니라 스턴트 항공기이기 때문입니다. 도로 차량은 영화 속 차량 칸에 있습니다."],
     videos: [],
     related: [{ href: "/records", label: "스턴트 기록" }],
     sources: [wiki("Mission:_Impossible_%E2%80%93_Rogue_Nation", "Mission: Impossible – Rogue Nation")],

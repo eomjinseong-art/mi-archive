@@ -2,7 +2,7 @@ export const SITE_NAME = "미션 임파서블 아카이브";
 export const SITE_TAGLINE =
   "1996년 《미션 임파서블》부터 2025년 《파이널 레코닝》까지";
 export const SITE_SUB =
-  "극장판 8편과 IMF 요원, 여성 캐릭터, 악당, 가젯, 감독, 스턴트를 모았습니다.";
+  "극장판 8편과 IMF 요원, 여성 캐릭터, 악당, 영화 속 차량, 가젯, 감독, 스턴트를 모았습니다.";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://mi-archive.vercel.app";
@@ -11,11 +11,12 @@ export const BOND_ARCHIVE_URL =
   process.env.NEXT_PUBLIC_BOND_ARCHIVE_URL ??
   "https://bond-archive-two.vercel.app";
 
-export const AUTOPIX_URL =
-  process.env.NEXT_PUBLIC_AUTOPIX_URL ?? "https://car-parts-cpang.vercel.app";
+export const SISTER_SITE_URL =
+  process.env.NEXT_PUBLIC_SISTER_SITE_URL ?? "https://car-parts-cpang.vercel.app";
 
 export const BOND_ARCHIVE_LABEL = "본드 필름 아카이브";
 export const AUTOPIX_LABEL = "오토픽스";
+export const MI_CAR_CTA_LABEL = "이 차량 용품 보러 가기 · 오토픽스";
 
 export const NAV = [
   { href: "/", label: "홈" },
@@ -27,6 +28,7 @@ export const NAV = [
   { href: "/mcquarrie-era", label: "맥쿼리" },
   { href: "/women", label: "여성" },
   { href: "/villains", label: "악당" },
+  { href: "/cars", label: "차량" },
   { href: "/gadgets", label: "가젯" },
   { href: "/scenes", label: "명장면" },
   { href: "/videos", label: "영상" },
@@ -57,11 +59,19 @@ export function bondArchiveUrl(medium: "header" | "footer" | "home" = "header") 
   });
 }
 
-export function vehicleCta(path = "/") {
-  return withUtm(AUTOPIX_URL, path, {
-    medium: "cta",
-    campaign: "gadget-vehicle",
-  });
+export function sisterUrl(
+  path = "/",
+  opts?: { medium?: string; campaign?: string },
+) {
+  return withUtm(SISTER_SITE_URL, path, opts);
+}
+
+export function autopixUrl(medium: "header" | "footer" | "home" = "header") {
+  return sisterUrl("/", { medium, campaign: "mi-car" });
+}
+
+export function miCarCta(path = "/") {
+  return sisterUrl(path, { medium: "cta", campaign: "mi-car" });
 }
 
 export function displayTitle(titleKo: string, titleEn: string) {

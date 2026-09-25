@@ -24,6 +24,7 @@ export type QuoteItem = {
 
 export type SearchKind =
   | "영화"
+  | "차량"
   | "가젯"
   | "인물"
   | "악당"

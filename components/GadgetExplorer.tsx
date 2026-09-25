@@ -5,7 +5,7 @@ import { PosterCard } from "@/components/PosterCard";
 import { gadgets, type GadgetBadge } from "@/data/gadgets";
 import { gadgetImages } from "@/data/licensedImages";
 
-const FILTERS = ["전체", "차량", "장비", "스턴트"] as const;
+const FILTERS = ["전체", "장비", "스턴트"] as const;
 
 export function GadgetExplorer() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("전체");

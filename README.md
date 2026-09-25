@@ -22,11 +22,12 @@ npm run dev
 ```
 NEXT_PUBLIC_SITE_URL=https://mi-archive.vercel.app
 NEXT_PUBLIC_BOND_ARCHIVE_URL=https://bond-archive-two.vercel.app
-NEXT_PUBLIC_AUTOPIX_URL=https://car-parts-cpang.vercel.app
+NEXT_PUBLIC_SISTER_SITE_URL=https://car-parts-cpang.vercel.app
 ```
 
-차량 카드의 오토픽스 링크는 `utm_source=mi-archive`를 붙입니다. 헤더와 푸터의
-본드 필름 아카이브 링크도 같은 출처 값을 씁니다.
+영화 속 차량의 오토픽스 버튼은
+`utm_source=mi-archive&utm_medium=cta&utm_campaign=mi-car`를 붙입니다.
+헤더와 푸터의 오토픽스·본드 필름 아카이브 링크도 출처 값은 `mi-archive`입니다.
 
 방문자 수는 Abacus `mi-archive` / `visits`입니다. 눈 아이콘과 숫자만 표시합니다.
 

@@ -1,4 +1,5 @@
 import { agents } from "@/data/agents";
+import { cars } from "@/data/cars";
 import { directors } from "@/data/directors";
 import { displayFilmTitle, films } from "@/data/films";
 import { gadgets } from "@/data/gadgets";
@@ -17,6 +18,14 @@ export function buildSearchIndex(): SearchHit[] {
     title: displayFilmTitle(film),
     hint: `${film.year} · ${film.directorKo}`,
     keywords: `${film.titleEn} ${film.actorKo} ${film.actorEn}`,
+  }));
+
+  const carHits: SearchHit[] = cars.map((car) => ({
+    kind: "차량",
+    href: car.hasL2 ? `/cars/${car.slug}` : "/cars",
+    title: `${car.nameKo} (${car.nameEn})`,
+    hint: `${car.brandKo} · ${car.filmTitleKo}`,
+    keywords: `${car.badges.join(" ")} ${car.oneLiner}`,
   }));
 
   const gadgetHits: SearchHit[] = gadgets.map((item) => ({
@@ -85,6 +94,7 @@ export function buildSearchIndex(): SearchHit[] {
 
   return [
     ...filmHits,
+    ...carHits,
     ...gadgetHits,
     ...agentHits,
     ...womanHits,

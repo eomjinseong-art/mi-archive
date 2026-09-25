@@ -6,6 +6,7 @@ import { SisterCta } from "@/components/SisterCta";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { agents } from "@/data/agents";
 import { directors } from "@/data/directors";
+import { cars } from "@/data/cars";
 import { displayFilmTitle, featuredFilmSlugs, films } from "@/data/films";
 import { gadgets } from "@/data/gadgets";
 import { guides } from "@/data/guides";
@@ -30,7 +31,7 @@ import { SERIES_FRAMING, SERIES_FRAMING_NOTE } from "@/data/series";
 import { villains } from "@/data/villains";
 import { women } from "@/data/women";
 import { personLookQuery } from "@/lib/googleImages";
-import { AUTOPIX_LABEL, BOND_ARCHIVE_LABEL, SITE_NAME, bondArchiveUrl } from "@/lib/site";
+import { AUTOPIX_LABEL, BOND_ARCHIVE_LABEL, MI_CAR_CTA_LABEL, SITE_NAME, bondArchiveUrl } from "@/lib/site";
 
 const homeAgents = agents.filter((person) => person.featuredOnHome);
 const homeWomen = women.filter((person) => person.featuredOnHome);
@@ -41,6 +42,7 @@ const stats = [
   { n: directors.length, label: "감독" },
   { n: agents.length, label: "요원" },
   { n: women.length, label: "여성" },
+  { n: cars.length, label: "차량" },
   { n: gadgets.length, label: "가젯" },
 ];
 
@@ -68,7 +70,7 @@ export default function HomePage() {
               <br />
               극장판 8편과 에단 헌트의 팀.
               <br />
-              요원, 악당, 가젯, 스턴트를 모았습니다.
+              요원, 악당, 차량, 가젯, 스턴트를 모았습니다.
             </p>
             <p className="text-sm leading-7 text-muted sm:text-base sm:leading-8">
               1966년 텔레비전은 원작 칸에 따로 있습니다.
@@ -78,7 +80,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-b border-line bg-card/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-5 gap-px bg-line">
+        <div className="mx-auto grid max-w-6xl grid-cols-3 gap-px bg-line sm:grid-cols-6">
           {stats.map((stat) => (
             <div key={stat.label} className="bg-bg px-2 py-3 sm:px-4 sm:py-4">
               <p className="font-serif text-xl text-gold sm:text-2xl">{stat.n}</p>
@@ -482,15 +484,15 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-4 pb-12 pt-4">
         <div className="rounded-xl border border-line bg-card p-5 sm:p-8">
           <p className="text-[11px] uppercase tracking-wide text-gold">{AUTOPIX_LABEL}</p>
-          <h2 className="mt-2 font-serif text-2xl text-paper">차량 장면 다음, 자동차 용품</h2>
+          <h2 className="mt-2 font-serif text-2xl text-paper">영화 속 차량 다음, 자동차 용품</h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-            BMW와 오토바이 카드의 버튼은 자매 사이트 {AUTOPIX_LABEL}로 갑니다. 촬영 차량을 판매하지 않습니다.
+            차량 목록과 각 상세 페이지의 버튼은 {AUTOPIX_LABEL}로 갑니다. 촬영 차량을 판매하지 않습니다.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/gadgets/bmw-m3" className="rounded-full border border-line px-4 py-2 text-sm text-paper hover:border-gold">
-              M3 자세히
+            <Link href="/cars" className="rounded-full border border-line px-4 py-2 text-sm text-paper hover:border-gold">
+              영화 속 차량
             </Link>
-            <SisterCta label="오토픽스에서 보기" />
+            <SisterCta label={MI_CAR_CTA_LABEL} />
             <a href={bondArchiveUrl("home")} className="rounded-full border border-line px-4 py-2 text-sm text-muted hover:text-gold">
               {BOND_ARCHIVE_LABEL}
             </a>

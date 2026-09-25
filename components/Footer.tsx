@@ -1,4 +1,4 @@
-import { BOND_ARCHIVE_LABEL, SITE_NAME, bondArchiveUrl } from "@/lib/site";
+import { AUTOPIX_LABEL, BOND_ARCHIVE_LABEL, SITE_NAME, autopixUrl, bondArchiveUrl } from "@/lib/site";
 
 const OFFICIAL_CHANNEL = "https://www.youtube.com/@MissionImpossible";
 
@@ -29,6 +29,12 @@ export function Footer() {
             rel="noopener noreferrer"
           >
             공식 채널 · YouTube @MissionImpossible
+          </a>
+          <a
+            href={autopixUrl("footer")}
+            className="underline decoration-line underline-offset-4 hover:text-gold"
+          >
+            자동차 용품 · {AUTOPIX_LABEL}
           </a>
           <a
             href={bondArchiveUrl("footer")}

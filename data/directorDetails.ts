@@ -32,7 +32,7 @@ export const directorDetails: Record<string, DirectorDetail> = {
     craft: ["슬로모션을 이 감독의 습관으로만 적고, 샷 수를 세지 않습니다."],
     filmNotes: [{ slug: "mission-impossible-2", text: "키메라와 니아, 앰브로스." }],
     continuity: ["3편은 분위기를 다시 스파이 스릴러 쪽으로 돌립니다."],
-    related: [{ href: "/gadgets/motorcycle", label: "오토바이" }],
+    related: [{ href: "/cars/triumph-speed-triple", label: "차량 · 스피드 트리플" }],
     sources: [wiki("Mission:_Impossible_2", "Mission: Impossible 2")],
     footnotes: [{ n: 1, text: "감독 크레딧은 위키백과 정보 상자입니다." }],
   },

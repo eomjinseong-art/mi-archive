@@ -1,5 +1,6 @@
-import type { Footnote, QuoteItem, Source } from "./types";
-import { BMW_ROGUE, WIKI_SERIES, WIKI_TV, wiki } from "./sources";
+import type { Footnote, GossipItem, QuoteItem, Source } from "./types";
+import { BMW_FALLOUT, BMW_GHOST_PREMIERE, BMW_ROGUE, BMW_WELT_FALLOUT, WIKI_SERIES, WIKI_TV, wiki } from "./sources";
+import { MI_CAR_CTA_LABEL } from "@/lib/site";
 
 export type CastChip = {
   slug?: string;
@@ -15,8 +16,16 @@ export type GadgetL1 = {
   title: string;
   body: string;
   gadgetSlugs: string[];
-  ctaLabel?: string;
-  ctaPath?: string;
+};
+
+export type CarL1 = {
+  title: string;
+  body: string;
+  carSlugs: string[];
+  ctaLabel: string;
+  ctaPath: string;
+  footnoteN?: number;
+  gossipTeasers?: GossipItem[];
 };
 
 export type FilmDetail = {
@@ -28,6 +37,7 @@ export type FilmDetail = {
   spoilerWarning: string;
   plot: string[];
   cast: CastChip[];
+  cars?: CarL1;
   gadgets: GadgetL1;
   quotes: QuoteItem[];
   trailerYoutubeId: string;
@@ -115,13 +125,19 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "luther-stickell", kind: "agent", nameKo: "루터 스티켈", nameEn: "Luther Stickell", role: "IMF", note: "빙 라메스." },
       { nameKo: "미션 커맨더", nameEn: "Mission Commander", role: "IMF", note: "앤서니 홉킨스. 짧은 브리핑입니다." },
     ],
+    cars: {
+      title: "TT 로드스터와 트라이엄프 두 대",
+      body: "IMCDb는 양산 전 아우디 TT 로드스터 8N과, 헌트의 스피드 트리플, 앰브로스의 데이토나 955i를 캐릭터 또는 추격으로 적습니다. A8과 두카티는 확인하지 못해 넣지 않습니다.",
+      carSlugs: ["audi-tt", "triumph-speed-triple", "triumph-daytona"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+    },
     gadgets: {
       density: "thick",
-      title: "가면과 오토바이",
-      body: "앰브로스와 헌트가 서로의 얼굴을 빌리는 가면이 플롯의 장치입니다. 이동의 아이콘은 결말의 오토바이입니다. 브랜드를 단정하지 않습니다.",
-      gadgetSlugs: ["latex-mask", "motorcycle"],
-      ctaLabel: "오토픽스에서 자동차 용품 보기",
-      ctaPath: "/",
+      title: "가면",
+      body: "앰브로스와 헌트가 서로의 얼굴을 빌리는 가면이 플롯의 장치입니다. 오토바이는 차량 칸에 있습니다.",
+      gadgetSlugs: ["latex-mask"],
     },
     quotes: [BRIEFING],
     trailerYoutubeId: "hSPtsCQq52k",
@@ -129,10 +145,11 @@ export const filmDetails: Record<string, FilmDetail> = {
     footnotes: [
       { n: 1, text: "상영 시간 124분과 미국 개봉 2000년 5월 24일은 위키백과 정보 상자입니다." },
       { n: 2, text: "오스트레일리아·스페인과 키메라는 파라마운트 예고 설명 및 시놉시스를 따릅니다." },
+      { n: 3, text: "TT 8N, 스피드 트리플, 데이토나 955i의 역할은 각 차량 페이지의 IMCDb 항목입니다." },
     ],
     related: [
       { href: "/women/nyah-nordoff-hall", label: "여성 · 니아" },
-      { href: "/gadgets/motorcycle", label: "가젯 · 오토바이" },
+      { href: "/cars/triumph-speed-triple", label: "차량 · 스피드 트리플" },
     ],
   },
   "mission-impossible-3": {
@@ -155,6 +172,14 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "benji-dunn", kind: "agent", nameKo: "벤지 던", nameEn: "Benji Dunn", role: "기술", note: "사이먼 페그. 첫 등장." },
       { nameKo: "시어도어 브래슬", nameEn: "Theodore Brassel", role: "IMF 국장", note: "로런스 피시번." },
     ],
+    cars: {
+      title: "2006년 람보르기니 가야르도",
+      body: "IMCDb는 2006년 가야르도를 캐릭터 차량으로 적고, 타임코드를 약 00:44:16으로 둡니다. 엔진 없는 파괴용 껍질은 항목 댓글이므로 상세 페이지에서 미확인으로 분리합니다.",
+      carSlugs: ["lamborghini-gallardo"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+    },
     gadgets: {
       density: "solid",
       title: "가면 제작이 절차로 보입니다",
@@ -167,8 +192,12 @@ export const filmDetails: Record<string, FilmDetail> = {
     footnotes: [
       { n: 1, text: "126분, 2006년 5월 5일 미국 개봉은 위키백과 정보 상자입니다." },
       { n: 2, text: "토끼의 발은 이름을 적되 정체를 만들지 않습니다." },
+      { n: 3, text: "가야르도의 연식과 타임코드는 IMCDb v032093입니다." },
     ],
-    related: [{ href: "/gadgets/latex-mask", label: "가젯 · 가면" }],
+    related: [
+      { href: "/gadgets/latex-mask", label: "가젯 · 가면" },
+      { href: "/cars/lamborghini-gallardo", label: "차량 · 가야르도" },
+    ],
   },
   "ghost-protocol": {
     slug: "ghost-protocol",
@@ -189,28 +218,36 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "jane-carter", kind: "woman", nameKo: "제인 카터", nameEn: "Jane Carter", role: "IMF", note: "폴라 패튼." },
       { slug: "kurt-hendricks", kind: "villain", nameKo: "커트 헨드릭스", nameEn: "Kurt Hendricks", role: "코발트", note: "미카엘 뉘크비스트." },
     ],
+    cars: {
+      title: "비전 이피션트다이내믹스와 6시리즈",
+      body: "BMW 미국 프리미어 보도자료는 비전 이피션트다이내믹스와 6시리즈 컨버터블을 헌트가 타고 주요 액션에 나온다고 적습니다. M5 E60, M3, 주인공급 3시리즈는 확인하지 못해 허브에 없습니다. 118i는 짧은 등장으로만 아래에 둡니다.",
+      carSlugs: ["bmw-vision-efficientdynamics", "bmw-6-series"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+    },
     gadgets: {
       density: "solid",
-      title: "붙는 장갑, 콘택트렌즈, BMW",
-      body: "외벽용 장갑과 정보를 띄우는 콘택트렌즈가 이 편의 장비입니다. BMW는 고스트 프로토콜과 로그네이션의 자동차 파트너였다고 2015년 보도자료가 적습니다. 보도된 인터뷰에서 버드는 앞유리 터치스크린이 있는 BMW를 언급합니다.",
-      gadgetSlugs: ["gecko-gloves", "contact-lens", "bmw-i8"],
-      ctaLabel: "오토픽스에서 자동차 용품 보기",
-      ctaPath: "/",
+      title: "붙는 장갑과 콘택트렌즈",
+      body: "외벽용 장갑과 정보를 띄우는 콘택트렌즈가 이 편의 장비입니다. BMW 차량은 위 칸에 있습니다.",
+      gadgetSlugs: ["gecko-gloves", "contact-lens"],
     },
     quotes: [BRIEFING],
     trailerYoutubeId: "m31C9DofmSo",
     issuesTeaser: "부르즈 할리파 등반은 케이블을 지운 실제 촬영입니다.",
     sources: [
       wiki("Mission:_Impossible_%E2%80%93_Ghost_Protocol", "Mission: Impossible – Ghost Protocol"),
-      BMW_ROGUE,
+      BMW_GHOST_PREMIERE,
     ],
     footnotes: [
       { n: 1, text: "133분. IMAX 2011년 12월 16일, 미국 일반 개봉 12월 21일은 위키백과 본문입니다." },
-      { n: 2, text: "케이블 삭제와 촬영지 목록은 같은 문서의 제작 단락입니다. BMW 파트너십은 2015년 BMW 보도자료가 고스트 프로토콜을 회고하며 적습니다." },
+      { n: 2, text: "케이블 삭제와 촬영지 목록은 같은 문서의 제작 단락입니다." },
+      { n: 3, text: "비전 이피션트다이내믹스와 6시리즈 컨버터블은 BMW 미국 프리미어 보도자료입니다." },
     ],
     related: [
       { href: "/records", label: "기록 · 부르즈 할리파" },
       { href: "/trips/dubai", label: "여행 · 두바이" },
+      { href: "/cars/bmw-vision-efficientdynamics", label: "차량 · 비전 이피션트다이내믹스" },
     ],
   },
   "rogue-nation": {
@@ -234,13 +271,19 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "william-brandt", kind: "agent", nameKo: "윌리엄 브랜트", nameEn: "William Brandt", role: "IMF", note: "제레미 레너." },
       { nameKo: "앨런 헌리", nameEn: "Alan Hunley", role: "CIA", note: "알렉 볼드윈. 폴아웃에서는 IMF 쪽에 있습니다." },
     ],
+    cars: {
+      title: "5세대 M3와 S 1000 RR",
+      body: "BMW 보도자료는 예고편의 정밀 주행에 5세대 M3가 쓰이고, 같은 예고편에 S 1000 RR이 나온다고 적습니다. E92가 아닙니다.",
+      carSlugs: ["bmw-m3-f80", "bmw-s1000rr"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+    },
     gadgets: {
       density: "solid",
-      title: "BMW M3와 수중 침투",
-      body: "BMW 보도자료는 로그네이션의 전 세계 자동차 파트너가 BMW이고, 예고편에 신형 M3 주행이 보인다고 적습니다. 같은 글은 고스트 프로토콜에 이은 두 번째 협업이라고 합니다. A400M은 팀이 소유한 가젯이 아니라 촬영 스턴트입니다.",
-      gadgetSlugs: ["bmw-m3", "a400m", "latex-mask"],
-      ctaLabel: "오토픽스에서 자동차 용품 보기",
-      ctaPath: "/",
+      title: "A400M과 가면",
+      body: "A400M은 팀이 소유한 가젯이 아니라 촬영 스턴트입니다. BMW 차량은 위 칸에 있습니다.",
+      gadgetSlugs: ["a400m", "latex-mask"],
     },
     quotes: [BRIEFING],
     trailerYoutubeId: "gOW_azQbOjw",
@@ -251,7 +294,8 @@ export const filmDetails: Record<string, FilmDetail> = {
     ],
     footnotes: [
       { n: 1, text: "131분, 2015년 7월 31일 미국 개봉은 위키백과 정보 상자입니다. 시리즈 표의 월드와이드는 6억 8,272만 달러이고, 작품 문서는 다른 집계를 적기도 합니다." },
-      { n: 2, text: "A400M의 고도와 이착륙 횟수는 위키백과 제작 단락입니다. M3는 BMW 보도자료입니다." },
+      { n: 2, text: "A400M의 고도와 이착륙 횟수는 위키백과 제작 단락입니다." },
+      { n: 3, text: "5세대 M3와 S 1000 RR은 2015년 3월 24일 BMW 보도자료입니다." },
     ],
     related: [
       { href: "/mcquarrie-era", label: "맥쿼리 시대" },
@@ -280,21 +324,41 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "luther-stickell", kind: "agent", nameKo: "루터 스티켈", nameEn: "Luther Stickell", role: "IMF", note: "빙 라메스." },
       { slug: "benji-dunn", kind: "agent", nameKo: "벤지 던", nameEn: "Benji Dunn", role: "IMF", note: "사이먼 페그." },
     ],
+    cars: {
+      title: "M5, 스크램블러, 1986년 5시리즈",
+      body: "파트너십 보도자료는 신형 M5, 1986년 5시리즈 세단, R nineT 스크램블러를 적습니다. 벨트 글은 파리의 구형 세단을 M5 E28이라고 부르고, IMCDb 목록은 1986년 528i E28입니다. E34는 없습니다. 7시리즈는 그 밖의 차량에 둡니다.",
+      carSlugs: ["bmw-m5-f90", "bmw-r-ninet", "bmw-5-series-e28"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+      gossipTeasers: [
+        { label: "확인됨", text: "신형 M5의 441kW와 M xDrive는 BMW 파트너십 보도자료입니다." },
+        { label: "확인됨", text: "파리 추격의 M5 E28과 528i E28은 서로 다른 자료의 표기입니다. 한쪽만 고르지 않습니다." },
+      ],
+    },
     gadgets: {
       density: "thin",
-      title: "HALO와 헬리콥터, 새 자동차 아이콘은 없습니다",
-      body: "이 편의 이동은 고고도 낙하와 헬리콥터입니다. 가면은 여전히 쓰이지만, 로그네이션의 M3 같은 차량 파트너 문장을 이 편에 옮기지 않습니다.",
+      title: "HALO와 가면",
+      body: "이 편의 공중 스턴트는 HALO입니다. 헬리콥터 추격은 스턴트 기록으로 읽고, 도로 차량은 위 칸에 있습니다.",
       gadgetSlugs: ["halo", "latex-mask"],
     },
     quotes: [BRIEFING],
     trailerYoutubeId: "wb49-oV0F78",
     issuesTeaser: "발목 부상으로 촬영이 멈춘 기록이 있습니다.",
-    sources: [wiki("Mission:_Impossible_%E2%80%93_Fallout", "Mission: Impossible – Fallout")],
+    sources: [
+      wiki("Mission:_Impossible_%E2%80%93_Fallout", "Mission: Impossible – Fallout"),
+      BMW_FALLOUT,
+      BMW_WELT_FALLOUT,
+    ],
     footnotes: [
       { n: 1, text: "147분. 파리 시사회 2018년 7월 12일, 미국 개봉 7월 27일은 위키백과입니다." },
       { n: 2, text: "발목 부상과 촬영지, 줄거리의 존 라크 반전은 같은 문서입니다." },
+      { n: 3, text: "신형 M5·1986년 5시리즈·스크램블러는 BMW 파트너십 보도자료입니다. M5 E28이라는 파리 문장은 BMW 벨트 글이고, 528i 표기는 IMCDb입니다." },
     ],
-    related: [{ href: "/records", label: "기록 · HALO와 발목" }],
+    related: [
+      { href: "/records", label: "기록 · HALO와 발목" },
+      { href: "/cars/bmw-m5-f90", label: "차량 · M5 F90" },
+    ],
   },
   "dead-reckoning": {
     slug: "dead-reckoning",
@@ -319,24 +383,32 @@ export const filmDetails: Record<string, FilmDetail> = {
       { slug: "luther-stickell", kind: "agent", nameKo: "루터 스티켈", nameEn: "Luther Stickell", role: "IMF", note: "빙 라메스." },
       { slug: "benji-dunn", kind: "agent", nameKo: "벤지 던", nameEn: "Benji Dunn", role: "IMF", note: "사이먼 페그." },
     ],
+    cars: {
+      title: "촬영용 500과 두 대의 바이크",
+      body: "IMCDb는 로마 추격의 피아트 500을 촬영용 커스텀으로, G 310 GS와 CRF 250을 각각 캐릭터 또는 추격으로 적습니다. 시판 500이나 CRF250L로 단정하지 않습니다.",
+      carSlugs: ["fiat-500", "bmw-g310gs", "honda-crf250"],
+      ctaLabel: MI_CAR_CTA_LABEL,
+      ctaPath: "/",
+      footnoteN: 3,
+    },
     gadgets: {
       density: "thick",
-      title: "열쇠, 가면, 절벽의 오토바이",
-      body: "십자가형 열쇠가 이 편의 맥거핀입니다. 가면은 여전하고, 차량 아이콘은 노르웨이에서 찍은 오토바이 점프입니다. 기종은 위키백과 제작 단락이 적지 않으므로 비웁니다.",
-      gadgetSlugs: ["entity-key", "motorcycle", "latex-mask"],
-      ctaLabel: "오토픽스에서 자동차 용품 보기",
-      ctaPath: "/",
+      title: "열쇠와 가면",
+      body: "십자가형 열쇠가 이 편의 맥거핀입니다. 가면은 여전하고, 바이크와 피아트는 차량 칸에 있습니다.",
+      gadgetSlugs: ["entity-key", "latex-mask"],
     },
     quotes: [BRIEFING],
     trailerYoutubeId: "avz06PDqDbM",
     sources: [wiki("Mission:_Impossible_%E2%80%93_Dead_Reckoning_Part_One", "Mission: Impossible – Dead Reckoning Part One")],
     footnotes: [
       { n: 1, text: "163분. 로마 시사회 2023년 6월 19일, 미국 개봉 7월 12일은 위키백과입니다." },
-      { n: 2, text: "노르웨이 열차·오토바이와 옥스퍼드셔 화재는 제작 단락입니다. 일사의 죽음은 줄거리 칸의 스포일러로만 적습니다." },
+      { n: 2, text: "노르웨이 열차·오토바이와 옥스퍼드셔 화재는 제작 단락입니다. 그 단락은 기종명이 없습니다. 일사의 죽음은 줄거리 칸의 스포일러로만 적습니다." },
+      { n: 3, text: "커스텀 500, G 310 GS, CRF 250의 표기는 각 IMCDb 항목입니다." },
     ],
     related: [
       { href: "/villains/the-entity", label: "악당 · 엔티티" },
       { href: "/trips/norway", label: "여행 · 노르웨이" },
+      { href: "/cars/fiat-500", label: "차량 · 피아트 500" },
     ],
   },
   "final-reckoning": {
