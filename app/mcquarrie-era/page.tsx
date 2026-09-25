@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { pageSeo } from "@/lib/seo";
 import { Sources } from "@/components/Sources";
 import { displayFilmTitle, getFilm } from "@/data/films";
 import { directorImages, portraitOrAtmosphere } from "@/data/licensedImages";
@@ -11,13 +12,23 @@ import {
   mcquarrieSources,
 } from "@/data/mcquarrie";
 
-export const metadata: Metadata = { title: mcquarrieEra.titleKo };
+export const metadata = pageSeo({
+  path: "/mcquarrie-era",
+  title: "미션 임파서블 맥쿼리 시대",
+  description: mcquarrieEra.oneLiner,
+});
 
 export default function McQuarrieEraPage() {
   const image = directorImages["christopher-mcquarrie"];
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      <Breadcrumbs
+        items={[
+          { name: "감독", path: "/directors" },
+          { name: "맥쿼리 시대", path: "/mcquarrie-era" },
+        ]}
+      />
       <p className="text-[11px] uppercase tracking-wide text-gold">{mcquarrieEra.years}</p>
       <CreditedMedia
         image={portraitOrAtmosphere(image)}

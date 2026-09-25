@@ -1,18 +1,22 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArchiveProse } from "@/components/ArchiveProse";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { Fn, Sources } from "@/components/Sources";
 import { origin, originDetail } from "@/data/origin";
 import { atmospherePlaceholder } from "@/data/licensedImages";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `${origin.nameKo} (${origin.nameEn})`,
-};
+export const metadata = pageSeo({
+  path: "/origin",
+  title: "미션 임파서블 원작 1966",
+  description: `${origin.oneLiner} CBS 시리즈의 팀, 임무 테이프, 1988년 리바이벌과 1996년 극장판의 차이를 적습니다.`,
+});
 
 export default function OriginPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
+      <Breadcrumbs items={[{ name: "원작", path: "/origin" }]} />
       <CreditedMedia
         image={atmospherePlaceholder}
         tone={origin.posterTone}

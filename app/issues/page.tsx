@@ -1,14 +1,27 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
 import { issues } from "@/data/issues";
+import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "이슈",
-};
+export const metadata = pageSeo({
+  path: "/issues",
+  title: "미션 임파서블 이슈",
+  description:
+    "미션 임파서블 이슈. 텔레비전 짐 펠프스와 영화의 배신, 크루즈 스턴트, 맥쿼리 연속성, 가면, 명목 흥행을 글로 나눕니다.",
+});
 
 export default function IssuesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "이슈", path: "/issues" }]} />
+      <JsonLd
+        data={itemListJsonLd(
+          "미션 임파서블 이슈",
+          "/issues",
+          issues.map((issue) => ({ name: issue.title, path: `/issues/${issue.slug}` })),
+        )}
+      />
       <h1 className="font-serif text-3xl text-paper">이슈</h1>
       <p className="mt-2 text-sm leading-7 text-muted">
         텔레비전 펠프스와 영화의 배신, 크루즈의 스턴트, 맥쿼리 연속성, 가면, 명목 흥행.

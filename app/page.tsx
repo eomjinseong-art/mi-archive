@@ -32,7 +32,18 @@ import { SERIES_FRAMING, SERIES_FRAMING_NOTE } from "@/data/series";
 import { villains } from "@/data/villains";
 import { women } from "@/data/women";
 import { personLookQuery } from "@/lib/googleImages";
+import { JsonLd } from "@/components/JsonLd";
 import { SITE_NAME } from "@/lib/site";
+import { pageSeo, websiteJsonLd } from "@/lib/seo";
+
+const homeDescription =
+  "1996년 《미션 임파서블》부터 2025년 《파이널 레코닝》까지. 극장판 8편과 요원, 악당, 미션 임파서블 차, 가젯, 감독, 스턴트를 모은 비공식 팬 아카이브입니다.";
+
+export const metadata = pageSeo({
+  path: "/",
+  title: SITE_NAME,
+  description: homeDescription,
+});
 
 const homeAgents = agents.filter((person) => person.featuredOnHome);
 const homeWomen = women.filter((person) => person.featuredOnHome);
@@ -58,6 +69,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <JsonLd data={websiteJsonLd(homeDescription)} />
       <section className="border-b border-line bg-[radial-gradient(circle_at_top,_#C6A75E22,_transparent_55%)]">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:py-20">
           <p className="text-xs uppercase tracking-[0.25em] text-gold">Mission Archive</p>
@@ -74,7 +86,15 @@ export default function HomePage() {
               요원, 악당, 차량, 가젯, 스턴트를 모았습니다.
             </p>
             <p className="text-sm leading-7 text-muted sm:text-base sm:leading-8">
-              1966년 텔레비전은 원작 칸에 따로 있습니다.
+              1966년 텔레비전은{" "}
+              <Link href="/origin" className="text-gold hover:underline">
+                원작
+              </Link>
+              칸에 따로 있습니다. 추격 차량은{" "}
+              <Link href="/cars" className="text-gold hover:underline">
+                미션 임파서블 차
+              </Link>
+              목록입니다.
             </p>
           </div>
         </div>

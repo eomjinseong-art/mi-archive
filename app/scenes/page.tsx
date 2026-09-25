@@ -1,14 +1,19 @@
-import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { fanClips, officialScenes } from "@/data/scenes";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "명장면",
-};
+export const metadata = pageSeo({
+  path: "/scenes",
+  title: "미션 임파서블 명장면",
+  description:
+    "미션 임파서블 명장면. 고스트 프로토콜, 로그네이션, 폴아웃 등 공식 예고편을 개봉 연도 순으로 모았습니다.",
+});
 
 export default function ScenesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <Breadcrumbs items={[{ name: "명장면", path: "/scenes" }]} />
       <h1 className="font-serif text-3xl text-paper">명장면</h1>
       <p className="mt-2 text-sm text-muted">
         공식 예고편을 개봉 연도 순으로 모았습니다.

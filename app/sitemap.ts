@@ -31,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/quotes",
     "/issues",
     "/guide",
-    "/series",
   ];
 
   const dynamicPaths = [

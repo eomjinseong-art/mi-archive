@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "페이지를 찾을 수 없습니다",
+  description: "요청한 미션 임파서블 아카이브 주소가 없습니다.",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (
