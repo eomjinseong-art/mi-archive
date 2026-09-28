@@ -7,7 +7,7 @@ import { GossipBoard } from "@/components/GossipBoard";
 import { Fn, Sources } from "@/components/Sources";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { gadgetDetails, getGadget } from "@/data/gadgets";
-import { atmospherePlaceholder, gadgetImages } from "@/data/licensedImages";
+import { gadgetImages, imageOrDefault } from "@/data/licensedImages";
 import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -41,7 +41,7 @@ export default async function GadgetPage({ params }: { params: Promise<{ slug: s
   const gadget = getGadget(slug);
   const detail = gadgetDetails[slug];
   if (!gadget || !detail) notFound();
-  const image = gadgetImages[slug] ?? atmospherePlaceholder;
+  const image = imageOrDefault(gadgetImages[slug], `${gadget.nameKo} (${gadget.nameEn})`);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
@@ -58,7 +58,6 @@ export default async function GadgetPage({ params }: { params: Promise<{ slug: s
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
-        overlay={image.isPlaceholder ? { title: gadget.nameKo, meta: gadget.nameEn } : undefined}
       />
       <div className="mt-4 flex flex-wrap gap-2">
         {gadget.badges.map((badge) => (

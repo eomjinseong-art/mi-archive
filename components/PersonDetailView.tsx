@@ -2,13 +2,11 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ArchiveProse } from "@/components/ArchiveProse";
 import { CreditedMedia } from "@/components/CreditedMedia";
-import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { NationalityLine } from "@/components/NationalityLine";
 import { Fn, Sources } from "@/components/Sources";
 import type { ArchivePerson } from "@/data/agents";
 import { displayFilmTitle, films } from "@/data/films";
 import { personImage, portraitOrAtmosphere } from "@/data/licensedImages";
-import { personLookQuery } from "@/lib/googleImages";
 import type { Crumb } from "@/lib/seo";
 
 export function PersonDetailView({
@@ -22,18 +20,20 @@ export function PersonDetailView({
   kindLabel: string;
   crumbs?: Crumb[];
 }) {
-  const image = personImage(person.slug);
+  const image = portraitOrAtmosphere(
+    personImage(person.slug),
+    `${person.nameKo} (${person.nameEn})`,
+  );
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
       {crumbs ? <Breadcrumbs items={crumbs} /> : null}
       <CreditedMedia
-        image={portraitOrAtmosphere(image)}
+        image={image}
         tone={person.posterTone}
-        alt={image?.alt ?? `${person.nameKo} (${person.nameEn})`}
+        alt={image.alt}
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
-        overlay={image ? undefined : { title: person.nameKo, meta: person.performerKo }}
       />
       <p className="mt-4 text-xs text-gold">{kindLabel}</p>
       <h1 className="mt-1 font-serif text-3xl text-paper sm:text-4xl">
@@ -50,10 +50,6 @@ export function PersonDetailView({
         {person.oneLiner}
         <Fn n={1} />
       </p>
-      {!image ? (
-        <ImageSearchLink query={personLookQuery(person)} label="초상 검색" />
-      ) : null}
-
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">소개</h2>
         <ArchiveProse paragraphs={person.bio} />

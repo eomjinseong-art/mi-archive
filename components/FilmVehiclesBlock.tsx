@@ -66,7 +66,6 @@ export function FilmVehiclesBlock({
                 aspectClass="aspect-video"
                 sizes="(max-width: 640px) 100vw, 50vw"
                 href={car.hasL2 ? `/cars/${slug}` : undefined}
-                vehicleCredit
               />
               <p className="mt-2 text-[11px] text-gold">{car.badges.join(" · ")}</p>
               {car.hasL2 ? (
@@ -111,7 +110,6 @@ export function FilmVehiclesBlock({
                       aspectClass="aspect-video"
                       sizes="(max-width: 640px) 100vw, 11rem"
                       href={linked?.hasL2 ? `/cars/${vehicle.carSlug}` : undefined}
-                      vehicleCredit
                     />
                     <div>
                       <p className="text-sm text-paper">

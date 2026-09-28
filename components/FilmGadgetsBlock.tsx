@@ -38,20 +38,20 @@ export function FilmGadgetsBlock({
       </div>
       {rows.length > 0 ? (
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {rows.map(({ gadget, slug }) => (
+          {rows.map(({ gadget, slug }) => {
+            const image = portraitOrAtmosphere(
+              gadgetImages[slug],
+              `${gadget.nameKo} (${gadget.nameEn})`,
+            );
+            return (
             <article key={slug} className="rounded-lg border border-line p-3">
               <CreditedMedia
-                image={portraitOrAtmosphere(gadgetImages[slug])}
+                image={image}
                 tone={gadget.posterTone}
-                alt={gadgetImages[slug]?.alt ?? `${gadget.nameKo} (${gadget.nameEn})`}
+                alt={image.alt}
                 aspectClass="aspect-video"
                 sizes="(max-width: 640px) 100vw, 50vw"
                 href={gadget.hasL2 ? `/gadgets/${slug}` : undefined}
-                overlay={
-                  gadgetImages[slug]
-                    ? undefined
-                    : { title: gadget.nameKo, meta: gadget.filmTitleKo }
-                }
               />
               <p className="mt-2 text-[11px] text-gold">{gadget.badges.join(" · ")}</p>
               <Link
@@ -61,7 +61,8 @@ export function FilmGadgetsBlock({
                 {gadget.nameKo} ({gadget.nameEn})
               </Link>
             </article>
-          ))}
+            );
+          })}
         </div>
       ) : null}
     </section>

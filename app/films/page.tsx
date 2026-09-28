@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { PosterCard } from "@/components/PosterCard";
 import { ORIGIN_HREF } from "@/data/origin";
 import { displayFilmTitle, films, filmsByDirector } from "@/data/films";
-import { atmospherePlaceholder, filmImages } from "@/data/licensedImages";
+import { filmImages, imageOrDefault } from "@/data/licensedImages";
 import { SERIES_FRAMING, SERIES_FRAMING_NOTE, SERIES_TOTAL } from "@/data/series";
 import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
@@ -66,8 +66,7 @@ export default function FilmsPage() {
                   meta={`${film.year} · ${film.directorKo}`}
                   tone={film.posterTone}
                   href={`/films/${film.slug}`}
-                  image={filmImages[film.slug] ?? atmospherePlaceholder}
-                  overlayOnImage={!filmImages[film.slug]}
+                  image={imageOrDefault(filmImages[film.slug], film.titleKo)}
                 />
               ))}
             </div>

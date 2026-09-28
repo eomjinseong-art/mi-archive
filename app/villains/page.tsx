@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { PosterCard } from "@/components/PosterCard";
-import { atmospherePlaceholder } from "@/data/licensedImages";
+import { personImage, portraitOrAtmosphere } from "@/data/licensedImages";
 import { villains } from "@/data/villains";
 import { itemListJsonLd, pageSeo } from "@/lib/seo";
 
@@ -34,8 +34,10 @@ export default function VillainsPage() {
             title={`${person.nameKo} (${person.nameEn})`}
             meta={`${person.roleKind} · ${person.performerKo} · ${person.years}`}
             tone={person.posterTone}
-            image={atmospherePlaceholder}
-            overlayOnImage
+            image={portraitOrAtmosphere(
+              personImage(person.slug),
+              `${person.nameKo} (${person.nameEn})`,
+            )}
             href={`/villains/${person.slug}`}
           />
         ))}

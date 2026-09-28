@@ -117,7 +117,6 @@ export default async function CarDetailPage({
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
-        vehicleCredit={Boolean(image)}
         priority
       />
       <div className="mt-4 flex flex-wrap gap-2">
@@ -234,7 +233,6 @@ export default async function CarDetailPage({
                       alt={siblingImage.alt}
                       aspectClass="aspect-video"
                       sizes="(max-width: 768px) 100vw, 720px"
-                      vehicleCredit
                       href={`/cars/${item.slug}`}
                     />
                   ) : null}

@@ -15,7 +15,7 @@ import { displayFilmTitle, getFilm, officialNeighbors } from "@/data/films";
 import { otherVehiclesForFilm } from "@/data/otherVehicles";
 import { filmIssueSlug, getIssue, liveIssueTeaser } from "@/data/issues";
 import { landmarksForFilm } from "@/data/landmarks";
-import { atmospherePlaceholder, filmImages } from "@/data/licensedImages";
+import { filmImages, imageOrDefault } from "@/data/licensedImages";
 import { tripsForFilm } from "@/data/trips";
 import { getVillain } from "@/data/villains";
 import { getWoman } from "@/data/women";
@@ -44,7 +44,7 @@ export function FilmDetailView({
   const landmarks = landmarksForFilm(film.slug);
   const filmTrips = tripsForFilm(film.slug);
   const linkedIssue = getIssue(filmIssueSlug[film.slug] ?? "");
-  const hero = filmImages[film.slug] ?? atmospherePlaceholder;
+  const hero = imageOrDefault(filmImages[film.slug], film.titleKo);
   const related = secondaryRelated(
     [
       { href: "/origin", label: "원작 · 1966년 텔레비전" },
@@ -66,7 +66,6 @@ export function FilmDetailView({
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
-        overlay={hero.isPlaceholder ? { title: film.titleKo, meta: film.titleEn } : undefined}
       />
       <p className="mt-4 text-sm text-gold">
         {film.year} · 감독{" "}

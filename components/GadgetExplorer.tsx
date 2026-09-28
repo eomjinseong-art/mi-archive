@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { PosterCard } from "@/components/PosterCard";
 import { gadgets, type GadgetBadge } from "@/data/gadgets";
-import { gadgetImages } from "@/data/licensedImages";
+import { gadgetImages, portraitOrAtmosphere } from "@/data/licensedImages";
 
 const FILTERS = ["전체", "장비", "스턴트"] as const;
 
@@ -40,9 +40,11 @@ export function GadgetExplorer() {
             title={`${item.nameKo} (${item.nameEn})`}
             meta={`${item.badges.join(" · ")} · ${item.filmTitleKo}`}
             tone={item.posterTone}
-            image={gadgetImages[item.slug]}
+            image={portraitOrAtmosphere(
+              gadgetImages[item.slug],
+              `${item.nameKo} (${item.nameEn})`,
+            )}
             aspect="video"
-            overlayOnImage={!gadgetImages[item.slug]}
             href={item.hasL2 ? `/gadgets/${item.slug}` : undefined}
           />
         ))}
