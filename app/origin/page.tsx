@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { Fn, Sources } from "@/components/Sources";
 import { origin, originDetail } from "@/data/origin";
-import { atmospherePlaceholder } from "@/data/licensedImages";
+import { imageOrDefault } from "@/data/licensedImages";
 import { pageSeo } from "@/lib/seo";
 
 export const metadata = pageSeo({
@@ -18,13 +18,12 @@ export default function OriginPage() {
     <article className="mx-auto max-w-3xl px-4 py-8">
       <Breadcrumbs items={[{ name: "원작", path: "/origin" }]} />
       <CreditedMedia
-        image={atmospherePlaceholder}
+        image={imageOrDefault(undefined, `${origin.nameKo} (${origin.nameEn})`)}
         tone={origin.posterTone}
         alt={`${origin.nameKo} (${origin.nameEn})`}
         aspectClass="aspect-[2/3] sm:aspect-[16/9]"
         sizes="(max-width: 768px) 100vw, 768px"
         compactCredit={false}
-        overlay={{ title: origin.nameKo, meta: "1966 · CBS" }}
       />
       <p className="mt-4 text-sm text-gold">원작 · {origin.years}</p>
       <h1 className="mt-1 font-serif text-3xl text-paper sm:text-4xl">

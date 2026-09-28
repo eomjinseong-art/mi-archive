@@ -47,7 +47,11 @@ export type LicensedImage = {
   sourceUrl: string;
   sourceLabel: string;
   isPlaceholder?: boolean;
+  /** Site-owned stand-in. Caption is 대표 이미지, with no third-party credit. */
+  isSiteDefault?: boolean;
   objectPosition?: string;
+  /** Shown when the photo is a same-model production car, not the film vehicle. */
+  referenceNote?: string;
 };
 
 export type SearchHit = {

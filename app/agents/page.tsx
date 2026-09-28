@@ -34,20 +34,19 @@ export default function AgentsPage() {
         </Link>
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {agents.map((person) => {
-          const image = personImage(person.slug);
-          return (
-            <PosterCard
-              key={person.slug}
-              title={`${person.nameKo} (${person.nameEn})`}
-              meta={`${person.affiliation} · ${person.performerKo} · ${person.filmCount}편`}
-              tone={person.posterTone}
-              image={portraitOrAtmosphere(image)}
-              overlayOnImage={!image}
-              href={`/agents/${person.slug}`}
-            />
-          );
-        })}
+        {agents.map((person) => (
+          <PosterCard
+            key={person.slug}
+            title={`${person.nameKo} (${person.nameEn})`}
+            meta={`${person.affiliation} · ${person.performerKo} · ${person.filmCount}편`}
+            tone={person.posterTone}
+            image={portraitOrAtmosphere(
+              personImage(person.slug),
+              `${person.nameKo} (${person.nameEn})`,
+            )}
+            href={`/agents/${person.slug}`}
+          />
+        ))}
       </div>
     </div>
   );

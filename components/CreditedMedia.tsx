@@ -1,6 +1,9 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { ImageCredit } from "@/components/ImageCredit";
+import { SafeImage } from "@/components/SafeImage";
 import type { LicensedImage } from "@/data/types";
 
 export function CreditedMedia({
@@ -12,7 +15,6 @@ export function CreditedMedia({
   compactCredit = true,
   overlay,
   href,
-  vehicleCredit = false,
   priority = false,
 }: {
   image?: LicensedImage;
@@ -23,39 +25,35 @@ export function CreditedMedia({
   compactCredit?: boolean;
   overlay?: { title: string; meta?: string };
   href?: string;
-  vehicleCredit?: boolean;
   priority?: boolean;
 }) {
-  const showOverlay = Boolean(overlay) && (!image || image.isPlaceholder);
+  const [failed, setFailed] = useState(false);
+  const creditImage =
+    image && (failed || image.isSiteDefault)
+      ? { ...image, isSiteDefault: true, isPlaceholder: false }
+      : image;
+  const showOverlay = Boolean(overlay) && (!image || image.isPlaceholder) && !failed;
 
   const frame = (
     <div className={`relative overflow-hidden rounded-md ${aspectClass}`}>
       <div className="absolute inset-0" style={{ background: tone }} />
       {image ? (
-        <Image
+        <SafeImage
           src={image.src}
           alt={alt}
-          width={image.width}
-          height={image.height}
-          className="absolute inset-0 h-full w-full object-cover"
           sizes={sizes}
-          style={
-            image.objectPosition
-              ? { objectPosition: image.objectPosition }
-              : undefined
-          }
-          {...(priority
-            ? { priority: true as const }
-            : { loading: "lazy" as const })}
+          priority={priority}
+          objectPosition={image.objectPosition}
+          onFallback={() => setFailed(true)}
         />
       ) : null}
       {showOverlay ? (
         <>
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
           <div className="absolute inset-x-3 bottom-3">
-            <h2 className="font-serif text-base leading-snug text-paper">
+            <p className="font-serif text-base leading-snug text-paper">
               {overlay?.title}
-            </h2>
+            </p>
             {overlay?.meta ? (
               <p className="mt-1 text-xs text-muted">{overlay.meta}</p>
             ) : null}
@@ -74,9 +72,7 @@ export function CreditedMedia({
       ) : (
         frame
       )}
-      {image ? (
-        <ImageCredit image={image} compact={compactCredit} vehicle={vehicleCredit} />
-      ) : null}
+      {creditImage ? <ImageCredit image={creditImage} compact={compactCredit} /> : null}
     </figure>
   );
 }

@@ -49,7 +49,6 @@ function CarGrid({ items }: { items: typeof cars }) {
             image={image}
             aspect="video"
             href={car.hasL2 ? `/cars/${car.slug}` : undefined}
-            vehicleCredit
           />
         );
       })}
@@ -181,7 +180,6 @@ export function CarExplorer() {
                           alt={image.alt}
                           aspectClass="aspect-video"
                           sizes="(max-width: 640px) 100vw, 50vw"
-                          vehicleCredit
                         />
                         <p className="mt-2 font-serif text-sm text-paper">
                           {vehicle.nameKo} ({vehicle.nameEn})

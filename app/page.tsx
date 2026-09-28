@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
-import { ImageSearchLink } from "@/components/ImageSearchLink";
 import { PosterCard } from "@/components/PosterCard";
 import { ArchiveNetworkSection } from "@/components/ArchiveNetworkSection";
 import { AutopixBanner } from "@/components/AutopixBanner";
@@ -13,9 +12,9 @@ import { gadgets } from "@/data/gadgets";
 import { guides } from "@/data/guides";
 import { issues } from "@/data/issues";
 import {
-  atmospherePlaceholder,
   filmImages,
   gadgetImages,
+  imageOrDefault,
   personImage,
   portraitOrAtmosphere,
 } from "@/data/licensedImages";
@@ -31,7 +30,6 @@ import { officialScenes } from "@/data/scenes";
 import { SERIES_FRAMING, SERIES_FRAMING_NOTE } from "@/data/series";
 import { villains } from "@/data/villains";
 import { women } from "@/data/women";
-import { personLookQuery } from "@/lib/googleImages";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_NAME } from "@/lib/site";
 import { pageSeo, websiteJsonLd } from "@/lib/seo";
@@ -154,19 +152,16 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {films.map((film) => (
+          {films.map((film) => {
+            const image = imageOrDefault(filmImages[film.slug], film.titleKo);
+            return (
             <article key={film.slug} className="rounded-lg border border-line bg-card p-3 hover:border-gold/60">
               <CreditedMedia
-                image={filmImages[film.slug] ?? atmospherePlaceholder}
+                image={image}
                 tone={film.posterTone}
-                alt={filmImages[film.slug]?.alt ?? `${film.titleKo}`}
+                alt={image.alt}
                 aspectClass="aspect-video"
                 sizes="(max-width: 640px) 50vw, 25vw"
-                overlay={
-                  filmImages[film.slug]
-                    ? undefined
-                    : { title: film.titleKo, meta: `${film.year} · ${film.directorKo}` }
-                }
                 href={`/films/${film.slug}`}
               />
               <Link href={`/films/${film.slug}`} className="mt-2 block">
@@ -176,7 +171,8 @@ export default function HomePage() {
                 </p>
               </Link>
             </article>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -195,8 +191,7 @@ export default function HomePage() {
               meta={`${film.year} · ${film.directorKo}`}
               tone={film.posterTone}
               href={`/films/${film.slug}`}
-              image={filmImages[film.slug] ?? atmospherePlaceholder}
-              overlayOnImage={!filmImages[film.slug]}
+              image={imageOrDefault(filmImages[film.slug], film.titleKo)}
             />
           ))}
         </div>
@@ -258,15 +253,17 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {homeAgents.map((person) => {
-            const image = personImage(person.slug);
+            const image = portraitOrAtmosphere(
+              personImage(person.slug),
+              `${person.nameKo} (${person.nameEn})`,
+            );
             return (
               <article key={person.slug} className="rounded-xl border border-line bg-card p-4 hover:border-gold/60">
                 <CreditedMedia
-                  image={portraitOrAtmosphere(image)}
+                  image={image}
                   tone={person.posterTone}
-                  alt={image?.alt ?? person.nameKo}
+                  alt={image.alt}
                   href={`/agents/${person.slug}`}
-                  overlay={image ? undefined : { title: person.nameKo, meta: person.performerKo }}
                 />
                 <Link href={`/agents/${person.slug}`} className="mt-3 block">
                   <p className="font-serif text-lg text-paper">
@@ -292,15 +289,17 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {homeWomen.map((person) => {
-            const image = personImage(person.slug);
+            const image = portraitOrAtmosphere(
+              personImage(person.slug),
+              `${person.nameKo} (${person.nameEn})`,
+            );
             return (
               <article key={person.slug} className="rounded-xl border border-line bg-card p-4 hover:border-gold/60">
                 <CreditedMedia
-                  image={portraitOrAtmosphere(image)}
+                  image={image}
                   tone={person.posterTone}
-                  alt={image?.alt ?? person.nameKo}
+                  alt={image.alt}
                   href={`/women/${person.slug}`}
-                  overlay={image ? undefined : { title: person.nameKo, meta: person.performerKo }}
                 />
                 <Link href={`/women/${person.slug}`} className="mt-3 block">
                   <p className="font-serif text-lg text-paper">
@@ -311,7 +310,6 @@ export default function HomePage() {
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted">{person.oneLiner}</p>
                 </Link>
-                {!image ? <ImageSearchLink query={personLookQuery(person)} label="초상 검색" /> : null}
               </article>
             );
           })}
@@ -326,13 +324,29 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {homeVillains.map((person) => (
-            <Link key={person.slug} href={`/villains/${person.slug}`} className="rounded-xl border border-line bg-card p-4 hover:border-gold/60">
-              <p className="text-[11px] text-gold">{person.roleKind}</p>
-              <h3 className="mt-1 font-serif text-lg text-paper">{person.nameKo}</h3>
-              <p className="mt-2 text-sm leading-6 text-muted">{person.oneLiner}</p>
-            </Link>
-          ))}
+          {homeVillains.map((person) => {
+            const image = portraitOrAtmosphere(
+              personImage(person.slug),
+              `${person.nameKo} (${person.nameEn})`,
+            );
+            return (
+              <article key={person.slug} className="rounded-xl border border-line bg-card p-4 hover:border-gold/60">
+                <CreditedMedia
+                  image={image}
+                  tone={person.posterTone}
+                  alt={image.alt}
+                  aspectClass="aspect-[3/4]"
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  href={`/villains/${person.slug}`}
+                />
+                <Link href={`/villains/${person.slug}`} className="mt-3 block">
+                  <p className="text-[11px] text-gold">{person.roleKind}</p>
+                  <h3 className="mt-1 font-serif text-lg text-paper">{person.nameKo}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted">{person.oneLiner}</p>
+                </Link>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -344,18 +358,18 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {gadgets.slice(0, 6).map((item) => (
+          {gadgets.slice(0, 6).map((item) => {
+            const image = portraitOrAtmosphere(
+              gadgetImages[item.slug],
+              `${item.nameKo} (${item.nameEn})`,
+            );
+            return (
             <article key={item.slug} className="rounded-xl border border-line bg-card p-4 hover:border-gold/60">
               <CreditedMedia
-                image={gadgetImages[item.slug] ?? atmospherePlaceholder}
+                image={image}
                 tone={item.posterTone}
-                alt={gadgetImages[item.slug]?.alt ?? item.nameKo}
+                alt={image.alt}
                 href={`/gadgets/${item.slug}`}
-                overlay={
-                  gadgetImages[item.slug]
-                    ? undefined
-                    : { title: item.nameKo, meta: item.filmTitleKo }
-                }
               />
               <Link href={`/gadgets/${item.slug}`} className="mt-3 block">
                 <p className="text-[11px] uppercase tracking-wide text-gold">{item.badges.join(" · ")}</p>
@@ -363,7 +377,8 @@ export default function HomePage() {
                 <p className="mt-2 text-sm leading-6 text-muted">{item.oneLiner}</p>
               </Link>
             </article>
-          ))}
+            );
+          })}
         </div>
       </section>
 
