@@ -1,3 +1,4 @@
+import { CoupangBanner } from "@/components/CoupangBanner";
 import Link from "next/link";
 import { ArchiveNetworkStrip } from "@/components/ArchiveNetworkStrip";
 import { AUTOPIX_LABEL, FAN_DISCLAIMER, autopixUrl } from "@/lib/site";
@@ -7,6 +8,7 @@ const OFFICIAL_CHANNEL = "https://www.youtube.com/@MissionImpossible";
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-line">
+      <CoupangBanner />
       <ArchiveNetworkStrip medium="footer" />
       <div className="mx-auto max-w-6xl px-4 py-8 text-sm leading-6 text-muted">
         <h2 className="font-serif text-xs tracking-[0.22em] text-gold">
