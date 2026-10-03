@@ -1,3 +1,4 @@
+import { filmArchiveCarsForBrand } from "@/data/filmArchives";
 import { bondCarsForBrand } from "@/lib/bondCars";
 import { BOND_NETWORK_LABEL, FF_ARCHIVE_LABEL, ffArchiveUrl } from "@/lib/site";
 
@@ -9,6 +10,7 @@ export function SameBrandBlock({
   brandKo: string;
 }) {
   const matches = bondCarsForBrand(brand);
+  const filmCars = filmArchiveCarsForBrand(brand);
 
   return (
     <section className="mt-8">
@@ -41,6 +43,26 @@ export function SameBrandBlock({
           </p>
         )}
       </div>
+
+      {filmCars.length > 0 ? (
+        <div className="mt-3 rounded-lg border border-line p-4">
+          <h3 className="text-sm text-gold">한 편짜리 영화 아카이브 · {brandKo}</h3>
+          <ul className="mt-3 space-y-2">
+            {filmCars.map((car) => (
+              <li key={`${car.archive}-${car.slug}`}>
+                <a
+                  href={car.href}
+                  className="text-sm text-paper hover:text-gold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {car.nameKo} ({car.nameEn}) · {car.siteLabel}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       <div className="mt-3 rounded-lg border border-line p-4">
         <h3 className="text-sm text-gold">{FF_ARCHIVE_LABEL}</h3>

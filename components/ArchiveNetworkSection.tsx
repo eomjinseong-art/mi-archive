@@ -1,7 +1,9 @@
+import { FILM_ARCHIVES } from "@/data/filmArchives";
 import {
   BOND_NETWORK_LABEL,
   FF_ARCHIVE_LABEL,
   NETWORK_LABEL,
+  archiveNetworkUrl,
   TF_ARCHIVE_LABEL,
   bondArchiveUrl,
   ffArchiveUrl,
@@ -12,9 +14,9 @@ export function ArchiveNetworkSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
       <p className="text-[11px] uppercase tracking-[0.18em] text-gold">{NETWORK_LABEL}</p>
-      <h2 className="mt-2 font-serif text-2xl text-paper">네 아카이브</h2>
+      <h2 className="mt-2 font-serif text-2xl text-paper">일곱 아카이브</h2>
       <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-        미션 임파서블, 007, 분노의 질주, 트랜스포머는 영화 속 자동차로 이어집니다. 차량
+        미션 임파서블, 007, 분노의 질주, 트랜스포머, 포드 V 페라리, 러쉬, 그란 투리스모는 영화 속 자동차로 이어집니다. 차량
         페이지에는 주소가 확인된 같은 브랜드만 붙입니다.
       </p>
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -58,6 +60,20 @@ export function ArchiveNetworkSection() {
           </p>
           <p className="mt-3 text-sm text-gold">아카이브 열기 →</p>
         </a>
+        {FILM_ARCHIVES.map((site) => (
+          <a
+            key={site.id}
+            href={archiveNetworkUrl(site.url, "/", "home")}
+            className="rounded-xl border border-line bg-card p-5 hover:border-gold/60"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <p className="text-[11px] uppercase tracking-wide text-gold">한 편 아카이브</p>
+            <h3 className="mt-2 font-serif text-xl text-paper">{site.label}</h3>
+            <p className="mt-3 text-sm leading-7 text-muted">{site.blurb}</p>
+            <p className="mt-3 text-sm text-gold">아카이브 열기 →</p>
+          </a>
+        ))}
       </div>
     </section>
   );
