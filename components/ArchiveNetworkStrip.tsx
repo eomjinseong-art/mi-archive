@@ -1,7 +1,9 @@
+import { FILM_ARCHIVES } from "@/data/filmArchives";
 import {
   BOND_NETWORK_LABEL,
   FF_ARCHIVE_LABEL,
   NETWORK_LABEL,
+  archiveNetworkUrl,
   TF_ARCHIVE_LABEL,
   bondArchiveUrl,
   ffArchiveUrl,
@@ -41,6 +43,17 @@ export function ArchiveNetworkStrip({ medium }: { medium: NetworkMedium }) {
         >
           {TF_ARCHIVE_LABEL}
         </a>
+        {FILM_ARCHIVES.map((site) => (
+          <a
+            key={site.id}
+            href={archiveNetworkUrl(site.url, "/", medium)}
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {site.label}
+          </a>
+        ))}
       </div>
     </nav>
   );
