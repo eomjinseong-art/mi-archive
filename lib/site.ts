@@ -21,12 +21,16 @@ export const BOND_ARCHIVE_URL =
 export const FF_ARCHIVE_URL =
   process.env.NEXT_PUBLIC_FF_ARCHIVE_URL ?? "https://ff-archive.vercel.app";
 
+export const TF_ARCHIVE_URL =
+  process.env.NEXT_PUBLIC_TF_ARCHIVE_URL ?? "https://transformers-archive.vercel.app";
+
 export const SISTER_SITE_URL =
   process.env.NEXT_PUBLIC_SISTER_SITE_URL ?? "https://car-parts-cpang.vercel.app";
 
 export const NETWORK_LABEL = "영화 속 자동차";
 export const BOND_NETWORK_LABEL = "007 본드 아카이브";
 export const FF_ARCHIVE_LABEL = "분노의 질주 아카이브";
+export const TF_ARCHIVE_LABEL = "트랜스포머 아카이브";
 export const AUTOPIX_LABEL = "오토픽스";
 export const MI_CAR_CTA_LABEL = "이 차량 용품 보러 가기 · 오토픽스";
 
@@ -83,6 +87,10 @@ export function bondArchiveUrl(medium: NetworkMedium = "header", path = "/") {
 
 export function ffArchiveUrl(medium: NetworkMedium = "header", path = "/") {
   return archiveNetworkUrl(FF_ARCHIVE_URL, path, medium);
+}
+
+export function tfArchiveUrl(medium: NetworkMedium = "header", path = "/") {
+  return archiveNetworkUrl(TF_ARCHIVE_URL, path, medium);
 }
 
 export function sisterUrl(

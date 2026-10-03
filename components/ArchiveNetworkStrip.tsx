@@ -2,8 +2,10 @@ import {
   BOND_NETWORK_LABEL,
   FF_ARCHIVE_LABEL,
   NETWORK_LABEL,
+  TF_ARCHIVE_LABEL,
   bondArchiveUrl,
   ffArchiveUrl,
+  tfArchiveUrl,
   type NetworkMedium,
 } from "@/lib/site";
 
@@ -30,6 +32,14 @@ export function ArchiveNetworkStrip({ medium }: { medium: NetworkMedium }) {
           rel="noopener noreferrer"
         >
           {FF_ARCHIVE_LABEL}
+        </a>
+        <a
+          href={tfArchiveUrl(medium)}
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {TF_ARCHIVE_LABEL}
         </a>
       </div>
     </nav>
