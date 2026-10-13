@@ -33,6 +33,7 @@ import { women } from "@/data/women";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_NAME } from "@/lib/site";
 import { pageSeo, websiteJsonLd } from "@/lib/seo";
+import { CoupangCard } from "@/components/CoupangCard";
 
 const homeDescription =
   "1996년 《미션 임파서블》부터 2025년 《파이널 레코닝》까지. 극장판 8편과 요원, 악당, 미션 임파서블 차, 가젯, 감독, 스턴트를 모은 비공식 팬 아카이브입니다.";
@@ -98,6 +99,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <CoupangCard />
       <ArchiveNetworkSection />
 
       <section className="border-b border-line bg-card/40">
