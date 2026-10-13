@@ -11,6 +11,7 @@ import { displayFilmTitle, films } from "@/data/films";
 import { portraitOrAtmosphere } from "@/data/licensedImages";
 import { pageSeo } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { CoupangCard } from "@/components/CoupangCard";
 
 export function generateStaticParams() {
   return directors.map((d) => ({ slug: d.slug }));
@@ -137,6 +138,7 @@ export default async function DirectorDetailPage({
       </p>
 
       <Sources sources={detail.sources} footnotes={detail.footnotes} />
+      <CoupangCard />
     </article>
   );
 }

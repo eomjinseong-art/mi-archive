@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { guides } from "@/data/guides";
 import { pageSeo } from "@/lib/seo";
+import { CoupangCard } from "@/components/CoupangCard";
 
 export function generateStaticParams() {
   return guides.map((g) => ({ slug: g.slug }));
@@ -74,6 +75,7 @@ export default async function GuideDetailPage({
           </li>
         ))}
       </ol>
+      <CoupangCard />
     </article>
   );
 }

@@ -13,6 +13,7 @@ import { carDetails, cars, getCar } from "@/data/cars";
 import { carImages } from "@/data/licensedImages";
 import { absoluteUrl, carDocumentTitle, pageSeo } from "@/lib/seo";
 import { MI_CAR_CTA_LABEL } from "@/lib/site";
+import { CoupangCard } from "@/components/CoupangCard";
 
 export function generateStaticParams() {
   return Object.keys(carDetails).map((slug) => ({ slug }));
@@ -271,6 +272,7 @@ export default async function CarDetailPage({
       </p>
 
       <Sources sources={detail.sources} footnotes={detail.footnotes} />
+      <CoupangCard />
     </article>
   );
 }

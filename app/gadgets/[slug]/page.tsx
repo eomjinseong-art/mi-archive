@@ -9,6 +9,7 @@ import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { gadgetDetails, getGadget } from "@/data/gadgets";
 import { gadgetImages, imageOrDefault } from "@/data/licensedImages";
 import { pageSeo } from "@/lib/seo";
+import { CoupangCard } from "@/components/CoupangCard";
 
 export function generateStaticParams() {
   return Object.keys(gadgetDetails).map((slug) => ({ slug }));
@@ -146,6 +147,7 @@ export default async function GadgetPage({ params }: { params: Promise<{ slug: s
       </div>
 
       <Sources sources={detail.sources} footnotes={detail.footnotes} />
+      <CoupangCard />
     </article>
   );
 }
