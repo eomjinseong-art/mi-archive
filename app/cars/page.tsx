@@ -5,6 +5,7 @@ import { CarExplorer } from "@/components/CarExplorer";
 import { JsonLd } from "@/components/JsonLd";
 import { cars } from "@/data/cars";
 import { itemListJsonLd, pageSeo } from "@/lib/seo";
+import { CoupangCard } from "@/components/CoupangCard";
 
 export const metadata = pageSeo({
   path: "/cars",
@@ -52,6 +53,7 @@ export default function CarsPage() {
       <div className="mt-6">
         <AutopixBanner showCarsLink={false} />
       </div>
+      <CoupangCard />
       <div className="mt-8">
         <CarExplorer />
       </div>

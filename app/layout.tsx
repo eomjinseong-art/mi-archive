@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SITE_NAME, SITE_SUB, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
+import { CoupangSticky } from "@/components/CoupangSticky";
 
 const sans = Noto_Sans_KR({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <CoupangSticky />
       </body>
     </html>
   );
