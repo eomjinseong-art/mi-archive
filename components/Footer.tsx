@@ -38,6 +38,12 @@ export function Footer() {
             공식 채널 · YouTube @MissionImpossible
           </a>
           <a
+            href="https://gun-archive.vercel.app/?utm_source=mi-archive&utm_medium=footer&utm_campaign=archive-network"
+            className="underline decoration-line underline-offset-4 hover:text-gold"
+          >
+            영화 속 권총 · 건 아카이브
+          </a>
+          <a
             href={autopixUrl("footer")}
             className="underline decoration-line underline-offset-4 hover:text-gold"
           >
