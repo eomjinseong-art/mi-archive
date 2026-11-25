@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { ArchiveProse } from "@/components/ArchiveProse";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -39,6 +40,7 @@ export default function OriginPage() {
         <ArchiveProse paragraphs={originDetail.bio} footnote={{ index: 0, n: 1 }} />
       </section>
 
+      <NadooAd inline />
       <section className="mt-8">
         <h2 className="font-serif text-xl text-gold">팀과 테이프</h2>
         <ArchiveProse paragraphs={originDetail.series} footnote={{ index: 0, n: 2 }} />

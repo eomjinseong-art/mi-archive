@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -32,6 +33,7 @@ export default function FilmsPage() {
       />
       <h1 className="font-serif text-3xl text-paper">영화</h1>
       <p className="mt-3 max-w-3xl text-sm leading-7 text-paper">{SERIES_FRAMING}</p>
+      <NadooAd inline />
       <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{SERIES_FRAMING_NOTE}</p>
       <p className="mt-3 text-sm text-muted">
         극장판 {SERIES_TOTAL}편 ·{" "}

@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CreditedMedia } from "@/components/CreditedMedia";
@@ -133,6 +134,7 @@ export default function CreditsPage() {
         })}
       </ul>
 
+      <NadooAd inline />
       <h2 className="mt-12 font-serif text-xl text-gold">감독</h2>
       <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {directors.flatMap((director) => {

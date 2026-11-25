@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { PosterCard } from "@/components/PosterCard";
@@ -27,6 +28,7 @@ export default function VillainsPage() {
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
         배신한 요원, 조직, 그리고 얼굴이 없는 엔티티. 펠프스와 크리거는 한 카드입니다.
       </p>
+      <NadooAd inline />
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {villains.map((person) => (
           <PosterCard

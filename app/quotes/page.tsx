@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { quoteGroups } from "@/data/quotes";
@@ -21,6 +22,7 @@ export default function QuotesPage() {
         1966년 시리즈 위키백과가 적은 임무 테이프 문장입니다. 극장판의 수신인과
         매체는 작품마다 다릅니다.
       </p>
+      <NadooAd inline />
       <p className="mt-2 text-xs text-muted">
         {quoteGroups.length}개 그룹 · {itemCount}개 인용
       </p>

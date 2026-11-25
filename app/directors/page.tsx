@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -31,6 +32,7 @@ export default function DirectorsPage() {
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
         극장판 8편의 감독 다섯 사람. 연출이 두 편 이상인 사람은 맥쿼리뿐입니다.
       </p>
+      <NadooAd inline />
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {directors.map((director) => (
           <PosterCard

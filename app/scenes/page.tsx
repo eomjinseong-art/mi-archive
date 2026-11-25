@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { YouTubeEmbed } from "@/components/YouTubeEmbed";
 import { fanClips, officialScenes } from "@/data/scenes";
@@ -18,6 +19,7 @@ export default function ScenesPage() {
       <p className="mt-2 text-sm text-muted">
         공식 예고편을 개봉 연도 순으로 모았습니다.
       </p>
+      <NadooAd inline />
       <p className="mt-2 text-xs text-muted">
         공식 예고 {officialScenes.length}편 · 팬 링크 {fanClips.length}건
       </p>

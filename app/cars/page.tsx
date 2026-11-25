@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { AutopixBanner } from "@/components/AutopixBanner";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -38,6 +39,7 @@ export default function CarsPage() {
         </Link>
         과 함께 보면 어느 추격인지 이어집니다.
       </p>
+      <NadooAd inline />
       <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
         미션 임파서블 BMW는{" "}
         {bmw.map((car, index) => (

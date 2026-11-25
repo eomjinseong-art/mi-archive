@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { pageSeo } from "@/lib/seo";
@@ -41,6 +42,7 @@ export default async function MapPage({
           </Link>
         </p>
       ) : null}
+      <NadooAd inline />
       <div className="mt-6">
         <ArchiveMap filmSlug={focused?.slug} />
       </div>

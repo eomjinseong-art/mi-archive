@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -28,6 +29,7 @@ export default function AgentsPage() {
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
         IMF 현장과, 그 옆에 선 MI6·협력. 일사는 소속이 다릅니다. 짐 펠프스는 악당 칸에도 있습니다.
       </p>
+      <NadooAd inline />
       <p className="mt-4">
         <Link href="/mcquarrie-era" className="inline-flex rounded-full border border-gold/50 px-3 py-1 text-xs text-gold hover:bg-gold/10">
           맥쿼리 시대
