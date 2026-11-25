@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { CreditedMedia } from "@/components/CreditedMedia";
 import { PosterCard } from "@/components/PosterCard";
@@ -318,6 +319,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <NadooAd inline />
       <section className="mx-auto max-w-6xl px-4 py-6">
         <div className="mb-4 flex items-end justify-between gap-3">
           <h2 className="font-serif text-xl text-gold">악당 {homeVillains.length}</h2>

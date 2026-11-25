@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -26,6 +27,7 @@ export default function IssuesPage() {
       <p className="mt-2 text-sm leading-7 text-muted">
         텔레비전 펠프스와 영화의 배신, 크루즈의 스턴트, 맥쿼리 연속성, 가면, 명목 흥행.
       </p>
+      <NadooAd inline />
       <div className="mt-8 grid grid-cols-1 gap-4">
         {issues.map((issue) => (
           <Link

@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { pageSeo } from "@/lib/seo";
@@ -42,6 +43,7 @@ export default function McQuarrieEraPage() {
         {mcquarrieEra.titleKo} ({mcquarrieEra.titleEn})
       </h1>
       <p className="mt-4 text-base leading-relaxed text-paper">{mcquarrieEra.oneLiner}</p>
+      <NadooAd inline />
       <p className="mt-3 text-sm">
         <Link href="/directors/christopher-mcquarrie" className="text-gold">
           감독 상세

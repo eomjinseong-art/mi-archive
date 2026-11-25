@@ -1,3 +1,4 @@
+import { NadooAd } from "@/components/NadooAd";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -26,6 +27,7 @@ export default function GuidePage() {
       <p className="mt-2 text-sm text-muted">
         세 갈래. 처음 · 정통 · 액션. 각 경로 세 편입니다.
       </p>
+      <NadooAd inline />
       <div className="mt-8 grid grid-cols-1 gap-4">
         {guides.map((guide) => (
           <Link
